@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="js/registration.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+</head>
+<body ng-app="app">
+<div class="container" ng-controller="RegistrationController">
+    <div class="row">
+        <label>Email</label> <input type="text" ng-model="email" class="input-sm spacing"/>
+        <label>Password</label> <input type="text" ng-model="password" class="input-sm custom-width spacing"/>
+        <button ng-click="registration()" class="btn btn-sm btn-info">Save User</button>
+    </div>
+</div>
+</body>
+</html>

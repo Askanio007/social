@@ -1,0 +1,21 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Artyom Poshvykin" id="crate-test-db-scheme.xml">
+        <createTable tableName="user_social">
+            <column name="id" type="bigserial"/>
+            <column name="email" type="varchar(255)"/>
+            <column name="password" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Artyom Poshvykin" id="add-enable-column">
+        <addColumn tableName="user_social">
+            <column name="enable" type="boolean" />
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,22 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: POSTGRESQL
+    show-sql: true
+    properties:
+      hibernate.jdbc.lob.non_contextual_creation: true
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/social
+    username: user
+    password: password
+    driverClassName: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:/liquibase/crate-test-db-scheme.xml
+    enabled: true
+  mvc:
+    view:
+      prefix: /views/
+      suffix: .html
+  main:
+    allow-bean-definition-overriding: true
