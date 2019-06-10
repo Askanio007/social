@@ -18,4 +18,60 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="Artyom Poshvykin" id="add-user-detail">
+        <createTable tableName="user_details_social">
+            <column name="id" type="bigserial"/>
+            <column name="age" type="integer"/>
+            <column name="country" type="varchar(255)"/>
+            <column name="city" type="varchar(255)"/>
+            <column name="phone" type="varchar(255)"/>
+            <column name="about" type="varchar(255)"/>
+        </createTable>
+        <addPrimaryKey tableName="user_details_social" columnNames="id" />
+        <addPrimaryKey tableName="user_social" columnNames="id" />
+        <sql>
+            INSERT INTO user_details_social (id)
+            SELECT id
+            FROM user_social;
+        </sql>
+
+        <addForeignKeyConstraint baseTableName="user_social"
+                                 baseColumnNames="id"
+                                 constraintName="user_detail_key"
+                                 referencedTableName="user_details_social"
+                                 referencedColumnNames="id" />
+
+    </changeSet>
+
+    <changeSet author="Artyom Poshvykin" id="add-user-detail-constratit">
+        <dropForeignKeyConstraint baseTableName="user_social" constraintName="user_detail_key" />
+        <addForeignKeyConstraint baseTableName="user_details_social"
+                                 baseColumnNames="id"
+                                 constraintName="user_detail_key"
+                                 referencedTableName="user_social"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+    <changeSet author="Artyom Poshvykin" id="add-user-friend-table">
+        <createTable tableName="user_friend">
+            <column name="user_id" type="integer"/>
+            <column name="friend_id" type="integer"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Artyom Poshvykin" id="add-name-surname">
+        <addColumn tableName="user_social">
+            <column name="name" type="varchar(50)" />
+            <column name="surname" type="varchar(50)" />
+        </addColumn>
+        <sql>
+            UPDATE user_social SET name = 'Иван';
+            UPDATE user_social SET surname = 'Иванов';
+        </sql>
+        <addNotNullConstraint tableName="user_social" columnName="name" />
+        <addNotNullConstraint tableName="user_social" columnName="surname" />
+        <addNotNullConstraint tableName="user_social" columnName="email" />
+        <addNotNullConstraint tableName="user_social" columnName="password" />
+    </changeSet>
+
 </databaseChangeLog>

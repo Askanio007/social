@@ -1,11 +1,16 @@
 
-app.controller('LoginController', ['$scope', '$http', '$window', '$rootScope', function ($scope, $http, $window, $rootScope) {
-    $scope.email = 'Enter email';
-    $scope.password = 'Enter password';
+app.controller('LoginController', ['$scope', '$http', '$state', '$rootScope', function ($scope, $http, $state, $rootScope) {
+    $scope.email = '';
+    $scope.password = '';
 
     $scope.login = function () {
-        $http.get('/login', {email: $scope.email, password: $scope.password}).then(function (response) {
-            console.log(response.data);
+        $http({
+            url: "/api/v1/login",
+            params: {email: $scope.email, password: $scope.password},
+            method: "GET"
+        }).then(function (response) {
+            $rootScope.userId = response.data.id;
+            $state.go('userPage', {userId: response.data.id});
         })
     }
 }]);

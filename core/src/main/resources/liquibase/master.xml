@@ -1,0 +1,38 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Artyom Poshvykin" id="crate-db-scheme.xml">
+        <createTable tableName="user_social">
+            <column name="id" type="bigserial"/>
+            <column name="email" type="varchar(255)"/>
+            <column name="password" type="varchar(255)"/>
+            <column name="enable" type="boolean" />
+            <column name="name" type="varchar(50)" />
+            <column name="surname" type="varchar(50)" />
+        </createTable>
+        <addPrimaryKey tableName="user_social" columnNames="id" />
+        <addNotNullConstraint tableName="user_social" columnName="name" />
+        <addNotNullConstraint tableName="user_social" columnName="surname" />
+        <addNotNullConstraint tableName="user_social" columnName="email" />
+        <addNotNullConstraint tableName="user_social" columnName="password" />
+
+        <createTable tableName="user_details_social">
+            <column name="id" type="bigserial"/>
+            <column name="age" type="integer"/>
+            <column name="country" type="varchar(255)"/>
+            <column name="city" type="varchar(255)"/>
+            <column name="phone" type="varchar(255)"/>
+            <column name="about" type="varchar(255)"/>
+        </createTable>
+        <addPrimaryKey tableName="user_details_social" columnNames="id" />
+        <addForeignKeyConstraint baseTableName="user_details_social"
+                                 baseColumnNames="id"
+                                 constraintName="user_detail_key"
+                                 referencedTableName="user_social"
+                                 referencedColumnNames="id" />
+
+    </changeSet>
+</databaseChangeLog>

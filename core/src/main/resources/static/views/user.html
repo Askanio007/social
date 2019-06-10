@@ -1,0 +1,75 @@
+<div class="container" ng-controller="UserController">
+    <div class="row" style="margin-top: 10px">
+        <div class="col-sm-2">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a style="color: black" class="nav-link active" id="v-pills-home-tab" data-toggle="pill" ui-sref="id{root.userId}" role="tab" aria-controls="v-pills-home" aria-selected="true">{{'menu.home' | translate}}</a>
+                <a style="color: black" class="nav-link" id="v-pills-profile-tab" data-toggle="pill" ui-sref="friends" role="tab" aria-controls="v-pills-profile" aria-selected="false">{{'menu.friends' | translate}}</a>
+                <a style="color: black" class="nav-link" id="v-pills-messages-tab" data-toggle="pill" ui-sref="messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">{{'menu.messages' | translate}}</a>
+                <a style="color: black" class="nav-link" id="v-pills-settings-tab" data-toggle="pill" ui-sref="groups" role="tab" aria-controls="v-pills-settings" aria-selected="false">{{'menu.groups' | translate}}</a>
+            </div>
+        </div>
+
+        <div class="col-sm-3" style="max-width: 250px">
+            <div class="blocks">
+                <img style="border-radius: .25rem; width: 100%" src="../pic/camera_200.png"/>
+            </div>
+            <button style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'common.edit' | translate}}</button>
+            <div class="blocks">
+                <div class="blocksTitle">
+                    {{'common.friends' | translate}} ({{user.friends ? user.friends.length : 0}})
+                </div>
+                <div style="text-align: left">
+                    <div style="display: inline-block; margin-left: 2px; margin-top: 3px " ng-repeat="friend in user.friends track by $index">
+                        <img src="../pic/camera_200.png" width="70" height="70" />
+                        <p style="width: 70px; text-align: center">{{friend}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="blocks">
+                <div class="blocksTitle">{{'common.groups' | translate}} ({{user.groups ? user.groups.length : 0}})</div>
+                <table>
+                    <tr ng-repeat="group in user.groups">
+                        <td>
+                            <img src="{{group.avatar}}" width="60" height="60" />
+                        </td>
+                        <td style="width: 100%; text-align: center">
+                            <p>{{group.name}}</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+        <div class="col-sm-6">
+            <h3>{{user.name}} {{user.surname}}</h3>
+            <table style="width: 100%">
+                <tr>
+                    <td style="width: 40%">{{'common.city' | translate}}:</td>
+                    <td style="width: 60%">{{user.details.city}}</td>
+                </tr>
+                <tr>
+                    <td>{{'common.sex' | translate}}:</td>
+                    <td>{{user.details.sex}}</td>
+                </tr>
+                <tr>
+                    <td>{{'common.age' | translate}}:</td>
+                    <td>{{user.details.age}}</td>
+                </tr>
+            </table>
+            <h3>{{'common.wall' | translate}}</h3>
+            <table style="width: 100%">
+                <tr ng-repeat="wall in user.wallRecords" style="margin-top: 3px">
+                    <td style="width: 12%; vertical-align: top; height: 50px;"><img src="1.jpg" height="100px"/></td>
+                    <td style="width: 60%; vertical-align: top; border: 1px solid gainsboro">
+                        <div style="background-color: gainsboro; padding: 3px; padding-left: 5px">
+                            <div>{{wall.author}}</div>
+                            <div>{{wall.date}}</div>
+                        </div>
+                        <div style="padding: 3px; padding-left: 5px">{{wall.text}}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

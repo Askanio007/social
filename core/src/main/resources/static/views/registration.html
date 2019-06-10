@@ -1,8 +1,24 @@
-<div class="container" ng-controller="RegistrationController">
-    <div class="row">
-        <label>Email</label> <input type="text" ng-model="email" class="input-sm spacing"/>
-        <label>Password</label> <input type="text" ng-model="password" class="input-sm custom-width spacing"/>
-        <button ng-click="registration()" class="btn btn-sm btn-info">Registration</button>
-        <a href="/login" class="btn btn-sm btn-info">Sign In</a>
-    </div>
+<div class="container" style="width: 400px" ng-controller="RegistrationController">
+    <h3 class="center">{{'common.welcome.message' | translate}}</h3>
+    <form>
+        <div class="form-group">
+            <label for="inputName">{{'common.name' | translate}}</label>
+            <input ng-model="name" type="text" class="form-control" id="inputName" placeholder="{{'common.name.enter' | translate}}">
+        </div>
+        <div class="form-group">
+            <label for="inputSurname">{{'common.surname' | translate}}</label>
+            <input ng-model="surname" type="text" class="form-control" id="inputSurname" placeholder="{{'common.surname.enter' | translate}}">
+        </div>
+        <div class="form-group">
+            <label for="inputEmail">{{'common.email' | translate}}</label>
+            <input ng-model="email" type="email" class="form-control" id="inputEmail" placeholder="{{'common.email.enter' | translate}}">
+            <small id="emailHelp" class="form-text text-muted">{{'common.email.notice' | translate}}</small>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword">{{'common.password' | translate}}</label>
+            <input ng-model="password" type="password" class="form-control" id="inputPassword" placeholder="{{'common.password.enter' | translate}}">
+        </div>
+        <button ng-click="registration()" class="btn btn-primary">{{'common.registration' | translate}}</button>
+        <a ui-sref="login">{{'common.login' | translate}}</a>
+    </form>
 </div>

@@ -4,6 +4,7 @@ import com.social.server.dao.UserRepository;
 import com.social.server.dto.RegistrationDto;
 import com.social.server.dto.UserDto;
 import com.social.server.entity.User;
+import com.social.server.entity.UserDetails;
 import com.social.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,23 @@ public class UserServiceImpl implements UserService {
         user.setEmail(registrationDto.getEmail());
         user.setPassword(registrationDto.getPassword());
         user.setEnable(true);
+        user.setName(registrationDto.getName());
+        user.setSurname(registrationDto.getSurname());
+        UserDetails userDetails = new UserDetails();
+        user.setDetails(userDetails);
+        userDetails.setUser(user);
+        user = userRepository.save(user);
+
+        User friend = userRepository.findById(12L).get();
+        user.getFriends().add(friend);
+        friend.getFriends().add(user);
+        userRepository.save(friend);
         return UserDto.of(userRepository.save(user));
+    }
+
+    @Override
+    public UserDto findById(Long id) {
+        return UserDto.of(userRepository.findById(id).get());
     }
 
     @Override

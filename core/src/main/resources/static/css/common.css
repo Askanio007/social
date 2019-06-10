@@ -1,0 +1,26 @@
+.blocks {
+    border: 1px solid gainsboro;
+    border-radius: .25rem;
+    margin-bottom: 5px
+}
+.blocksTitle {
+    background-color: gainsboro;
+    margin-bottom: 0;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    padding-left: 6px;
+    padding-bottom: 3px;
+}
+.btn-custom {
+    background-color: gainsboro;
+    color: black;
+    border: none;
+    width: 100%;
+    margin-top: 5px
+}
+.nav-link:hover {
+    background-color: gainsboro;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    background-color: gainsboro;
+}
