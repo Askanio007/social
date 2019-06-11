@@ -24,6 +24,9 @@ function stateConfig($stateProvider, $urlRouterProvider) {
           resolve: {
               user: ['$stateParams', 'UserService', function ($stateParams, UserService) {
                   return UserService.getUserById($stateParams.userId);
+              }],
+              wall: ['$stateParams', 'PublicMessageService', function ($stateParams, PublicMessageService) {
+                  return PublicMessageService.findToUser($stateParams.userId);
               }]
           }
       })

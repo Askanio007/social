@@ -34,5 +34,48 @@
                                  referencedTableName="user_social"
                                  referencedColumnNames="id" />
 
+        <createTable tableName="group">
+            <column name="id" type="bigserial"/>
+            <column name="name" type="varchar(100)"/>
+            <column name="description" type="varchar(500)"/>
+            <column name="avatar_path" type="varchar(100)"/>
+        </createTable>
+        <addPrimaryKey tableName="group" columnNames="id"/>
+        <addNotNullConstraint tableName="group" columnName="name"/>
+
+        <createTable tableName="public_message">
+            <column name="id" type="bigserial"/>
+            <column name="create_date" type="timestamp"/>
+            <column name="message" type="varchar(500)"/>
+            <column name="sender_id" type="integer"/>
+            <column name="user_id" type="integer"/>
+            <column name="group_id" type="integer"/>
+        </createTable>
+        <addPrimaryKey tableName="public_message" columnNames="id"/>
+        <addNotNullConstraint tableName="public_message" columnName="message"/>
+        <addNotNullConstraint tableName="public_message" columnName="create_date"/>
+        <addNotNullConstraint tableName="public_message" columnName="sender_id"/>
+
+        <addForeignKeyConstraint baseTableName="public_message"
+                                 baseColumnNames="sender_id"
+                                 constraintName="sender_key"
+                                 referencedTableName="user_social"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="public_message"
+                                 baseColumnNames="user_id"
+                                 constraintName="recipient_user_key"
+                                 referencedTableName="user_social"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="public_message"
+                                 baseColumnNames="group_id"
+                                 constraintName="recipient_group_key"
+                                 referencedTableName="group"
+                                 referencedColumnNames="id" />
+
+        <createTable tableName="user_group">
+            <column name="user_id" type="integer"/>
+            <column name="group_id" type="integer"/>
+        </createTable>
+
     </changeSet>
 </databaseChangeLog>

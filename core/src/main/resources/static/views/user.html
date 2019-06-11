@@ -58,15 +58,20 @@
                 </tr>
             </table>
             <h3>{{'common.wall' | translate}}</h3>
+            <div class="form-group">
+                <label for="formControlTextarea">{{'common.message.enter' | translate}}</label>
+                <textarea ng-model="message" class="form-control rounded-0" id="formControlTextarea" rows="3"></textarea>
+            </div>
+            <button ng-click="sendMessage()" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'common.message.send' | translate}}</button>
             <table style="width: 100%">
-                <tr ng-repeat="wall in user.wallRecords" style="margin-top: 3px">
-                    <td style="width: 12%; vertical-align: top; height: 50px;"><img src="1.jpg" height="100px"/></td>
+                <tr ng-repeat="record in wall" style="margin-top: 3px">
+                    <td style="width: 12%; vertical-align: top; height: 50px;"><img src="../pic/camera_200.png" height="100px"/></td>
                     <td style="width: 60%; vertical-align: top; border: 1px solid gainsboro">
                         <div style="background-color: gainsboro; padding: 3px; padding-left: 5px">
-                            <div>{{wall.author}}</div>
-                            <div>{{wall.date}}</div>
+                            <div>{{record.sender}}</div>
+                            <div>{{record.createDate}}</div>
                         </div>
-                        <div style="padding: 3px; padding-left: 5px">{{wall.text}}</div>
+                        <div style="padding: 3px; padding-left: 5px">{{record.message}}</div>
                     </td>
                 </tr>
             </table>

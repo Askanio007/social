@@ -1,10 +1,12 @@
 package com.social.server.entity;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,8 +15,8 @@ import java.util.Set;
 @Table(name = "user_social")
 @Entity
 @Data
-@EqualsAndHashCode(exclude = {"details", "friends"})
-@ToString(exclude = {"details", "friends"})
+@EqualsAndHashCode(exclude = {"details", "friends", "groups", "messages"})
+@ToString(exclude = {"details", "friends", "groups", "messages"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,10 +37,12 @@ public class User {
     private boolean enable;
 
     @NotNull
+    @Length(max = 50)
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
     @NotNull
+    @Length(max = 50)
     @Column(name = "surname", nullable = false, length = 50)
     private String surname;
 
@@ -51,6 +55,12 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "friend_id"))
     private Set<User> friends = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PublicMessage> messages;
+
+    @ManyToMany(mappedBy = "users")
+    private Set<Group> groups = new HashSet<>();
 
     public String getFullName() {
         return this.name + " " + this.surname;

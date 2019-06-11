@@ -35,12 +35,7 @@ public class UserServiceImpl implements UserService {
         UserDetails userDetails = new UserDetails();
         user.setDetails(userDetails);
         userDetails.setUser(user);
-        user = userRepository.save(user);
 
-        User friend = userRepository.findById(12L).get();
-        user.getFriends().add(friend);
-        friend.getFriends().add(user);
-        userRepository.save(friend);
         return UserDto.of(userRepository.save(user));
     }
 
