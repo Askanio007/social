@@ -77,5 +77,24 @@
             <column name="group_id" type="integer"/>
         </createTable>
 
+        <createTable tableName="friendship_request">
+            <column name="id" type="bigserial"/>
+            <column name="user_id_to" type="integer"/>
+            <column name="user_id_from" type="integer"/>
+            <column name="accept" type="boolean" defaultValue="false"/>
+        </createTable>
+        <addPrimaryKey tableName="friendship_request" columnNames="id"/>
+        <addForeignKeyConstraint baseTableName="friendship_request"
+                                 baseColumnNames="user_id_to"
+                                 constraintName="user_to_key"
+                                 referencedTableName="user_social"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="friendship_request"
+                                 baseColumnNames="user_id_from"
+                                 constraintName="user_from_key"
+                                 referencedTableName="user_social"
+                                 referencedColumnNames="id" />
+
+
     </changeSet>
 </databaseChangeLog>

@@ -1,11 +1,11 @@
 <div class="container" ng-controller="UserController">
     <div class="row" style="margin-top: 10px">
         <div class="col-sm-2">
-            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a style="color: black" class="nav-link active" id="v-pills-home-tab" data-toggle="pill" ui-sref="id{root.userId}" role="tab" aria-controls="v-pills-home" aria-selected="true">{{'menu.home' | translate}}</a>
-                <a style="color: black" class="nav-link" id="v-pills-profile-tab" data-toggle="pill" ui-sref="friends" role="tab" aria-controls="v-pills-profile" aria-selected="false">{{'menu.friends' | translate}}</a>
-                <a style="color: black" class="nav-link" id="v-pills-messages-tab" data-toggle="pill" ui-sref="messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">{{'menu.messages' | translate}}</a>
-                <a style="color: black" class="nav-link" id="v-pills-settings-tab" data-toggle="pill" ui-sref="groups" role="tab" aria-controls="v-pills-settings" aria-selected="false">{{'menu.groups' | translate}}</a>
+            <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
+                <a style="color: black" class="nav-link active" ui-sref="myPage">{{'menu.home' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="friends">{{'menu.friends' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="messages" >{{'menu.messages' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="groups">{{'menu.groups' | translate}}</a>
             </div>
         </div>
 
@@ -13,7 +13,9 @@
             <div class="blocks">
                 <img style="border-radius: .25rem; width: 100%" src="../pic/camera_200.png"/>
             </div>
-            <button style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'common.edit' | translate}}</button>
+            <button ng-show="{{isYouPage()}}" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'common.edit' | translate}}</button>
+            <button ng-show="{{!isYouPage()}}" type="button" class="btn btn-secondary btn-custom">{{'user.message.send' | translate}}</button>
+            <button ng-show="{{!isYouPage()}}" ng-click="sendFriendRequest()" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'user.friends.add' | translate}}</button>
             <div class="blocks">
                 <div class="blocksTitle">
                     {{'common.friends' | translate}} ({{user.friends ? user.friends.length : 0}})
@@ -59,10 +61,10 @@
             </table>
             <h3>{{'common.wall' | translate}}</h3>
             <div class="form-group">
-                <label for="formControlTextarea">{{'common.message.enter' | translate}}</label>
+                <label for="formControlTextarea">{{'wall.message.enter' | translate}}</label>
                 <textarea ng-model="message" class="form-control rounded-0" id="formControlTextarea" rows="3"></textarea>
             </div>
-            <button ng-click="sendMessage()" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'common.message.send' | translate}}</button>
+            <button ng-click="sendMessage()" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'wall.message.send' | translate}}</button>
             <table style="width: 100%">
                 <tr ng-repeat="record in wall" style="margin-top: 3px">
                     <td style="width: 12%; vertical-align: top; height: 50px;"><img src="../pic/camera_200.png" height="100px"/></td>

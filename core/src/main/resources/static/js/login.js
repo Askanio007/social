@@ -1,5 +1,5 @@
 
-app.controller('LoginController', ['$scope', '$http', '$state', '$rootScope', function ($scope, $http, $state, $rootScope) {
+app.controller('LoginController', ['$scope', '$http', '$state', '$window', function ($scope, $http, $state, $window) {
     $scope.email = '';
     $scope.password = '';
 
@@ -9,8 +9,8 @@ app.controller('LoginController', ['$scope', '$http', '$state', '$rootScope', fu
             params: {email: $scope.email, password: $scope.password},
             method: "GET"
         }).then(function (response) {
-            $rootScope.userId = response.data.id;
-            $state.go('userPage', {userId: response.data.id});
+            $window.sessionStorage.setItem("userId",response.data.id);
+            $state.go('myPage');
         })
     }
 }]);

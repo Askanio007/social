@@ -1,0 +1,45 @@
+<div class="container" ng-controller="FriendController">
+    <div class="row" style="margin-top: 10px">
+        <div class="col-sm-2">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
+                <a style="color: black" class="nav-link" ui-sref="myPage">{{'menu.home' | translate}}</a>
+                <a style="color: black" class="nav-link active" ui-sref="friends">{{'menu.friends' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="messages">{{'menu.messages' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="groups">{{'menu.groups' | translate}}</a>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" ng-click="changeTab('friends')" href="#">{{'friends.menu.my' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ng-click="changeTab('friendsRequest')" href="#">{{'friends.menu.request' | translate}}</a>
+                </li>
+            </ul>
+            <br>
+            <table ng-show = "{{tab == 'friends'}}" style="width: 100%">
+                <tr style="margin-top: 3px" ng-repeat="friend in friends track by $index">
+                    <td style="vertical-align: top"><img src="../pic/camera_200.png"/></td>
+                    <td style="vertical-align: top">
+                        <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><h4>{{friend.name}}</h4></div>
+                        <button type="button" class="btn btn-secondary btn-custom">{{'friends.send.message' | translate}}</button>
+                        <button type="button" class="btn btn-secondary btn-custom">{{'friends.remove' | translate}}</button>
+                    </td>
+                </tr>
+            </table>
+            <table ng-show = "{{tab == 'friendsRequest'}}" style="width: 100%">
+                <tr style="margin-top: 3px" ng-repeat="friend in requestFriends track by $index">
+                    <td style="vertical-align: top"><img src="../pic/camera_200.png"/></td>
+                    <td style="vertical-align: top">
+                        <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><h4>{{friend.fromUserName}}</h4></div>
+                        <button type="button" class="btn btn-secondary btn-custom">{{'friends.accept' | translate}}</button>
+                        <button type="button" class="btn btn-secondary btn-custom">{{'friends.decline' | translate}}</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>

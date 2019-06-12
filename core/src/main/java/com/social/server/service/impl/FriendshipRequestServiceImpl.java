@@ -1,0 +1,65 @@
+package com.social.server.service.impl;
+
+import com.social.server.dao.FriendshipRequestRepository;
+import com.social.server.dao.UserRepository;
+import com.social.server.dto.FriendshipRequestDto;
+import com.social.server.entity.FriendshipRequest;
+import com.social.server.service.FriendService;
+import com.social.server.service.FriendshipRequestService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
+
+@Slf4j
+@Service
+public class FriendshipRequestServiceImpl implements FriendshipRequestService {
+
+    private final FriendshipRequestRepository friendshipRequestRepository;
+    private final UserRepository userRepository;
+    private final FriendService friendService;
+
+    @Autowired
+    public FriendshipRequestServiceImpl(FriendshipRequestRepository friendshipRequestRepository,
+                                        UserRepository userRepository,
+                                        FriendService friendService) {
+        this.friendshipRequestRepository = friendshipRequestRepository;
+        this.userRepository = userRepository;
+        this.friendService = friendService;
+    }
+
+    @Override
+    public void add(FriendshipRequestDto dto) {
+        FriendshipRequest request = new FriendshipRequest();
+        request.setRequestTo(userRepository.getOne(dto.getToUserId()));
+        request.setRequestFrom(userRepository.getOne(dto.getFromUserId()));
+        friendshipRequestRepository.save(request);
+    }
+
+    @Override
+    @Transactional
+    public void accept(long friendshipRequestId) {
+        Optional<FriendshipRequest> requestOptional = friendshipRequestRepository.findById(friendshipRequestId);
+        if (!requestOptional.isPresent()) {
+            log.error("friendship request not found. Id = " + friendshipRequestId);
+            return;
+        }
+        FriendshipRequest request = requestOptional.get();
+        request.setAccept(true);
+        friendshipRequestRepository.save(request);
+        friendService.addFriend(request.getRequestTo().getId(), request.getRequestFrom().getId());
+    }
+
+    @Override
+    public void decline(long friendshipRequestId) {
+        friendshipRequestRepository.deleteById(friendshipRequestId);
+    }
+
+    @Override
+    public List<FriendshipRequestDto> find(long userId) {
+        return FriendshipRequestDto.of(friendshipRequestRepository.findByAcceptIsFalseAndRequestToId(userId));
+    }
+}

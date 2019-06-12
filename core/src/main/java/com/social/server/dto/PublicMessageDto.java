@@ -10,7 +10,6 @@ import static util.DateFormatterUtil.viewFormat;
 
 @Data
 public class PublicMessageDto {
-
     private long id;
     private String message;
     private Long senderId;

@@ -17,6 +17,19 @@ function stateConfig($stateProvider, $urlRouterProvider) {
         templateUrl: '/views/registration.html',
         controller: 'RegistrationController'
       })
+      .state('myPage', {
+          url: '/myPage',
+          templateUrl: '/views/user.html',
+          controller: 'UserController',
+          resolve: {
+              user: ['$window', 'UserService', function ($window, UserService) {
+                  return UserService.getUserById($window.sessionStorage.getItem("userId"));
+              }],
+              wall: ['$window', 'PublicMessageService', function ($window, PublicMessageService) {
+                  return PublicMessageService.findToUser($window.sessionStorage.getItem("userId"));
+              }]
+          }
+      })
       .state('userPage', {
           url: '/id{userId}',
           templateUrl: '/views/user.html',
@@ -34,6 +47,19 @@ function stateConfig($stateProvider, $urlRouterProvider) {
         url: '/profile',
         templateUrl: '/views/profile.html',
         controller: 'ProfileController'
+      })
+      .state('friends', {
+          url: '/friends',
+          templateUrl: '/views/friends.html',
+          controller: 'FriendController',
+          resolve: {
+              friends: ['$window', 'UserService', function ($window, UserService) {
+                  return UserService.getFriendsById($window.sessionStorage.getItem("userId"));
+              }],
+              requestFriends:['$window', 'UserService', function ($window, UserService) {
+                  return UserService.getFriendsRequestById($window.sessionStorage.getItem("userId"));
+              }]
+          }
       });
 }
 

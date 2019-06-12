@@ -13,9 +13,8 @@ app.controller('RegistrationController', ['$scope', '$http', '$window', '$rootSc
             surname: $scope.surname
         };
         $http.post('/api/v1/registration', params).then(function (response) {
-            console.log(response.data);
-            $rootScope.userId = response.data.id;
-            $state.go('userPage', {userId: response.data.id});
+            $window.sessionStorage.setItem("userId",response.data.id);
+            $state.go('myPage');
         })
     }
 }]);

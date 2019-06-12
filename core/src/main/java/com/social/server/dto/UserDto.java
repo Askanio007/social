@@ -5,6 +5,7 @@ import com.social.server.entity.User;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Data
@@ -35,5 +36,11 @@ public class UserDto {
                     .collect(Collectors.toList()));
         }
         return dto;
+    }
+
+    public static List<UserDto> of(Set<User> users) {
+        return users.stream()
+                .map(UserDto::of)
+                .collect(Collectors.toList());
     }
 }
