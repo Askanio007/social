@@ -9,4 +9,5 @@ public interface FriendshipRequestService {
     void accept(long friendshipRequestId);
     void decline(long friendshipRequestId);
     List<FriendshipRequestDto> find(long userId);
+    boolean isFriendRequest(long rootUserId, long userId);
 }

@@ -2,7 +2,7 @@
     <div class="row" style="margin-top: 10px">
         <div class="col-sm-2">
             <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
-                <a style="color: black" class="nav-link active" ui-sref="myPage">{{'menu.home' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="myPage">{{'menu.home' | translate}}</a>
                 <a style="color: black" class="nav-link" ui-sref="friends">{{'menu.friends' | translate}}</a>
                 <a style="color: black" class="nav-link" ui-sref="messages" >{{'menu.messages' | translate}}</a>
                 <a style="color: black" class="nav-link" ui-sref="groups">{{'menu.groups' | translate}}</a>
@@ -13,9 +13,11 @@
             <div class="blocks">
                 <img style="border-radius: .25rem; width: 100%" src="../pic/camera_200.png"/>
             </div>
-            <button ng-show="{{isYouPage()}}" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'common.edit' | translate}}</button>
-            <button ng-show="{{!isYouPage()}}" type="button" class="btn btn-secondary btn-custom">{{'user.message.send' | translate}}</button>
-            <button ng-show="{{!isYouPage()}}" ng-click="sendFriendRequest()" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'user.friends.add' | translate}}</button>
+            <button ng-show="isYouPage()" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'common.edit' | translate}}</button>
+            <button ng-show="!isYouPage()" type="button" class="btn btn-secondary btn-custom">{{'user.message.send' | translate}}</button>
+            <button ng-show="!isYouPage() && !isFriendRequest() && !isFriend()" ng-click="sendFriendRequest()" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'user.friends.add' | translate}}</button>
+            <button ng-show="!isYouPage() && isFriend()" disabled="disabled" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'user.friends' | translate}}</button>
+            <button ng-show="!isYouPage() && isFriendRequest() && !isFriend()" disabled="disabled" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'user.friends.request.send' | translate}}</button>
             <div class="blocks">
                 <div class="blocksTitle">
                     {{'common.friends' | translate}} ({{user.friends ? user.friends.length : 0}})

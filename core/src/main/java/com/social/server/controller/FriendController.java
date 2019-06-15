@@ -1,34 +1,28 @@
 package com.social.server.controller;
 
 import com.social.server.service.FriendService;
-import com.social.server.service.FriendshipRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/{rootUserId}/friends")
 public class FriendController {
 
     private final FriendService friendService;
-    private final FriendshipRequestService friendshipRequestService;
 
     @Autowired
-    public FriendController(FriendService friendService,
-                            FriendshipRequestService friendshipRequestService) {
+    public FriendController(FriendService friendService) {
         this.friendService = friendService;
-        this.friendshipRequestService = friendshipRequestService;
     }
 
-    @RequestMapping("{userId}/friends/request")
-    public ResponseEntity findRequests(@PathVariable long userId) {
-        return ResponseEntity.ok(friendshipRequestService.find(userId));
+    @GetMapping
+    public ResponseEntity find(@PathVariable long rootUserId) {
+        return ResponseEntity.ok(friendService.find(rootUserId));
     }
 
-    @RequestMapping("{userId}/friends")
-    public ResponseEntity find(@PathVariable long userId) {
-        return ResponseEntity.ok(friendService.find(userId));
+    @GetMapping("/{userId}")
+    public ResponseEntity isFriends(@PathVariable long rootUserId, @PathVariable long userId) {
+        return ResponseEntity.ok(friendService.isFriends(rootUserId, userId));
     }
 }

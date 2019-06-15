@@ -3,7 +3,7 @@
         <div class="col-sm-2">
             <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
                 <a style="color: black" class="nav-link" ui-sref="myPage">{{'menu.home' | translate}}</a>
-                <a style="color: black" class="nav-link active" ui-sref="friends">{{'menu.friends' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="friends">{{'menu.friends' | translate}}</a>
                 <a style="color: black" class="nav-link" ui-sref="messages">{{'menu.messages' | translate}}</a>
                 <a style="color: black" class="nav-link" ui-sref="groups">{{'menu.groups' | translate}}</a>
             </div>
@@ -12,30 +12,30 @@
         <div class="col-sm-6">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" ng-click="changeTab('friends')" href="#">{{'friends.menu.my' | translate}}</a>
+                    <a class="nav-link" ng-class="{active: isSet(1)}" ng-click="setTab(1)">{{'friends.menu.my' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" ng-click="changeTab('friendsRequest')" href="#">{{'friends.menu.request' | translate}}</a>
+                    <a class="nav-link" ng-class="{active: isSet(2)}" ng-click="setTab(2)">{{'friends.menu.request' | translate}}</a>
                 </li>
             </ul>
             <br>
-            <table ng-show = "{{tab == 'friends'}}" style="width: 100%">
+            <table ng-show = "isSet(1)" style="width: 100%">
                 <tr style="margin-top: 3px" ng-repeat="friend in friends track by $index">
-                    <td style="vertical-align: top"><img src="../pic/camera_200.png"/></td>
+                    <td style="vertical-align: top"><a href="#!/id{{friend.id}}"><img src="../pic/camera_200.png"/></a></td>
                     <td style="vertical-align: top">
-                        <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><h4>{{friend.name}}</h4></div>
+                        <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><h4><a href="#!/id{{friend.id}}">{{friend.name}} {{friend.surname}}</a></h4></div>
                         <button type="button" class="btn btn-secondary btn-custom">{{'friends.send.message' | translate}}</button>
-                        <button type="button" class="btn btn-secondary btn-custom">{{'friends.remove' | translate}}</button>
+                        <button type="button" class="btn btn-secondary btn-custom" ng-click="remove(friend.id)">{{'friends.remove' | translate}}</button>
                     </td>
                 </tr>
             </table>
-            <table ng-show = "{{tab == 'friendsRequest'}}" style="width: 100%">
-                <tr style="margin-top: 3px" ng-repeat="friend in requestFriends track by $index">
-                    <td style="vertical-align: top"><img src="../pic/camera_200.png"/></td>
+            <table ng-show = "isSet(2)" style="width: 100%">
+                <tr style="margin-top: 3px" ng-repeat="request in requestFriends track by $index">
+                    <td style="vertical-align: top"><a ui-sref="id{{request.fromUserId}}"><img src="../pic/camera_200.png"/></a></td>
                     <td style="vertical-align: top">
-                        <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><h4>{{friend.fromUserName}}</h4></div>
-                        <button type="button" class="btn btn-secondary btn-custom">{{'friends.accept' | translate}}</button>
-                        <button type="button" class="btn btn-secondary btn-custom">{{'friends.decline' | translate}}</button>
+                        <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><a ui-sref="id{{request.fromUserId}}"><h4>{{request.fromUserName}}</h4></a></div>
+                        <button type="button" class="btn btn-secondary btn-custom" ng-click="accept(request.id)">{{'friends.accept' | translate}}</button>
+                        <button type="button" class="btn btn-secondary btn-custom" ng-click="decline(request.id)">{{'friends.decline' | translate}}</button>
                     </td>
                 </tr>
             </table>

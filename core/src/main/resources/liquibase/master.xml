@@ -94,7 +94,5 @@
                                  constraintName="user_from_key"
                                  referencedTableName="user_social"
                                  referencedColumnNames="id" />
-
-
     </changeSet>
 </databaseChangeLog>

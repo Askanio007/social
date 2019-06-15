@@ -1,11 +1,30 @@
 
-app.controller('FriendController', ['$scope', '$http', '$window', '$rootScope', function ($scope, $http, $window, $rootScope) {
+app.controller('FriendController', ['$scope', '$window', '$state', 'FriendService',
+    function ($scope, $window, $state, FriendService) {
     $scope.requestFriends = $scope.$resolve.requestFriends;
     $scope.friends = $scope.$resolve.friends;
-    $scope.tab = 'friends';
+    $scope.tab = 1;
+    $scope.rootUserId = $window.sessionStorage.getItem("userId");
 
-    $scope.changeTab = function (tab) {
-        $scope.tab = tab;
-        $scope.reload();
+    $scope.setTab = function(newTab){
+        $scope.tab = newTab;
+    };
+
+    $scope.isSet = function(tabNum){
+        return $scope.tab === tabNum;
+    };
+
+    $scope.accept = function (friendRequestId) {
+        FriendService.acceptRequest($scope.rootUserId, friendRequestId);
+        $state.reload();
+    };
+
+    $scope.decline = function (friendRequestId) {
+        FriendService.declineRequest($scope.rootUserId, friendRequestId);
+        $state.reload();
+    };
+
+    $scope.goToUser = function (userId) {
+        $state.go('id' + userId);
     }
 }]);

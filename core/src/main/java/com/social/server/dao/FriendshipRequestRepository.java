@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface FriendshipRequestRepository extends JpaRepository<FriendshipRequest, Long> {
     List<FriendshipRequest> findByAcceptIsFalseAndRequestToId(long toUserId);
+    Boolean existsByRequestFromIdAndRequestToIdAndAcceptIsFalse(long rootUserId, long userId);
 }

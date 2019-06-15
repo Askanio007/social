@@ -62,4 +62,9 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
     public List<FriendshipRequestDto> find(long userId) {
         return FriendshipRequestDto.of(friendshipRequestRepository.findByAcceptIsFalseAndRequestToId(userId));
     }
+
+    @Override
+    public boolean isFriendRequest(long rootUserId, long userId) {
+        return friendshipRequestRepository.existsByRequestFromIdAndRequestToIdAndAcceptIsFalse(rootUserId, userId);
+    }
 }

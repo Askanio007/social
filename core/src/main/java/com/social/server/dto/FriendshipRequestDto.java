@@ -21,9 +21,9 @@ public class FriendshipRequestDto {
             dto.setId(entity.getId());
             dto.setAccept(entity.isAccept());
             dto.setFromUserId(entity.getRequestFrom().getId());
-            dto.setFromUserName(entity.getRequestFrom().getName());
+            dto.setFromUserName(entity.getRequestFrom().getFullName());
             dto.setToUserId(entity.getRequestTo().getId());
-            dto.setToUserName(entity.getRequestTo().getName());
+            dto.setToUserName(entity.getRequestTo().getFullName());
             return dto;
         }
         return null;

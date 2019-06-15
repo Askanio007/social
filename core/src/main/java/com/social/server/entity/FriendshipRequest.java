@@ -19,12 +19,12 @@ public class FriendshipRequest {
 
     @NotNull
     @JoinColumn(name = "user_id_to", nullable = false)
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     private User requestTo;
 
     @NotNull
     @JoinColumn(name = "user_id_from", nullable = false)
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     private User requestFrom;
 
     @NotNull

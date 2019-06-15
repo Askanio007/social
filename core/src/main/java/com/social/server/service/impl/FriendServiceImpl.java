@@ -42,4 +42,9 @@ public class FriendServiceImpl implements FriendService {
         }
         return UserDto.of(userOptional.get().getFriends());
     }
+
+    @Override
+    public boolean isFriends(long rootUserId, long userId) {
+        return userRepository.existsByIdAndFriends(rootUserId, userRepository.getOne(userId));
+    }
 }
