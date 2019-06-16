@@ -1,0 +1,38 @@
+<div class="container" ng-controller="GroupsController">
+    <div class="row" style="margin-top: 10px">
+        <div class="col-sm-2">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
+                <a style="color: black" class="nav-link" ui-sref="myPage">{{'menu.home' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="friends">{{'menu.friends' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="messages">{{'menu.messages' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="groups">{{'menu.groups' | translate}}</a>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" ng-class="{active: isSet(1)}" ng-click="setTab(1)">{{'groups.my' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ng-class="{active: isSet(2)}" ng-click="setTab(2)">{{'groups.search' | translate}}</a>
+                </li>
+            </ul>
+            <br>
+            <table ng-show = "isSet(1)" style="width: 100%">
+                <a class="nav-link custom-link" ui-sref="groupCreate">{{'groups.create' | translate}}</a>
+                <tr style="margin-top: 3px" ng-repeat="group in groups track by $index">
+                    <td style="vertical-align: top"><a href="#!/group{{group.id}}"><img src="../pic/camera_200.png"/></a></td>
+                    <td style="vertical-align: top">
+                        <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><h4><a class="custom-link" href="#!/group{{group.id}}">{{group.name}}</a></h4></div>
+                        <button type="button" class="btn btn-secondary btn-custom" ng-click="remove(group.id)">{{'groups.exit' | translate}}</button>
+                    </td>
+                </tr>
+            </table>
+            <table ng-show = "isSet(2)" style="width: 100%">
+
+            </table>
+        </div>
+    </div>
+
+</div>

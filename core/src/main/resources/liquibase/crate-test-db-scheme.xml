@@ -140,4 +140,23 @@
                                  referencedColumnNames="id" />
     </changeSet>
 
+    <changeSet author="Artyom Poshvykin" id="add-column-to-group">
+        <addColumn tableName="group">
+            <column name="admin_id" type="integer" />
+        </addColumn>
+        <addNotNullConstraint tableName="group" columnName="admin_id" />
+        <addForeignKeyConstraint baseTableName="group"
+                                 baseColumnNames="admin_id"
+                                 constraintName="group_admin_key"
+                                 referencedTableName="user_social"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+    <changeSet author="Artyom Poshvykin" id="rename-table">
+        <renameTable oldTableName="group" newTableName="group_social" />
+    </changeSet>
+
+
+
+
 </databaseChangeLog>

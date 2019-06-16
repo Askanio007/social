@@ -19,7 +19,7 @@ app.service('UserService', ['$http', function ($http) {
             return $http.post('/api/v1/' + friendshipRequest.fromUserId + '/friends/request/add', friendshipRequest)
         },
         isFriend: function (rootUserId, userId) {
-            return $http.get('/api/v1/' + rootUserId + '/friends/' + userId);
+            return $http.get('/api/v1/' + rootUserId + '/friends/existence/' + userId);
         },
         isFriendRequest: function (rootUserId, userId) {
             return $http.get('/api/v1/' + rootUserId + '/friends/request/' + userId);

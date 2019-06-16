@@ -34,14 +34,22 @@
                                  referencedTableName="user_social"
                                  referencedColumnNames="id" />
 
-        <createTable tableName="group">
+        <createTable tableName="group_social">
             <column name="id" type="bigserial"/>
             <column name="name" type="varchar(100)"/>
             <column name="description" type="varchar(500)"/>
+            <column name="admin_id" type="integer"/>
             <column name="avatar_path" type="varchar(100)"/>
         </createTable>
-        <addPrimaryKey tableName="group" columnNames="id"/>
-        <addNotNullConstraint tableName="group" columnName="name"/>
+        <addPrimaryKey tableName="group_social" columnNames="id"/>
+        <addNotNullConstraint tableName="group_social" columnName="name"/>
+        <addNotNullConstraint tableName="group_social" columnName="admin_id" />
+        <addForeignKeyConstraint baseTableName="group_social"
+                                 baseColumnNames="admin_id"
+                                 constraintName="group_admin_key"
+                                 referencedTableName="user_social"
+                                 referencedColumnNames="id" />
+
 
         <createTable tableName="public_message">
             <column name="id" type="bigserial"/>
@@ -69,7 +77,7 @@
         <addForeignKeyConstraint baseTableName="public_message"
                                  baseColumnNames="group_id"
                                  constraintName="recipient_group_key"
-                                 referencedTableName="group"
+                                 referencedTableName="group_social"
                                  referencedColumnNames="id" />
 
         <createTable tableName="user_group">

@@ -23,7 +23,7 @@
                 <tr style="margin-top: 3px" ng-repeat="friend in friends track by $index">
                     <td style="vertical-align: top"><a href="#!/id{{friend.id}}"><img src="../pic/camera_200.png"/></a></td>
                     <td style="vertical-align: top">
-                        <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><h4><a href="#!/id{{friend.id}}">{{friend.name}} {{friend.surname}}</a></h4></div>
+                        <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><h4><a class="custom-link" href="#!/id{{friend.id}}">{{friend.name}} {{friend.surname}}</a></h4></div>
                         <button type="button" class="btn btn-secondary btn-custom">{{'friends.send.message' | translate}}</button>
                         <button type="button" class="btn btn-secondary btn-custom" ng-click="remove(friend.id)">{{'friends.remove' | translate}}</button>
                     </td>
@@ -33,7 +33,7 @@
                 <tr style="margin-top: 3px" ng-repeat="request in requestFriends track by $index">
                     <td style="vertical-align: top"><a ui-sref="id{{request.fromUserId}}"><img src="../pic/camera_200.png"/></a></td>
                     <td style="vertical-align: top">
-                        <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><a ui-sref="id{{request.fromUserId}}"><h4>{{request.fromUserName}}</h4></a></div>
+                        <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><a class="custom-link" ui-sref="id{{request.fromUserId}}"><h4>{{request.fromUserName}}</h4></a></div>
                         <button type="button" class="btn btn-secondary btn-custom" ng-click="accept(request.id)">{{'friends.accept' | translate}}</button>
                         <button type="button" class="btn btn-secondary btn-custom" ng-click="decline(request.id)">{{'friends.decline' | translate}}</button>
                     </td>

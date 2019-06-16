@@ -60,6 +60,35 @@ function stateConfig($stateProvider, $urlRouterProvider) {
                   return UserService.getFriendsRequestById($window.sessionStorage.getItem("userId"));
               }]
           }
+      })
+      .state('groups', {
+          url: '/groups',
+          templateUrl: '/views/groups.html',
+          controller: 'GroupsController',
+          resolve: {
+              groups: ['$window', 'GroupService', function ($window, GroupService) {
+                  return GroupService.findByUserId($window.sessionStorage.getItem("userId"));
+              }]
+          }
+      })
+      .state('groupPage', {
+          url: '/group{groupId}',
+          templateUrl: '/views/group.html',
+          controller: 'GroupController',
+          resolve: {
+              group: ['$stateParams', 'GroupService', function ($stateParams, GroupService) {
+                  return GroupService.find($stateParams.groupId);
+              }],
+              wall: ['$stateParams', 'PublicMessageService', function ($stateParams, PublicMessageService) {
+                  return PublicMessageService.findToGroup($stateParams.groupId);
+              }]
+
+          }
+      })
+      .state('groupCreate', {
+          url: '/createGroup',
+          templateUrl: '/views/createGroup.html',
+          controller: 'CreateGroupController'
       });
 }
 

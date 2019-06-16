@@ -7,11 +7,12 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Table(name = "group")
+@Table(name = "group_social")
 @Entity
 @Data
 public class Group {
@@ -30,19 +31,23 @@ public class Group {
     @Column(name = "description", length = 500)
     private String description;
 
+    @NotNull
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id", nullable = false)
+    private User admin;
+
     @Column(name = "avatar_path", length = 100)
     private String avatarPath;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_group",
-            joinColumns = { @JoinColumn(name = "user_id") },
-            inverseJoinColumns = { @JoinColumn(name = "group_id") }
+            joinColumns = { @JoinColumn(name = "group_id") },
+            inverseJoinColumns = { @JoinColumn(name = "user_id") }
     )
     private Set<User> users = new HashSet<>();
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PublicMessage> messages;
-
+    private List<PublicMessage> messages = new ArrayList<>();
 
 }

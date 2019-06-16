@@ -14,5 +14,4 @@ app.service('PublicMessageService', ['$http', function ($http) {
             })
         }
     }
-
 }]);

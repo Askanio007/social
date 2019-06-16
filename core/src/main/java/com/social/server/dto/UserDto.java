@@ -1,6 +1,7 @@
 package com.social.server.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.social.server.entity.Group;
 import com.social.server.entity.User;
 import lombok.Data;
 
@@ -19,6 +20,7 @@ public class UserDto {
     @JsonIgnore
     private String password;
     private List<String> friends;
+    private List<String> groups;
 
     public static UserDto of(User user) {
         UserDto dto = new UserDto();
@@ -33,6 +35,10 @@ public class UserDto {
             dto.setFriends(user.getFriends().stream()
                     .limit(6)
                     .map(User::getFullName)
+                    .collect(Collectors.toList()));
+            dto.setGroups(user.getGroups().stream()
+                    .limit(3)
+                    .map(Group::getName)
                     .collect(Collectors.toList()));
         }
         return dto;

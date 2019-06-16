@@ -1,0 +1,53 @@
+<div class="container" ng-controller="GroupController">
+    <div class="row" style="margin-top: 10px">
+        <div class="col-sm-2">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
+                <a style="color: black" class="nav-link" ui-sref="myPage">{{'menu.home' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="friends">{{'menu.friends' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="messages" >{{'menu.messages' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="groups">{{'menu.groups' | translate}}</a>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <h3>{{group.name}}</h3>
+            <p>{{group.description}}</p>
+            <h3>{{'common.wall' | translate}}</h3>
+            <div class="form-group">
+                <label for="formControlTextarea">{{'wall.message.enter' | translate}}</label>
+                <textarea ng-model="message" class="form-control rounded-0" id="formControlTextarea" rows="3"></textarea>
+            </div>
+            <button ng-click="sendMessage()" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'wall.message.send' | translate}}</button>
+            <table style="width: 100%">
+                <tr ng-repeat="record in wall" style="margin-top: 3px">
+                    <td style="width: 12%; vertical-align: top; height: 50px;"><img src="../pic/camera_200.png" height="100px"/></td>
+                    <td style="width: 60%; vertical-align: top; border: 1px solid gainsboro">
+                        <div style="background-color: gainsboro; padding: 3px; padding-left: 5px">
+                            <div>{{record.sender}}</div>
+                            <div>{{record.createDate}}</div>
+                        </div>
+                        <div style="padding: 3px; padding-left: 5px">{{record.message}}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-3">
+            <div class="blocks" style="margin-bottom: 5px">
+                <img style="border-radius: .25rem; width: 100%" src="../pic/camera_200.png"/>
+            </div>
+            <button ng-show="!isYou()" ng-click="join()" style="width: 100%; margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'groups.enter' | translate}}</button>
+            <button ng-show="isYou()" ng-click="join()" style="width: 100%; margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'groups.exit' | translate}}</button>
+            <div class="blocks">
+                <div class="blocksTitle">
+                    {{'groups.participant' | translate}} ({{group.participant ? group.participant.length : 0}})
+                </div>
+                <div style="text-align: left">
+                    <div style="display: inline-block; margin-left: 2px; margin-top: 3px" ng-repeat="user in group.participant track by $index">
+                        <img src="../pic/camera_200.png" width="70" height="70" />
+                        <p style="width: 70px; text-align: center">{{user.name}} {{user.surname}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
