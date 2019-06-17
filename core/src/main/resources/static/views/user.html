@@ -13,7 +13,7 @@
             <div class="blocks">
                 <img style="border-radius: .25rem; width: 100%" src="../pic/camera_200.png"/>
             </div>
-            <button ng-show="isYouPage()" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'common.edit' | translate}}</button>
+            <button ng-show="isYouPage()" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom" ui-sref="profile">{{'common.edit' | translate}}</button>
             <button ng-show="!isYouPage()" type="button" class="btn btn-secondary btn-custom">{{'user.message.send' | translate}}</button>
             <button ng-show="!isYouPage() && !isFriendRequest() && !isFriend()" ng-click="sendFriendRequest()" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'user.friends.add' | translate}}</button>
             <button ng-show="!isYouPage() && isFriend()" disabled="disabled" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'user.friends' | translate}}</button>
@@ -57,8 +57,8 @@
                     <td>{{user.details.sex}}</td>
                 </tr>
                 <tr>
-                    <td>{{'common.age' | translate}}:</td>
-                    <td>{{user.details.age}}</td>
+                    <td>{{'common.birthday' | translate}}:</td>
+                    <td>{{user.details.birthdayView}}</td>
                 </tr>
             </table>
             <h3>{{'common.wall' | translate}}</h3>

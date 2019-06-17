@@ -156,6 +156,18 @@
         <renameTable oldTableName="group" newTableName="group_social" />
     </changeSet>
 
+    <changeSet author="Artyom Poshvykin" id="add-column-sex-to-user">
+        <addColumn tableName="user_details_social">
+            <column name="sex" type="varchar(10)" />
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="change-column-type" author="Artyom Poshvykin">
+        <dropColumn tableName="user_details_social" columnName="age" />
+        <addColumn tableName="user_details_social">
+            <column name="birthday" type="timestamp"/>
+        </addColumn>
+    </changeSet>
 
 
 

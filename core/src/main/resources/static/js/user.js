@@ -25,7 +25,7 @@ app.controller('UserController', ['$scope', 'PublicMessageService', '$window', '
     };
 
     $scope.isYouPage = function () {
-        return $scope.rootUserId === $scope.user.id;
+        return $scope.rootUserId == $scope.user.id;
     };
 
     $scope.isFriendRequest = function () {

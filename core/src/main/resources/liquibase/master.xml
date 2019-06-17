@@ -21,11 +21,12 @@
 
         <createTable tableName="user_details_social">
             <column name="id" type="bigserial"/>
-            <column name="age" type="integer"/>
+            <column name="birthday" type="timestamp"/>
             <column name="country" type="varchar(255)"/>
             <column name="city" type="varchar(255)"/>
             <column name="phone" type="varchar(255)"/>
             <column name="about" type="varchar(255)"/>
+            <column name="sex" type="varchar(10)"/>
         </createTable>
         <addPrimaryKey tableName="user_details_social" columnNames="id" />
         <addForeignKeyConstraint baseTableName="user_details_social"

@@ -8,5 +8,5 @@ public interface UserService {
     UserDto registerUser(RegistrationDto registrationDto);
     boolean isEmailExist(String email);
     UserDto findById(Long id);
-
+    UserDto updateProfile(UserDto userDto);
 }

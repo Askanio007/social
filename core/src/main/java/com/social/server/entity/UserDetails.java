@@ -8,6 +8,7 @@ import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * Данные пользователя
@@ -27,8 +28,8 @@ public class UserDetails implements Serializable {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
-    @Column(name = "age")
-    private Integer age;
+    @Column(name = "birthday")
+    private LocalDateTime birthday;
 
     @Column(name = "country")
     private String country;
@@ -41,6 +42,10 @@ public class UserDetails implements Serializable {
 
     @Column(name = "about")
     private String about;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sex", length = 10)
+    private Sex sex;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "details")
     private User user;

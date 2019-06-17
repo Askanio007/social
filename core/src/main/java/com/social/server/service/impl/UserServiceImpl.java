@@ -48,4 +48,22 @@ public class UserServiceImpl implements UserService {
     public boolean isEmailExist(String email) {
         return userRepository.existsByEmail(email);
     }
+
+    @Override
+    public UserDto updateProfile(UserDto userDto) {
+        User user = userRepository.findById(userDto.getId()).get();
+        UserDetails details = user.getDetails();
+
+        details.setAbout(userDto.getDetails().getAbout());
+        details.setBirthday(userDto.getDetails().getBirthday());
+        details.setCity(userDto.getDetails().getCity());
+        details.setCountry(userDto.getDetails().getCountry());
+        details.setPhone(userDto.getDetails().getPhone());
+        details.setSex(userDto.getDetails().getSex());
+
+        user.setName(userDto.getName());
+        user.setSurname(userDto.getSurname());
+
+        return UserDto.of(userRepository.save(user));
+    }
 }

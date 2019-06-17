@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('app', ['ui.router', 'ngCookies', 'pascalprecht.translate'])
+var app = angular.module('app', ['ui.router', 'ngCookies', 'pascalprecht.translate']);
 
 app.config(stateConfig);
 stateConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
@@ -8,14 +8,14 @@ function stateConfig($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("/login");
   $stateProvider
       .state('login', {
-        url: '/login',
-        templateUrl: '/views/login.html',
-        controller: 'LoginController'
+          url: '/login',
+          templateUrl: '/views/login.html',
+          controller: 'LoginController'
       })
       .state('registration', {
-        url: '/registration',
-        templateUrl: '/views/registration.html',
-        controller: 'RegistrationController'
+          url: '/registration',
+          templateUrl: '/views/registration.html',
+          controller: 'RegistrationController'
       })
       .state('myPage', {
           url: '/myPage',
@@ -44,9 +44,14 @@ function stateConfig($stateProvider, $urlRouterProvider) {
           }
       })
       .state('profile', {
-        url: '/profile',
-        templateUrl: '/views/profile.html',
-        controller: 'ProfileController'
+          url: '/profile',
+          templateUrl: '/views/editProfile.html',
+          controller: 'ProfileController',
+          resolve: {
+              user: ['$window', 'UserService', function ($window, UserService) {
+                  return UserService.getUserById($window.sessionStorage.getItem("userId"));
+              }]
+          }
       })
       .state('friends', {
           url: '/friends',

@@ -1,0 +1,67 @@
+<div class="container" ng-controller="ProfileController">
+    <div class="row" style="margin-top: 10px">
+        <div class="col-sm-2">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
+                <a style="color: black" class="nav-link" ui-sref="myPage">{{'menu.home' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="friends">{{'menu.friends' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="messages">{{'menu.messages' | translate}}</a>
+                <a style="color: black" class="nav-link" ui-sref="groups">{{'menu.groups' | translate}}</a>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <h3>{{'profile.title' | translate}}</h3>
+            <form>
+                <div class="form-group">
+                    <label for="inputName">{{'profile.name' | translate}}</label>
+                    <input ng-model="profile.name" class="form-control" id="inputName" aria-describedby="emailHelp">
+                </div>
+                <div class="form-group">
+                    <label for="inputSurname">{{'profile.surname' | translate}}</label>
+                    <input ng-model="profile.surname" class="form-control" id="inputSurname">
+                </div>
+                <fieldset class="form-group">
+                    <div class="row">
+                        <legend class="col-form-label col-sm-2 pt-0">{{'common.sex' | translate}}</legend>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="FEMALE" ng-model="profile.details.sex" checked="{{profile.sex == FEMALE}}">
+                                <label class="form-check-label" for="gridRadios1">
+                                    {{'common.female' | translate}}
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="MALE" ng-model="profile.details.sex" checked="{{profile.sex == MALE}}">
+                                <label class="form-check-label" for="gridRadios2">
+                                    {{'common.male' | translate}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    <label for="inputCountry">{{'profile.country' | translate}}</label>
+                    <input ng-model="profile.details.country" class="form-control" id="inputCountry">
+                </div>
+                <div class="form-group">
+                    <label for="inputCity">{{'profile.city' | translate}}</label>
+                    <input ng-model="profile.details.city" class="form-control" id="inputCity">
+                </div>
+                <div class="form-group">
+                    <label for="inputAge">{{'profile.birthday' | translate}}</label>
+                    <input type="date" ng-model="profile.details.birthday" class="form-control" id="inputAge">
+                </div>
+                <div class="form-group">
+                    <label for="inputPhone">{{'profile.phone' | translate}}</label>
+                    <input ng-model="profile.details.phone" class="form-control" id="inputPhone">
+                </div>
+                <div class="form-group">
+                    <label for="inputAbout">{{'profile.about' | translate}}</label>
+                    <textarea ng-model="profile.details.about" class="form-control rounded-0" id="inputAbout" rows="3"></textarea>
+                </div>
+                <button ng-click="editProfile()" class="btn btn-secondary btn-custom">{{'common.save' | translate}}</button>
+            </form>
+        </div>
+    </div>
+
+</div>

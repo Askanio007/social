@@ -23,6 +23,9 @@ app.service('UserService', ['$http', function ($http) {
         },
         isFriendRequest: function (rootUserId, userId) {
             return $http.get('/api/v1/' + rootUserId + '/friends/request/' + userId);
+        },
+        saveProfile: function (profile) {
+            return $http.post('/api/v1/' + profile.id + '/profile', profile)
         }
     }
 }]);
