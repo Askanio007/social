@@ -1,5 +1,5 @@
 app
-    .controller('GroupsController', ['$scope', function ($scope) {
+    .controller('GroupsController', ['$scope', 'GroupService', function ($scope, GroupService) {
         $scope.groups = $scope.$resolve.groups;
         $scope.tab = 1;
 
@@ -10,6 +10,13 @@ app
         $scope.isSet = function(tabNum){
             return $scope.tab === tabNum;
         };
+
+        $scope.search = function() {
+            GroupService.search($scope.searchText).then(function (response) {
+                $scope.foundGroups = response.data;
+            });
+        };
+
     }])
 
     .controller('GroupController', ['$scope', '$window', '$state', 'PublicMessageService', 'GroupService',

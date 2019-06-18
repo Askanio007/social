@@ -6,9 +6,11 @@ import com.social.server.dto.GroupDto;
 import com.social.server.entity.Group;
 import com.social.server.entity.User;
 import com.social.server.service.GroupService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -58,5 +60,13 @@ public class GroupServiceImpl implements GroupService {
         user.getGroups().add(group);
         groupRepository.save(group);
         userRepository.save(user);
+    }
+
+    @Override
+    public List<GroupDto> search(String name) {
+        if (StringUtils.isBlank(name)) {
+            return Collections.emptyList();
+        }
+        return GroupDto.of(groupRepository.searchByName(name.toLowerCase()));
     }
 }

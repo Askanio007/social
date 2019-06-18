@@ -26,6 +26,9 @@ app.service('UserService', ['$http', function ($http) {
         },
         saveProfile: function (profile) {
             return $http.post('/api/v1/' + profile.id + '/profile', profile)
+        },
+        searchUser: function (rootUserId, userName) {
+            return $http.get('/api/v1//user/search?userName=' + userName + '&rootUserId=' + rootUserId);
         }
     }
 }]);

@@ -6,8 +6,12 @@ import com.social.server.dto.UserDto;
 import com.social.server.entity.User;
 import com.social.server.entity.UserDetails;
 import com.social.server.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -65,5 +69,17 @@ public class UserServiceImpl implements UserService {
         user.setSurname(userDto.getSurname());
 
         return UserDto.of(userRepository.save(user));
+    }
+
+    @Override
+    public List<UserDto> search(long rootUserId, String userName) {
+        if (StringUtils.isBlank(userName)) {
+            return Collections.emptyList();
+        }
+        String[] nameAndSurname = userName.toLowerCase().split(" ");
+        if (nameAndSurname.length > 1) {
+            return UserDto.of(userRepository.searchByFullName(rootUserId, nameAndSurname[0], nameAndSurname[1]));
+        }
+        return UserDto.of(userRepository.searchByFullName(rootUserId, nameAndSurname[0], ""));
     }
 }

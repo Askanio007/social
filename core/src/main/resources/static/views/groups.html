@@ -18,20 +18,38 @@
                     <a class="nav-link" ng-class="{active: isSet(2)}" ng-click="setTab(2)">{{'groups.search' | translate}}</a>
                 </li>
             </ul>
-            <br>
-            <table ng-show = "isSet(1)" style="width: 100%">
-                <a class="nav-link custom-link" ui-sref="groupCreate">{{'groups.create' | translate}}</a>
-                <tr style="margin-top: 3px" ng-repeat="group in groups track by $index">
-                    <td style="vertical-align: top"><a href="#!/group{{group.id}}"><img src="../pic/camera_200.png"/></a></td>
-                    <td style="vertical-align: top">
-                        <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><h4><a class="custom-link" href="#!/group{{group.id}}">{{group.name}}</a></h4></div>
-                        <button type="button" class="btn btn-secondary btn-custom" ng-click="remove(group.id)">{{'groups.exit' | translate}}</button>
-                    </td>
-                </tr>
-            </table>
-            <table ng-show = "isSet(2)" style="width: 100%">
+            <div style="padding-top: 10px" ng-show = "isSet(1)">
+                <button style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom" ui-sref="groupCreate">{{'groups.create' | translate}}</button>
+                <table style="width: 100%">
+                    <tr style="margin-top: 3px" ng-repeat="group in groups track by $index">
+                        <td style="vertical-align: top"><a href="#!/group{{group.id}}"><img src="../pic/camera_200.png"/></a></td>
+                        <td style="vertical-align: top">
+                            <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><h4><a class="custom-link" href="#!/group{{group.id}}">{{group.name}}</a></h4></div>
+                            <button type="button" class="btn btn-secondary btn-custom" ng-click="remove(group.id)">{{'groups.exit' | translate}}</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
-            </table>
+            <div style="padding-top: 10px" ng-show = "isSet(2)">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" ng-model="searchText" class="form-control" placeholder="{{'search.group' | translate}}">
+                    <div class="input-group-append">
+                        <button style="margin-top: 0" type="button" class="btn btn-secondary btn-custom" ng-click="search()">{{'common.search' | translate}}</button>
+                    </div>
+                </div>
+                <table style="width: 100%">
+                    <tr style="margin-top: 3px" ng-repeat="group in foundGroups track by $index">
+                        <td style="vertical-align: top"><a href="#!/group{{group.id}}"><img src="../pic/camera_200.png"/></a></td>
+                        <td style="vertical-align: top">
+                            <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><h4><a class="custom-link" href="#!/group{{group.id}}">{{group.name}}</a></h4></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 

@@ -28,3 +28,7 @@
 .custom-link {
     color: black;
 }
+
+.custom-link:hover {
+    color: black;
+}

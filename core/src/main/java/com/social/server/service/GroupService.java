@@ -10,4 +10,5 @@ public interface GroupService {
     GroupDto create(long adminId, GroupDto groupDto);
     boolean isUserHasGroup(long userId, long groupId);
     void join(long userId, long groupId);
+    List<GroupDto> search(String name);
 }

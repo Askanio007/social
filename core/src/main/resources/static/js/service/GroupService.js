@@ -22,6 +22,9 @@ app.service('GroupService', ['$http', function ($http) {
         },
         join: function (groupId, userId) {
             return $http.post('/api/v1/' + userId + '/groups/' + groupId + '/join', {})
+        },
+        search: function (groupName) {
+            return $http.get('/api/v1/group/search?groupName=' + groupName);
         }
     }
 }]);

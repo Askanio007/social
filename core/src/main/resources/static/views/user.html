@@ -1,12 +1,6 @@
 <div class="container" ng-controller="UserController">
     <div class="row" style="margin-top: 10px">
-        <div class="col-sm-2">
-            <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
-                <a style="color: black" class="nav-link" ui-sref="myPage">{{'menu.home' | translate}}</a>
-                <a style="color: black" class="nav-link" ui-sref="friends">{{'menu.friends' | translate}}</a>
-                <a style="color: black" class="nav-link" ui-sref="messages" >{{'menu.messages' | translate}}</a>
-                <a style="color: black" class="nav-link" ui-sref="groups">{{'menu.groups' | translate}}</a>
-            </div>
+        <div class="col-sm-2" ng-include="template/menu.html">
         </div>
 
         <div class="col-sm-3" style="max-width: 250px">
@@ -54,7 +48,7 @@
                 </tr>
                 <tr>
                     <td>{{'common.sex' | translate}}:</td>
-                    <td>{{user.details.sex}}</td>
+                    <td>{{'common.' + user.details.sex | translate}}</td>
                 </tr>
                 <tr>
                     <td>{{'common.birthday' | translate}}:</td>
