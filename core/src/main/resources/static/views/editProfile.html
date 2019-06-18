@@ -1,12 +1,7 @@
 <div class="container" ng-controller="ProfileController">
     <div class="row" style="margin-top: 10px">
         <div class="col-sm-2">
-            <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
-                <a style="color: black" class="nav-link" ui-sref="myPage">{{'menu.home' | translate}}</a>
-                <a style="color: black" class="nav-link" ui-sref="friends">{{'menu.friends' | translate}}</a>
-                <a style="color: black" class="nav-link" ui-sref="messages">{{'menu.messages' | translate}}</a>
-                <a style="color: black" class="nav-link" ui-sref="groups">{{'menu.groups' | translate}}</a>
-            </div>
+            <ng-include src="'views/menu.html'"></ng-include>
         </div>
 
         <div class="col-sm-6">

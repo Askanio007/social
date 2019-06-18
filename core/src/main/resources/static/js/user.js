@@ -1,5 +1,5 @@
-app.controller('UserController', ['$scope', 'PublicMessageService', '$window', 'UserService',
-    function ($scope, PublicMessageService, $window, UserService) {
+app.controller('UserController', ['$scope', '$state', 'PublicMessageService', '$window', 'UserService',
+    function ($scope, $state, PublicMessageService, $window, UserService) {
     $scope.user = $scope.$resolve.user;
     $scope.wall = $scope.$resolve.wall;
     $scope.rootUserId = $window.sessionStorage.getItem("userId");

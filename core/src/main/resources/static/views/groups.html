@@ -1,12 +1,7 @@
 <div class="container" ng-controller="GroupsController">
     <div class="row" style="margin-top: 10px">
         <div class="col-sm-2">
-            <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
-                <a style="color: black" class="nav-link" ui-sref="myPage">{{'menu.home' | translate}}</a>
-                <a style="color: black" class="nav-link" ui-sref="friends">{{'menu.friends' | translate}}</a>
-                <a style="color: black" class="nav-link" ui-sref="messages">{{'menu.messages' | translate}}</a>
-                <a style="color: black" class="nav-link" ui-sref="groups">{{'menu.groups' | translate}}</a>
-            </div>
+            <ng-include src="'views/menu.html'"></ng-include>
         </div>
 
         <div class="col-sm-6">
@@ -32,15 +27,7 @@
             </div>
 
             <div style="padding-top: 10px" ng-show = "isSet(2)">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
-                    </div>
-                    <input type="text" ng-model="searchText" class="form-control" placeholder="{{'search.group' | translate}}">
-                    <div class="input-group-append">
-                        <button style="margin-top: 0" type="button" class="btn btn-secondary btn-custom" ng-click="search()">{{'common.search' | translate}}</button>
-                    </div>
-                </div>
+                <ng-include src="'views/templates/search.html'" ng-init="placeholder='search.group'"></ng-include>
                 <table style="width: 100%">
                     <tr style="margin-top: 3px" ng-repeat="group in foundGroups track by $index">
                         <td style="vertical-align: top"><a href="#!/group{{group.id}}"><img src="../pic/camera_200.png"/></a></td>
