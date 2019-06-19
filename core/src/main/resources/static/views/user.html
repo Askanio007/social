@@ -6,7 +6,7 @@
 
         <div class="col-sm-3" style="max-width: 250px">
             <div class="blocks">
-                <img style="border-radius: .25rem; width: 100%" src="../pic/camera_200.png"/>
+                <img style="border-radius: .25rem; width: 100%" ng-src="data:image/JPEG;base64,{{user.details.image64code}}">
             </div>
             <button ng-show="isYouPage()" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom" ui-sref="profile">{{'common.edit' | translate}}</button>
             <button ng-show="!isYouPage()" type="button" class="btn btn-secondary btn-custom">{{'user.message.send' | translate}}</button>
@@ -19,20 +19,20 @@
                 </div>
                 <div style="text-align: left">
                     <div style="display: inline-block; margin-left: 2px; margin-top: 3px " ng-repeat="friend in user.friends track by $index">
-                        <img src="../pic/camera_200.png" width="70" height="70" />
-                        <p style="width: 70px; text-align: center">{{friend}}</p>
+                        <a href="#!/id{{friend.id}}"><img width="70" height="70" ng-src="data:image/JPEG;base64,{{friend.image64code}}"></a>
+                        <a class="custom-link" href="#!/id{{friend.id}}"><p style="width: 70px; text-align: center">{{friend.fullname}}</p></a>
                     </div>
                 </div>
             </div>
             <div class="blocks">
                 <div class="blocksTitle">{{'common.groups' | translate}} ({{user.groups ? user.groups.length : 0}})</div>
                 <table>
-                    <tr ng-repeat="group in user.groups">
+                    <tr ng-repeat="group in user.groups track by $index">
                         <td>
-                            <img src="../pic/camera_200.png" width="60" height="60" />
+                            <a href="#!/group{{group.id}}"><img width="70" height="70" ng-src="data:image/JPEG;base64,{{group.image64code}}"></a>
                         </td>
                         <td style="width: 100%; text-align: center">
-                            <p>{{group}}</p>
+                            <a class="custom-link" href="#!/group{{group.id}}"><p>{{group.fullname}}</p></a>
                         </td>
                     </tr>
                 </table>
@@ -41,7 +41,7 @@
 
 
         <div class="col-sm-6">
-            <h3>{{user.name}} {{user.surname}}</h3>
+            <h3>{{user.fullName}}</h3>
             <table style="width: 100%">
                 <tr>
                     <td style="width: 40%">{{'common.city' | translate}}:</td>

@@ -2,6 +2,7 @@ package com.social.server.dto;
 
 import com.social.server.entity.FriendshipRequest;
 import lombok.Data;
+import util.ImageUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ public class FriendshipRequestDto {
     private long toUserId;
     private String fromUserName;
     private String toUserName;
+    private String fromUserAvatar64code;
     private boolean accept;
 
     public static FriendshipRequestDto of(FriendshipRequest entity) {
@@ -22,6 +24,7 @@ public class FriendshipRequestDto {
             dto.setAccept(entity.isAccept());
             dto.setFromUserId(entity.getRequestFrom().getId());
             dto.setFromUserName(entity.getRequestFrom().getFullName());
+            dto.setFromUserAvatar64code(ImageUtil.convertImageTo64encode(entity.getRequestFrom().getDetails().getImage()));
             dto.setToUserId(entity.getRequestTo().getId());
             dto.setToUserName(entity.getRequestTo().getFullName());
             return dto;

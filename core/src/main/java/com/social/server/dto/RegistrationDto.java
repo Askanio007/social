@@ -1,5 +1,6 @@
 package com.social.server.dto;
 
+import com.social.server.entity.Sex;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -19,4 +20,6 @@ public class RegistrationDto {
     @Length(min = 1)
     @NotNull
     private String surname;
+    @NotNull
+    private Sex sex;
 }

@@ -2,7 +2,9 @@ package com.social.server.service.impl;
 
 import com.social.server.dao.UserRepository;
 import com.social.server.dto.UserDto;
+import com.social.server.entity.EventType;
 import com.social.server.entity.User;
+import com.social.server.service.EventService;
 import com.social.server.service.FriendService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,13 @@ import java.util.Optional;
 public class FriendServiceImpl implements FriendService {
 
     private final UserRepository userRepository;
+    private final EventService eventService;
 
     @Autowired
-    public FriendServiceImpl(UserRepository userRepository) {
+    public FriendServiceImpl(UserRepository userRepository,
+                             EventService eventService) {
         this.userRepository = userRepository;
+        this.eventService = eventService;
     }
 
     @Override
@@ -31,6 +36,7 @@ public class FriendServiceImpl implements FriendService {
         user.getFriends().add(friend);
         friend.getFriends().add(user);
         userRepository.saveAll(Arrays.asList(user, friend));
+        eventService.createEvent(userId, EventType.ADD_FRIEND, friend.getId(), friend.getFullName());
     }
 
     @Override

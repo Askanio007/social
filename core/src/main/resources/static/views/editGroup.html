@@ -1,0 +1,48 @@
+<div class="container" ng-controller="EditGroupController">
+    <div class="row" style="margin-top: 10px">
+        <div class="col-sm-2">
+            <ng-include src="'views/menu.html'"></ng-include>
+        </div>
+
+        <div class="col-sm-6">
+
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" ng-class="{active: isSet(1)}" ng-click="setTab(1)">{{'group.edit.menu.detail' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ng-class="{active: isSet(2)}" ng-click="setTab(2)">{{'group.edit.menu.photo' | translate}}</a>
+                </li>
+            </ul>
+
+            <div ng-show="isSet(1)">
+                <h3>{{'groups.edit.title' | translate}}</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="inputName">{{'groups.name' | translate}}</label>
+                        <input ng-model="group.name" class="form-control" id="inputName" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDescription">{{'groups.description' | translate}}</label>
+                        <input ng-model="group.description" class="form-control" id="inputDescription">
+                    </div>
+                    <button ng-click="edit()" class="btn btn-secondary btn-custom">{{'common.edit' | translate}}</button>
+                </form>
+            </div>
+
+
+            <div ng-show="isSet(2)">
+                <h3>{{'groups.photo' | translate}}</h3>
+                <form>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile" file-upload = "myFile">
+                        <label class="custom-file-label" for="customFile">{{'common.choose.file' | translate}}</label>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>

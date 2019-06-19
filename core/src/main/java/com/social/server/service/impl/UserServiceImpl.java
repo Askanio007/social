@@ -3,13 +3,17 @@ package com.social.server.service.impl;
 import com.social.server.dao.UserRepository;
 import com.social.server.dto.RegistrationDto;
 import com.social.server.dto.UserDto;
+import com.social.server.entity.Image;
 import com.social.server.entity.User;
 import com.social.server.entity.UserDetails;
 import com.social.server.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import util.FileUtil;
 
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,9 +38,10 @@ public class UserServiceImpl implements UserService {
         user.setEmail(registrationDto.getEmail());
         user.setPassword(registrationDto.getPassword());
         user.setEnable(true);
-        user.setName(registrationDto.getName());
-        user.setSurname(registrationDto.getSurname());
+        user.setName(formatName(registrationDto.getName()));
+        user.setSurname(formatName(registrationDto.getSurname()));
         UserDetails userDetails = new UserDetails();
+        userDetails.setSex(registrationDto.getSex());
         user.setDetails(userDetails);
         userDetails.setUser(user);
 
@@ -76,10 +81,28 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isBlank(userName)) {
             return Collections.emptyList();
         }
-        String[] nameAndSurname = userName.toLowerCase().split(" ");
+        String[] nameAndSurname = userName.split(" ");
         if (nameAndSurname.length > 1) {
-            return UserDto.of(userRepository.searchByFullName(rootUserId, nameAndSurname[0], nameAndSurname[1]));
+            return UserDto.of(userRepository.searchByFullName(rootUserId, formatName(nameAndSurname[0]), formatName(nameAndSurname[1])));
         }
-        return UserDto.of(userRepository.searchByFullName(rootUserId, nameAndSurname[0], ""));
+        return UserDto.of(userRepository.searchByFullName(rootUserId, formatName(nameAndSurname[0]), ""));
+    }
+
+    @Override
+    public void savePhoto(long userId, MultipartFile file) {
+        User user = userRepository.findById(userId).get();
+        Path filePath = FileUtil.writeFile(file);
+        if (filePath != null) {
+            user.getDetails().setImage(Image.of(file.getOriginalFilename(), filePath));
+            userRepository.save(user);
+        }
+    }
+
+    private String formatName(String word){
+        if (StringUtils.isBlank(word)) {
+            return word;
+        }
+        word = word.toLowerCase();
+        return word.substring(0, 1).toUpperCase() + word.substring(1);
     }
 }

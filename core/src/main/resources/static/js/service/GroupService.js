@@ -5,12 +5,8 @@ app.service('GroupService', ['$http', function ($http) {
                 return response.data;
             })
         },
-        createGroup: function (rootUserId, name, description) {
-            var params = {
-                name: name,
-                description: description
-            };
-            return $http.post('/api/v1/' + rootUserId + '/groups/create', params);
+        createGroup: function (rootUserId, newGroup) {
+            return $http.post('/api/v1/' + rootUserId + '/groups/create', newGroup);
         },
         find: function (groupId) {
             return $http.get('/api/v1/group/' + groupId).then(function (response) {

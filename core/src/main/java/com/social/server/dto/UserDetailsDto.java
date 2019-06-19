@@ -3,6 +3,7 @@ package com.social.server.dto;
 import com.social.server.entity.Sex;
 import com.social.server.entity.UserDetails;
 import lombok.Data;
+import util.ImageUtil;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +20,7 @@ public class UserDetailsDto {
     private String phone;
     private String about;
     private Sex sex;
+    private String image64code;
 
     public static UserDetailsDto of(UserDetails userDetails) {
         UserDetailsDto dto = new UserDetailsDto();
@@ -33,6 +35,7 @@ public class UserDetailsDto {
             dto.setCountry(userDetails.getCountry());
             dto.setPhone(userDetails.getPhone());
             dto.setSex(userDetails.getSex());
+            dto.setImage64code(ImageUtil.convertImageTo64encode(userDetails.getImage()));
         }
         return dto;
     }

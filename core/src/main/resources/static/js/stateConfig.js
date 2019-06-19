@@ -94,8 +94,46 @@ function stateConfig($stateProvider, $urlRouterProvider) {
           url: '/createGroup',
           templateUrl: '/views/createGroup.html',
           controller: 'CreateGroupController'
+      })
+      .state('groupEdit', {
+          url: '/editGroup{groupId}',
+          templateUrl: '/views/editGroup.html',
+          controller: 'EditGroupController',
+          resolve: {
+              group: ['$stateParams', 'GroupService', function ($stateParams, GroupService) {
+                  return GroupService.find($stateParams.groupId);
+              }]
+          }
+      })
+      .state('events', {
+          url: '/events',
+          templateUrl: '/views/events.html',
+          controller: 'EventController',
+          resolve: {
+              events: ['$window', 'EventService', function ($window, EventService) {
+                  return EventService.find($window.sessionStorage.getItem("userId"));
+              }]
+
+          }
       });
 }
+
+app.directive('fileUpload', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var model = $parse(attrs.fileUpload),
+                modelSetter = model.assign;
+
+            element.bind('change', function () {
+                scope.$apply(function () {
+                    modelSetter(scope, element[0].files[0]);
+                    scope.uploadFile();
+                });
+            });
+        }
+    };
+});
 
 app.config(translateConfig);
 

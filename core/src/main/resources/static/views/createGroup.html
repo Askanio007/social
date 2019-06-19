@@ -9,11 +9,11 @@
             <form>
                 <div class="form-group">
                     <label for="inputName">{{'groups.name' | translate}}</label>
-                    <input ng-model="name" class="form-control" id="inputName" aria-describedby="emailHelp">
+                    <input ng-model="newGroup.name" class="form-control" id="inputName" aria-describedby="emailHelp">
                 </div>
                 <div class="form-group">
                     <label for="inputDescription">{{'groups.description' | translate}}</label>
-                    <input ng-model="description" class="form-control" id="inputDescription">
+                    <input ng-model="newGroup.description" class="form-control" id="inputDescription">
                 </div>
                 <button ng-click="create()" class="btn btn-secondary btn-custom">{{'common.create' | translate}}</button>
             </form>

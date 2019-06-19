@@ -169,6 +169,67 @@
         </addColumn>
     </changeSet>
 
+    <changeSet author="Artyom Poshvykin" id="crate-event-table.xml">
+        <createTable tableName="event">
+            <column name="id" type="bigserial"/>
+            <column name="user_id" type="integer" />
+            <column name="type" type="varchar(50)"/>
+            <column name="target_action_name" type="varchar(100)"/>
+            <column name="target_action_id" type="integer"/>
+        </createTable>
+        <addPrimaryKey tableName="event" columnNames="id" />
+        <addNotNullConstraint tableName="event" columnName="user_id" />
+        <addNotNullConstraint tableName="event" columnName="type" />
+        <addNotNullConstraint tableName="event" columnName="target_action_id" />
+        <addForeignKeyConstraint baseTableName="event"
+                                 baseColumnNames="user_id"
+                                 constraintName="event_user"
+                                 referencedTableName="user_social"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+    <changeSet author="Artyom Poshvykin" id="crate-image-table.xml">
+
+        <addColumn tableName="user_details_social">
+            <column name="image_id" type="integer" />
+        </addColumn>
+
+        <addColumn tableName="group_social">
+            <column name="image_id" type="integer" />
+        </addColumn>
+
+        <createTable tableName="image">
+            <column name="id" type="bigserial"/>
+            <column name="path" type="varchar(255)" />
+            <column name="filename" type="varchar(255)"/>
+        </createTable>
+        <addPrimaryKey tableName="image" columnNames="id" />
+        <addNotNullConstraint tableName="image" columnName="path" />
+        <addNotNullConstraint tableName="image" columnName="filename" />
+        <addForeignKeyConstraint baseTableName="user_details_social"
+                                 baseColumnNames="image_id"
+                                 constraintName="image_user"
+                                 referencedTableName="image"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="group_social"
+                                 baseColumnNames="image_id"
+                                 constraintName="image_user"
+                                 referencedTableName="image"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+    <changeSet author="Artyom Poshvykin" id="add-create-date-to-event.xml">
+        <addColumn tableName="event">
+            <column name="create_date" type="timestamp" />
+        </addColumn>
+        <sql>
+            UPDATE event SET create_date = now();
+        </sql>
+    </changeSet>
+
+    <changeSet author="Artyom Poshvykin" id="add-not-null-create-date-to-event.xml">
+        <addNotNullConstraint tableName="event" columnName="create_date" />
+    </changeSet>
 
 
 </databaseChangeLog>

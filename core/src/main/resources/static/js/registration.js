@@ -1,18 +1,15 @@
 
 app.controller('RegistrationController', ['$scope', '$http', '$window', '$rootScope', '$state', function ($scope, $http, $window, $rootScope, $state) {
-    $scope.email = '';
-    $scope.password = '';
-    $scope.name = '';
-    $scope.surname = '';
+    $scope.registrationData = {
+        email: "",
+        password: "",
+        name: "",
+        surname: "",
+        sex: ""
+    };
 
     $scope.registration = function () {
-        var params = {
-            email: $scope.email,
-            password: $scope.password,
-            name: $scope.name,
-            surname: $scope.surname
-        };
-        $http.post('/api/v1/registration', params).then(function (response) {
+        $http.post('/api/v1/registration', $scope.registrationData).then(function (response) {
             $window.sessionStorage.setItem("userId",response.data.id);
             $state.go('myPage');
         })

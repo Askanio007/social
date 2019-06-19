@@ -11,8 +11,9 @@
         </div>
         <div class="col-sm-3">
             <div class="blocks" style="margin-bottom: 5px">
-                <img style="border-radius: .25rem; width: 100%" src="../pic/camera_200.png"/>
+                <img style="border-radius: .25rem; width: 100%"  ng-src="data:image/JPEG;base64,{{group.avatar64code}}">
             </div>
+            <button ng-show="isAdmin()" ui-sref="groupEdit({groupId: group.id})" style="width: 100%; margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'common.edit' | translate}}</button>
             <button ng-show="!isYou()" ng-click="join()" style="width: 100%; margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'groups.enter' | translate}}</button>
             <button ng-show="isYou()" ng-click="join()" style="width: 100%; margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'groups.exit' | translate}}</button>
             <div class="blocks">
@@ -21,8 +22,8 @@
                 </div>
                 <div style="text-align: left">
                     <div style="display: inline-block; margin-left: 2px; margin-top: 3px" ng-repeat="participant in group.participant track by $index">
-                        <img src="../pic/camera_200.png" width="70" height="70" />
-                        <p style="width: 70px; text-align: center">{{participant}}</p>
+                        <img width="70" height="70" ng-src="data:image/JPEG;base64,{{participant.image64code}}">
+                        <p style="width: 70px; text-align: center">{{participant.fullname}}</p>
                     </div>
                 </div>
             </div>

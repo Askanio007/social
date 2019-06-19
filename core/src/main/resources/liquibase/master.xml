@@ -27,6 +27,7 @@
             <column name="phone" type="varchar(255)"/>
             <column name="about" type="varchar(255)"/>
             <column name="sex" type="varchar(10)"/>
+            <column name="image_id" type="integer" />
         </createTable>
         <addPrimaryKey tableName="user_details_social" columnNames="id" />
         <addForeignKeyConstraint baseTableName="user_details_social"
@@ -41,6 +42,7 @@
             <column name="description" type="varchar(500)"/>
             <column name="admin_id" type="integer"/>
             <column name="avatar_path" type="varchar(100)"/>
+            <column name="image_id" type="integer" />
         </createTable>
         <addPrimaryKey tableName="group_social" columnNames="id"/>
         <addNotNullConstraint tableName="group_social" columnName="name"/>
@@ -102,6 +104,44 @@
                                  baseColumnNames="user_id_from"
                                  constraintName="user_from_key"
                                  referencedTableName="user_social"
+                                 referencedColumnNames="id" />
+
+        <createTable tableName="event">
+            <column name="id" type="bigserial"/>
+            <column name="user_id" type="integer" />
+            <column name="create_date" type="timestamp" />
+            <column name="type" type="varchar(50)"/>
+            <column name="target_action_name" type="varchar(100)"/>
+            <column name="target_action_id" type="integer"/>
+        </createTable>
+        <addPrimaryKey tableName="event" columnNames="id" />
+        <addNotNullConstraint tableName="event" columnName="user_id" />
+        <addNotNullConstraint tableName="event" columnName="type" />
+        <addNotNullConstraint tableName="event" columnName="target_action_id" />
+        <addNotNullConstraint tableName="event" columnName="create_date" />
+        <addForeignKeyConstraint baseTableName="event"
+                                 baseColumnNames="user_id"
+                                 constraintName="event_user"
+                                 referencedTableName="user_social"
+                                 referencedColumnNames="id" />
+
+        <createTable tableName="image">
+            <column name="id" type="bigserial"/>
+            <column name="path" type="varchar(255)" />
+            <column name="filename" type="varchar(255)"/>
+        </createTable>
+        <addPrimaryKey tableName="image" columnNames="id" />
+        <addNotNullConstraint tableName="image" columnName="path" />
+        <addNotNullConstraint tableName="image" columnName="filename" />
+        <addForeignKeyConstraint baseTableName="user_details_social"
+                                 baseColumnNames="image_id"
+                                 constraintName="image_user"
+                                 referencedTableName="image"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="group_social"
+                                 baseColumnNames="image_id"
+                                 constraintName="image_user"
+                                 referencedTableName="image"
                                  referencedColumnNames="id" />
     </changeSet>
 </databaseChangeLog>

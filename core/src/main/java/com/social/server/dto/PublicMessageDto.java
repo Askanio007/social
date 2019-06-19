@@ -2,6 +2,7 @@ package com.social.server.dto;
 
 import com.social.server.entity.PublicMessage;
 import lombok.Data;
+import util.ImageUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ public class PublicMessageDto {
     private long id;
     private String message;
     private Long senderId;
+    private String avatarSender;
     private String sender;
     private String recipient;
     private Long recipientId;
@@ -34,6 +36,7 @@ public class PublicMessageDto {
                 dto.setRecipientId(message.getGroup().getId());
                 dto.setRecipient(message.getGroup().getName());
             }
+            dto.setAvatarSender(ImageUtil.convertImageTo64encode(message.getSender().getDetails().getImage()));
             return dto;
         }
         return null;

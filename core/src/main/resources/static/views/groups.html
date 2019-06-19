@@ -17,7 +17,7 @@
                 <button style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom" ui-sref="groupCreate">{{'groups.create' | translate}}</button>
                 <table style="width: 100%">
                     <tr style="margin-top: 3px" ng-repeat="group in groups track by $index">
-                        <td style="vertical-align: top"><a href="#!/group{{group.id}}"><img src="../pic/camera_200.png"/></a></td>
+                        <td style="vertical-align: top"><a href="#!/group{{group.id}}"><img ng-src="data:image/JPEG;base64,{{group.avatar64code}}"></a></td>
                         <td style="vertical-align: top">
                             <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><h4><a class="custom-link" href="#!/group{{group.id}}">{{group.name}}</a></h4></div>
                             <button type="button" class="btn btn-secondary btn-custom" ng-click="remove(group.id)">{{'groups.exit' | translate}}</button>
@@ -30,7 +30,7 @@
                 <ng-include src="'views/templates/search.html'" ng-init="placeholder='search.group'"></ng-include>
                 <table style="width: 100%">
                     <tr style="margin-top: 3px" ng-repeat="group in foundGroups track by $index">
-                        <td style="vertical-align: top"><a href="#!/group{{group.id}}"><img src="../pic/camera_200.png"/></a></td>
+                        <td style="vertical-align: top"><a href="#!/group{{group.id}}"><img ng-src="data:image/JPEG;base64,{{group.avatar64code}}"><</a></td>
                         <td style="vertical-align: top">
                             <div style="background-color: gainsboro; padding: 3px; padding-left: 5px"><h4><a class="custom-link" href="#!/group{{group.id}}">{{group.name}}</a></h4></div>
                         </td>

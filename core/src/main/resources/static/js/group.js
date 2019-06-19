@@ -53,18 +53,51 @@ app
         $scope.isYou = function () {
             return $scope.isYouGroup;
         }
+
+        $scope.isAdmin = function () {
+            return $scope.rootUserId == $scope.group.adminId;
+        }
     }])
 
     .controller('CreateGroupController', ['$scope', '$window', '$state', 'GroupService',
         function ($scope, $window, $state, GroupService) {
-        $scope.name = "";
-        $scope.description = "";
+        $scope.newGroup = {
+            name: "",
+            description: "",
+            photo: ""
+        };
         $scope.rootUserId = $window.sessionStorage.getItem("userId");
 
         $scope.create = function () {
-            GroupService.createGroup($scope.rootUserId, $scope.name, $scope.description).then(function (response) {
+            GroupService.createGroup($scope.rootUserId, $scope.newGroup).then(function (response) {
                 $state.go("group" + response.data.id);
             });
-        }
-    }]);
+        };
+    }])
+    .controller('EditGroupController', ['$scope', '$window', '$state', 'GroupService', 'ImageService',
+        function ($scope, $window, $state, GroupService, ImageService) {
+            $scope.group = $scope.$resolve.group;
+            $scope.rootUserId = $window.sessionStorage.getItem("userId");
+
+            $scope.edit = function () {
+                GroupService.createGroup($scope.rootUserId, $scope.group).then(function (response) {
+                    $state.go("group" + $scope.group.id);
+                });
+            };
+
+            $scope.uploadFile = function () {
+                ImageService.upload($scope.group.id, $scope.myFile, false)
+            }
+
+            $scope.tab = 1;
+
+            $scope.setTab = function(newTab){
+                $scope.tab = newTab;
+            };
+
+            $scope.isSet = function(tabNum){
+                return $scope.tab === tabNum;
+            };
+        }]
+    );
 

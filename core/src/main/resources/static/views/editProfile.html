@@ -5,57 +5,76 @@
         </div>
 
         <div class="col-sm-6">
-            <h3>{{'profile.title' | translate}}</h3>
-            <form>
-                <div class="form-group">
-                    <label for="inputName">{{'profile.name' | translate}}</label>
-                    <input ng-model="profile.name" class="form-control" id="inputName" aria-describedby="emailHelp">
-                </div>
-                <div class="form-group">
-                    <label for="inputSurname">{{'profile.surname' | translate}}</label>
-                    <input ng-model="profile.surname" class="form-control" id="inputSurname">
-                </div>
-                <fieldset class="form-group">
-                    <div class="row">
-                        <legend class="col-form-label col-sm-2 pt-0">{{'common.sex' | translate}}</legend>
-                        <div class="col-sm-10">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="FEMALE" ng-model="profile.details.sex" checked="{{profile.sex == FEMALE}}">
-                                <label class="form-check-label" for="gridRadios1">
-                                    {{'common.FEMALE' | translate}}
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="MALE" ng-model="profile.details.sex" checked="{{profile.sex == MALE}}">
-                                <label class="form-check-label" for="gridRadios2">
-                                    {{'common.MALE' | translate}}
-                                </label>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" ng-class="{active: isSet(1)}" ng-click="setTab(1)">{{'profile.menu.detail' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ng-class="{active: isSet(2)}" ng-click="setTab(2)">{{'profile.menu.photo' | translate}}</a>
+                </li>
+            </ul>
+            <div ng-show="isSet(1)">
+                <h3>{{'profile.detail.title' | translate}}</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="inputName">{{'profile.name' | translate}}</label>
+                        <input ng-model="profile.name" class="form-control" id="inputName" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputSurname">{{'profile.surname' | translate}}</label>
+                        <input ng-model="profile.surname" class="form-control" id="inputSurname">
+                    </div>
+                    <fieldset class="form-group">
+                        <div class="row">
+                            <legend class="col-form-label col-sm-2 pt-0">{{'common.sex' | translate}}</legend>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="FEMALE" ng-model="profile.details.sex" checked="{{profile.sex == FEMALE}}">
+                                    <label class="form-check-label" for="gridRadios1">
+                                        {{'common.FEMALE' | translate}}
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="MALE" ng-model="profile.details.sex" checked="{{profile.sex == MALE}}">
+                                    <label class="form-check-label" for="gridRadios2">
+                                        {{'common.MALE' | translate}}
+                                    </label>
+                                </div>
                             </div>
                         </div>
+                    </fieldset>
+                    <div class="form-group">
+                        <label for="inputCountry">{{'profile.country' | translate}}</label>
+                        <input ng-model="profile.details.country" class="form-control" id="inputCountry">
                     </div>
-                </fieldset>
-                <div class="form-group">
-                    <label for="inputCountry">{{'profile.country' | translate}}</label>
-                    <input ng-model="profile.details.country" class="form-control" id="inputCountry">
-                </div>
-                <div class="form-group">
-                    <label for="inputCity">{{'profile.city' | translate}}</label>
-                    <input ng-model="profile.details.city" class="form-control" id="inputCity">
-                </div>
-                <div class="form-group">
-                    <label for="inputAge">{{'profile.birthday' | translate}}</label>
-                    <input type="date" ng-model="profile.details.birthday" class="form-control" id="inputAge">
-                </div>
-                <div class="form-group">
-                    <label for="inputPhone">{{'profile.phone' | translate}}</label>
-                    <input ng-model="profile.details.phone" class="form-control" id="inputPhone">
-                </div>
-                <div class="form-group">
-                    <label for="inputAbout">{{'profile.about' | translate}}</label>
-                    <textarea ng-model="profile.details.about" class="form-control rounded-0" id="inputAbout" rows="3"></textarea>
-                </div>
-                <button ng-click="editProfile()" class="btn btn-secondary btn-custom">{{'common.save' | translate}}</button>
-            </form>
+                    <div class="form-group">
+                        <label for="inputCity">{{'profile.city' | translate}}</label>
+                        <input ng-model="profile.details.city" class="form-control" id="inputCity">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAge">{{'profile.birthday' | translate}}</label>
+                        <input type="date" ng-model="profile.details.birthday" class="form-control" id="inputAge">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPhone">{{'profile.phone' | translate}}</label>
+                        <input ng-model="profile.details.phone" class="form-control" id="inputPhone">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAbout">{{'profile.about' | translate}}</label>
+                        <textarea ng-model="profile.details.about" class="form-control rounded-0" id="inputAbout" rows="3"></textarea>
+                    </div>
+                    <button ng-click="editProfile()" class="btn btn-secondary btn-custom">{{'common.save' | translate}}</button>
+                </form>
+            </div>
+            <div ng-show="isSet(2)">
+                <h3>{{'profile.photo.title' | translate}}</h3>
+                <form>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile" file-upload = "myFile">
+                        <label class="custom-file-label" for="customFile">{{'common.choose.file' | translate}}</label>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 

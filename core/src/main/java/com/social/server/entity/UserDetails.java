@@ -47,6 +47,10 @@ public class UserDetails implements Serializable {
     @Column(name = "sex", length = 10)
     private Sex sex;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
+    private Image image;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "details")
     private User user;
 

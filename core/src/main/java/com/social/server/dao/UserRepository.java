@@ -13,10 +13,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
     boolean existsByEmail(String email);
     boolean existsByIdAndFriends(long id, User friend);
-    @Query("select u from User u where u.id <> :rootUserId and " +
+    @Query("select u from User u where u.id <> :rootUserId and ( " +
             "(u.name like concat('%',:name,'%') and u.surname like concat('%',:surname,'%')) " +
             "or " +
-            "(u.name like concat('%',:surname,'%') and u.surname like concat('%',:name,'%'))")
+            "(u.name like concat('%',:surname,'%') and u.surname like concat('%',:name,'%'))" +
+            ")")
     Set<User> searchByFullName(@Param("rootUserId") long rootUserId,
                                @Param("name")String name,
                                @Param("surname")String surname);

@@ -36,9 +36,6 @@ public class Group {
     @JoinColumn(name = "admin_id", nullable = false)
     private User admin;
 
-    @Column(name = "avatar_path", length = 100)
-    private String avatarPath;
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_group",
@@ -49,5 +46,9 @@ public class Group {
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PublicMessage> messages = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
+    private Image image;
 
 }
