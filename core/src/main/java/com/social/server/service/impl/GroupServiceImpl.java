@@ -1,7 +1,6 @@
 package com.social.server.service.impl;
 
 import com.social.server.dao.GroupRepository;
-import com.social.server.dao.UserRepository;
 import com.social.server.dto.GroupDto;
 import com.social.server.entity.EventType;
 import com.social.server.entity.Group;
@@ -9,6 +8,7 @@ import com.social.server.entity.Image;
 import com.social.server.entity.User;
 import com.social.server.service.EventService;
 import com.social.server.service.GroupService;
+import com.social.server.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,58 +20,56 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class GroupServiceImpl implements GroupService {
+public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupRepository> implements GroupService {
 
-    private final GroupRepository groupRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final EventService eventService;
 
     @Autowired
     public GroupServiceImpl(GroupRepository groupRepository,
-                            UserRepository userRepository,
+                            UserService userService,
                             EventService eventService) {
-        this.groupRepository = groupRepository;
-        this.userRepository = userRepository;
+        super(groupRepository);
+        this.userService = userService;
         this.eventService = eventService;
     }
 
     @Override
     public List<GroupDto> findBy(long userId) {
-        return GroupDto.of(groupRepository.findByUsersIdIn(userId));
+        return GroupDto.of(repository.findByUsersIdIn(userId));
     }
 
     @Override
     public GroupDto find(long groupId) {
-        return GroupDto.of(groupRepository.findById(groupId));
+        return GroupDto.of(findById(groupId));
     }
 
     @Override
     public GroupDto create(long adminId, GroupDto groupDto) {
-        User admin = userRepository.findById(adminId).get();
+        User admin = userService.findById(adminId);
         Group group = new Group();
         group.setName(groupDto.getName());
         group.setDescription(groupDto.getDescription());
         group.setAdmin(admin);
         group.getUsers().add(admin);
-        group = groupRepository.save(group);
+        group = repository.save(group);
         eventService.createEvent(admin.getId(), EventType.ENTER_GROUP, group.getId(), group.getName());
-        savePhoto(group.getId(), groupDto.getFile());
         return GroupDto.of(group);
     }
 
     @Override
     public boolean isUserHasGroup(long userId, long groupId) {
-        return groupRepository.existsByIdAndUsersIdIn(groupId, userId);
+        return repository.existsByIdAndUsersIdIn(groupId, userId);
     }
 
     @Override
     public void join(long userId, long groupId) {
-        Group group = groupRepository.findById(groupId).get();
-        User user = userRepository.findById(userId).get();
+        Group group = findById(groupId);
+        User user = userService.findById(userId);
         group.getUsers().add(user);
         user.getGroups().add(group);
-        groupRepository.save(group);
-        userRepository.save(user);
+        repository.save(group);
+        userService.save(user);
         eventService.createEvent(userId, EventType.ENTER_GROUP, group.getId(), group.getName());
     }
 
@@ -80,16 +78,16 @@ public class GroupServiceImpl implements GroupService {
         if (StringUtils.isBlank(name)) {
             return Collections.emptyList();
         }
-        return GroupDto.of(groupRepository.searchByName(name.toLowerCase()));
+        return GroupDto.of(repository.searchByName(name.toLowerCase()));
     }
 
     @Override
     public void savePhoto(long groupId, MultipartFile file) {
-        Group group = groupRepository.findById(groupId).get();
+        Group group = findById(groupId);
         Path filePath = FileUtil.writeFile(file);
         if (filePath != null) {
             group.setImage(Image.of(file.getName(), filePath));
-            groupRepository.save(group);
+            repository.save(group);
         }
     }
 }

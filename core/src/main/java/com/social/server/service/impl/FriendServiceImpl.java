@@ -11,46 +11,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
-public class FriendServiceImpl implements FriendService {
+public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserRepository> implements FriendService {
 
-    private final UserRepository userRepository;
     private final EventService eventService;
 
     @Autowired
     public FriendServiceImpl(UserRepository userRepository,
                              EventService eventService) {
-        this.userRepository = userRepository;
+        super(userRepository);
         this.eventService = eventService;
     }
 
     @Override
     public void addFriend(long userId, long friendId) {
-        User user = userRepository.findById(userId).get();
-        User friend = userRepository.findById(friendId).get();
+        User user = findById(userId);
+        User friend = findById(friendId);
         user.getFriends().add(friend);
         friend.getFriends().add(user);
-        userRepository.saveAll(Arrays.asList(user, friend));
+        repository.saveAll(Arrays.asList(user, friend));
         eventService.createEvent(userId, EventType.ADD_FRIEND, friend.getId(), friend.getFullName());
     }
 
     @Override
     public List<UserDto> find(long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        if (!userOptional.isPresent()) {
-            log.error("user not found, id = " + userId);
-            return Collections.emptyList();
-        }
-        return UserDto.of(userOptional.get().getFriends());
+        return UserDto.of(findById(userId).getFriends());
     }
 
     @Override
     public boolean isFriends(long rootUserId, long userId) {
-        return userRepository.existsByIdAndFriends(rootUserId, userRepository.getOne(userId));
+        return repository.existsByIdAndFriends(rootUserId, repository.getOne(userId));
     }
 }

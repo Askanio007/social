@@ -2,11 +2,9 @@ package com.social.server.dto;
 
 import com.social.server.entity.Group;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 import util.ImageUtil;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
@@ -19,11 +17,6 @@ public class GroupDto {
     private long adminId;
     private List<PublicMessageDto> wall;
     private List<PhotoAndNameDto> participant;
-    private MultipartFile file;
-
-    public static GroupDto of(Optional<Group> optionalGroup) {
-        return optionalGroup.map(GroupDto::of).orElse(null);
-    }
 
     public static GroupDto of(Group entity) {
         if (entity != null) {

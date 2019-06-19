@@ -18,18 +18,21 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
-
-    private final UserRepository userRepository;
+public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepository> implements UserService {
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+        super(userRepository);
     }
 
     @Override
     public UserDto findByEmail(String email) {
-        return UserDto.of(userRepository.findByEmail(email));
+        return UserDto.of(repository.findByEmail(email));
+    }
+
+    @Override
+    public UserDto findDtoById(long id) {
+        return UserDto.of(findById(id));
     }
 
     @Override
@@ -45,22 +48,17 @@ public class UserServiceImpl implements UserService {
         user.setDetails(userDetails);
         userDetails.setUser(user);
 
-        return UserDto.of(userRepository.save(user));
-    }
-
-    @Override
-    public UserDto findById(Long id) {
-        return UserDto.of(userRepository.findById(id).get());
+        return save(user);
     }
 
     @Override
     public boolean isEmailExist(String email) {
-        return userRepository.existsByEmail(email);
+        return repository.existsByEmail(email);
     }
 
     @Override
     public UserDto updateProfile(UserDto userDto) {
-        User user = userRepository.findById(userDto.getId()).get();
+        User user = findById(userDto.getId());
         UserDetails details = user.getDetails();
 
         details.setAbout(userDto.getDetails().getAbout());
@@ -73,7 +71,7 @@ public class UserServiceImpl implements UserService {
         user.setName(userDto.getName());
         user.setSurname(userDto.getSurname());
 
-        return UserDto.of(userRepository.save(user));
+        return save(user);
     }
 
     @Override
@@ -83,18 +81,18 @@ public class UserServiceImpl implements UserService {
         }
         String[] nameAndSurname = userName.split(" ");
         if (nameAndSurname.length > 1) {
-            return UserDto.of(userRepository.searchByFullName(rootUserId, formatName(nameAndSurname[0]), formatName(nameAndSurname[1])));
+            return UserDto.of(repository.searchByFullName(rootUserId, formatName(nameAndSurname[0]), formatName(nameAndSurname[1])));
         }
-        return UserDto.of(userRepository.searchByFullName(rootUserId, formatName(nameAndSurname[0]), ""));
+        return UserDto.of(repository.searchByFullName(rootUserId, formatName(nameAndSurname[0]), ""));
     }
 
     @Override
     public void savePhoto(long userId, MultipartFile file) {
-        User user = userRepository.findById(userId).get();
+        User user = findById(userId);
         Path filePath = FileUtil.writeFile(file);
         if (filePath != null) {
             user.getDetails().setImage(Image.of(file.getOriginalFilename(), filePath));
-            userRepository.save(user);
+            save(user);
         }
     }
 
@@ -104,5 +102,10 @@ public class UserServiceImpl implements UserService {
         }
         word = word.toLowerCase();
         return word.substring(0, 1).toUpperCase() + word.substring(1);
+    }
+
+    @Override
+    public UserDto save(User user) {
+        return UserDto.of(repository.save(user));
     }
 }
