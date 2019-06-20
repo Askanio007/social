@@ -27,13 +27,13 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
     }
 
     @Override
-    public void addFriend(long userId, long friendId) {
-        User user = findById(userId);
+    public void addFriend(long rootUserId, long friendId) {
+        User user = findById(rootUserId);
         User friend = findById(friendId);
         user.getFriends().add(friend);
         friend.getFriends().add(user);
         repository.saveAll(Arrays.asList(user, friend));
-        eventService.createEvent(userId, EventType.ADD_FRIEND, friend.getId(), friend.getFullName());
+        eventService.createEvent(rootUserId, EventType.ADD_FRIEND, friend.getId(), friend.getFullName());
     }
 
     @Override
@@ -42,7 +42,16 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
     }
 
     @Override
-    public boolean isFriends(long rootUserId, long userId) {
-        return repository.existsByIdAndFriends(rootUserId, repository.getOne(userId));
+    public boolean isFriends(long rootUserId, long friendId) {
+        return repository.existsByIdAndFriends(rootUserId, repository.getOne(friendId));
+    }
+
+    @Override
+    public void remove(long rootUserId, long friendId) {
+        User rootUser = findById(rootUserId);
+        User friend = findById(friendId);
+        rootUser.getFriends().remove(friend);
+        friend.getFriends().remove(rootUser);
+        repository.saveAll(Arrays.asList(rootUser, friend));
     }
 }

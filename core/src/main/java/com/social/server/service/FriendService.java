@@ -6,8 +6,9 @@ import com.social.server.entity.User;
 import java.util.List;
 
 public interface FriendService extends CommonService<User, Long> {
-    void addFriend(long userId, long friendId);
+    void addFriend(long rootUserId, long friendId);
     List<UserDto> find(long userId);
-    boolean isFriends(long rootUserId, long userId);
+    boolean isFriends(long rootUserId, long friendId);
+    void remove(long rootUserId, long friendId);
 }
 
