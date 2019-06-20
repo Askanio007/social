@@ -1,7 +1,7 @@
-app.service('ImageService', ['$http', function ($http) {
+app.service('ImageService', ['$http', 'ENV', function ($http, ENV) {
     return {
         upload: function (rootId, file, isUser) {
-            var url = isUser? '/api/v1/image/user/' + rootId + '/upload' : '/api/v1/image/group/' + rootId + '/upload';
+            var url = isUser? ENV.API_URL + 'image/user/' + rootId + '/upload' : '/api/v1/image/group/' + rootId + '/upload';
             var fileFormData = new FormData();
             fileFormData.append('file', file);
             var options = {

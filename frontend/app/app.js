@@ -2,9 +2,9 @@
 
 var app = angular.module('app', ['ui.router', 'ngCookies', 'pascalprecht.translate']);
 
-app.config(stateConfig);
-stateConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
-function stateConfig($stateProvider, $urlRouterProvider) {
+app.config(stateProvider);
+stateProvider.$inject = ['$stateProvider', '$urlRouterProvider'];
+function stateProvider($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise("/login");
   $stateProvider
       .state('login', {
@@ -140,8 +140,14 @@ app.config(translateConfig);
 translateConfig.$inject = ['$translateProvider'];
 
 function translateConfig($translateProvider) {
-    $translateProvider.useUrlLoader('/api/v1/resources');
+    $translateProvider.useUrlLoader('http://localhost:8080/api/v1/resources');
     $translateProvider.useLocalStorage();
     $translateProvider.preferredLanguage('ru');
     $translateProvider.fallbackLanguage('ru');
 }
+
+app.constant('config', {
+    apiUrl: 'https://your-api.com',
+    baseUrl: '/',
+    enableDebug: true
+});
