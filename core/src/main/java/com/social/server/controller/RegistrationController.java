@@ -1,9 +1,10 @@
 package com.social.server.controller;
 
-import com.social.server.dto.RegistrationDto;
+import com.social.server.http.ErrorCode;
+import com.social.server.http.Response;
+import com.social.server.http.model.RegistrationModel;
 import com.social.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,13 +25,13 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity registration(@RequestBody @Valid RegistrationDto registrationDto, BindingResult result) {
+    public Response registration(@RequestBody @Valid RegistrationModel registrationModel, BindingResult result) {
         if (result.hasErrors()) {
-            return ResponseEntity.ok(result.getAllErrors());
+            return Response.error(result.getAllErrors());
         }
-        if (userService.isEmailExist(registrationDto.getEmail())) {
-            return ResponseEntity.ok("Email already registered");
+        if (userService.isEmailExist(registrationModel.getEmail())) {
+            return Response.error(ErrorCode.EMAIL_IS_USED);
         }
-        return ResponseEntity.ok(userService.registerUser(registrationDto));
+        return Response.ok(userService.registerUser(registrationModel));
     }
 }

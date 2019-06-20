@@ -1,13 +1,13 @@
 package com.social.server.dto;
 
 import com.social.server.entity.PublicMessage;
+import com.social.server.util.ImageUtil;
 import lombok.Data;
-import util.ImageUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static util.DateFormatterUtil.viewFormat;
+import static com.social.server.util.DateFormatterUtil.viewFormat;
 
 @Data
 public class PublicMessageDto {

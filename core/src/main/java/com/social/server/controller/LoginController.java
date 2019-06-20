@@ -1,9 +1,10 @@
 package com.social.server.controller;
 
 import com.social.server.dto.UserDto;
+import com.social.server.http.ErrorCode;
+import com.social.server.http.Response;
 import com.social.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,15 +22,12 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public ResponseEntity login(@RequestParam String email,
-                                @RequestParam String password) {
+    public Response login(@RequestParam String email, @RequestParam String password) {
         UserDto userDto = userService.findByEmail(email);
-        if (userDto == null) {
-            return ResponseEntity.ok("User not found");
+        if (userDto != null && userDto.getPassword().equals(password)) {
+            return Response.ok(userDto);
         }
-        if (!userDto.getPassword().equals(password)) {
-            return ResponseEntity.ok("Password incorrect");
-        }
-        return ResponseEntity.ok(userDto);
+
+        return Response.error(ErrorCode.LOGIN_CREDENTIALS_ERROR);
     }
 }

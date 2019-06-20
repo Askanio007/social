@@ -8,10 +8,10 @@
 
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link" ng-class="{active: isSet(1)}" ng-click="setTab(1)">{{'group.edit.menu.detail' | translate}}</a>
+                    <a class="nav-link" ng-class="{active: isSet(1)}" ng-click="setTab(1)">{{'groups.edit.menu.detail' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" ng-class="{active: isSet(2)}" ng-click="setTab(2)">{{'group.edit.menu.photo' | translate}}</a>
+                    <a class="nav-link" ng-class="{active: isSet(2)}" ng-click="setTab(2)">{{'groups.edit.menu.photo' | translate}}</a>
                 </li>
             </ul>
 
@@ -20,11 +20,14 @@
                 <form>
                     <div class="form-group">
                         <label for="inputName">{{'groups.name' | translate}}</label>
-                        <input ng-model="group.name" class="form-control" id="inputName" aria-describedby="emailHelp">
+                        <input ng-model="groupModel.name" class="form-control" id="inputName" aria-describedby="emailHelp">
                     </div>
                     <div class="form-group">
                         <label for="inputDescription">{{'groups.description' | translate}}</label>
-                        <input ng-model="group.description" class="form-control" id="inputDescription">
+                        <input ng-model="groupModel.description" class="form-control" id="inputDescription">
+                    </div>
+                    <div ng-show="hasError()" class="alert alert-danger">
+                        <div ng-repeat="error in errors track by $index">{{error | translate}}</div>
                     </div>
                     <button ng-click="edit()" class="btn btn-secondary btn-custom">{{'common.edit' | translate}}</button>
                 </form>

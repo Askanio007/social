@@ -1,11 +1,11 @@
-package util;
+package com.social.server.util;
 
 import com.social.server.entity.Image;
 import org.apache.tomcat.util.codec.binary.Base64;
 
 import java.nio.file.Paths;
 
-import static util.FileUtil.getFileByteBy;
+import static com.social.server.util.FileUtil.getFileByteBy;
 
 public class ImageUtil {
 

@@ -17,7 +17,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(exclude = {"details", "friends", "groups", "messages"})
 @ToString(exclude = {"details", "friends", "groups", "messages"})
-public class User {
+public class User implements ShortModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
@@ -64,5 +64,10 @@ public class User {
 
     public String getFullName() {
         return this.name + " " + this.surname;
+    }
+
+    @Override
+    public Image getImage() {
+        return this.details.getImage();
     }
 }

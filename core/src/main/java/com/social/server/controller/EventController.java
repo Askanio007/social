@@ -1,8 +1,8 @@
 package com.social.server.controller;
 
+import com.social.server.http.Response;
 import com.social.server.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ public class EventController {
     }
 
     @GetMapping
-    public ResponseEntity find(@PathVariable long rootUserId) {
-        return ResponseEntity.ok(eventService.findBy(rootUserId));
+    public Response find(@PathVariable long rootUserId) {
+        return Response.ok(eventService.findBy(rootUserId));
     }
 }

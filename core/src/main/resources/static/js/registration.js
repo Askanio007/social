@@ -1,17 +1,28 @@
 
-app.controller('RegistrationController', ['$scope', '$http', '$window', '$rootScope', '$state', function ($scope, $http, $window, $rootScope, $state) {
+app.controller('RegistrationController', ['$scope', '$window', '$state', 'AuthService', function ($scope, $window, $state, AuthService) {
     $scope.registrationData = {
         email: "",
         password: "",
         name: "",
         surname: "",
-        sex: ""
+        sex: null
     };
+    $scope.errors = [];
 
     $scope.registration = function () {
-        $http.post('/api/v1/registration', $scope.registrationData).then(function (response) {
-            $window.sessionStorage.setItem("userId",response.data.id);
-            $state.go('myPage');
-        })
+        $scope.errors = [];
+        AuthService.registration($scope.registrationData).then(function (response) {
+            var data = response.data;
+            if (response.success == true) {
+                $window.sessionStorage.setItem("userId", response.data.id);
+                $state.go('myPage');
+            } else {
+                $scope.errors = response.errors;
+            }
+        });
+    };
+
+    $scope.hasError = function () {
+        return $scope.errors.length !== 0;
     }
 }]);

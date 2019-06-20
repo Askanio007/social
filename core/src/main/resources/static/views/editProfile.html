@@ -18,11 +18,11 @@
                 <form>
                     <div class="form-group">
                         <label for="inputName">{{'profile.name' | translate}}</label>
-                        <input ng-model="profile.name" class="form-control" id="inputName" aria-describedby="emailHelp">
+                        <input ng-model="detailsModel.name" class="form-control" id="inputName" aria-describedby="emailHelp">
                     </div>
                     <div class="form-group">
                         <label for="inputSurname">{{'profile.surname' | translate}}</label>
-                        <input ng-model="profile.surname" class="form-control" id="inputSurname">
+                        <input ng-model="detailsModel.surname" class="form-control" id="inputSurname">
                     </div>
                     <fieldset class="form-group">
                         <div class="row">
@@ -45,23 +45,26 @@
                     </fieldset>
                     <div class="form-group">
                         <label for="inputCountry">{{'profile.country' | translate}}</label>
-                        <input ng-model="profile.details.country" class="form-control" id="inputCountry">
+                        <input ng-model="detailsModel.country" class="form-control" id="inputCountry">
                     </div>
                     <div class="form-group">
                         <label for="inputCity">{{'profile.city' | translate}}</label>
-                        <input ng-model="profile.details.city" class="form-control" id="inputCity">
+                        <input ng-model="detailsModel.city" class="form-control" id="inputCity">
                     </div>
                     <div class="form-group">
                         <label for="inputAge">{{'profile.birthday' | translate}}</label>
-                        <input type="date" ng-model="profile.details.birthday" class="form-control" id="inputAge">
+                        <input type="date" ng-model="detailsModel.birthday" class="form-control" id="inputAge">
                     </div>
                     <div class="form-group">
                         <label for="inputPhone">{{'profile.phone' | translate}}</label>
-                        <input ng-model="profile.details.phone" class="form-control" id="inputPhone">
+                        <input ng-model="detailsModel.phone" class="form-control" id="inputPhone">
                     </div>
                     <div class="form-group">
                         <label for="inputAbout">{{'profile.about' | translate}}</label>
-                        <textarea ng-model="profile.details.about" class="form-control rounded-0" id="inputAbout" rows="3"></textarea>
+                        <textarea ng-model="detailsModel.about" class="form-control rounded-0" id="inputAbout" rows="3"></textarea>
+                    </div>
+                    <div ng-show="hasError()" class="alert alert-danger">
+                        <div ng-repeat="error in errors track by $index">{{error | translate}}</div>
                     </div>
                     <button ng-click="editProfile()" class="btn btn-secondary btn-custom">{{'common.save' | translate}}</button>
                 </form>

@@ -1,9 +1,9 @@
 package com.social.server.controller;
 
 import com.social.server.dto.PublicMessageDto;
+import com.social.server.http.Response;
 import com.social.server.service.PublicMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,12 +18,12 @@ public class PublicMessageController {
     }
 
     @GetMapping("/{recipientId}/{isUser}")
-    public ResponseEntity findPublicMessage(@PathVariable Long recipientId, @PathVariable boolean isUser) {
-        return ResponseEntity.ok(publicMessageService.findByRecipientId(recipientId, isUser));
+    public Response findPublicMessage(@PathVariable Long recipientId, @PathVariable boolean isUser) {
+        return Response.ok(publicMessageService.findByRecipientId(recipientId, isUser));
     }
 
     @PostMapping("/save")
-    public ResponseEntity saveMessage(@RequestBody PublicMessageDto publicMessageDto) {
-        return ResponseEntity.ok(publicMessageService.create(publicMessageDto));
+    public Response saveMessage(@RequestBody PublicMessageDto publicMessageDto) {
+        return Response.ok(publicMessageService.create(publicMessageDto));
     }
 }

@@ -23,8 +23,8 @@ public class UserDto {
     private List<PhotoAndNameDto> groups;
 
     public static UserDto of(User user) {
-        UserDto dto = new UserDto();
         if (user != null) {
+            UserDto dto = new UserDto();
             dto.setEmail(user.getEmail());
             dto.setId(user.getId());
             dto.setEnable(user.isEnable());
@@ -41,8 +41,9 @@ public class UserDto {
                     .map(PhotoAndNameDto::of)
                     .collect(Collectors.toList()));
             dto.setFullName(user.getFullName());
+            return dto;
         }
-        return dto;
+        return null;
     }
 
     public static List<UserDto> of(Set<User> users) {

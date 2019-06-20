@@ -1,10 +1,13 @@
 package com.social.server.controller;
 
-import com.social.server.dto.GroupDto;
+import com.social.server.http.Response;
+import com.social.server.http.model.GroupModel;
 import com.social.server.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -18,28 +21,28 @@ public class GroupController {
     }
 
     @GetMapping("/{rootUserId}/groups")
-    public ResponseEntity findAll(@PathVariable long rootUserId) {
-        return ResponseEntity.ok(groupService.findBy(rootUserId));
+    public Response findAll(@PathVariable long rootUserId) {
+        return Response.ok(groupService.findBy(rootUserId));
     }
 
     @GetMapping("/group/{groupId}")
-    public ResponseEntity findOne(@PathVariable long groupId) {
-        return ResponseEntity.ok(groupService.find(groupId));
+    public Response findOne(@PathVariable long groupId) {
+        return Response.ok(groupService.find(groupId));
     }
 
     @PostMapping("/{rootUserId}/groups/create")
-    public ResponseEntity create(@PathVariable long rootUserId, @RequestBody GroupDto groupDto) {
-        return ResponseEntity.ok(groupService.create(rootUserId, groupDto));
+    public Response create(@PathVariable long rootUserId, @RequestBody @Valid GroupModel groupModel, BindingResult result) {
+        return result.hasErrors() ? Response.error(result.getAllErrors()) : Response.ok(groupService.create(rootUserId, groupModel));
     }
 
     @GetMapping("/{rootUserId}/groups/existence/{groupId}")
-    public ResponseEntity isUserJoinGroup(@PathVariable long rootUserId, @PathVariable long groupId) {
-        return ResponseEntity.ok(groupService.isUserHasGroup(rootUserId, groupId));
+    public Response isUserJoinGroup(@PathVariable long rootUserId, @PathVariable long groupId) {
+        return Response.ok(groupService.isUserHasGroup(rootUserId, groupId));
     }
 
     @PostMapping("/{rootUserId}/groups/{groupId}/join")
-    public ResponseEntity join(@PathVariable long rootUserId, @PathVariable long groupId) {
+    public Response join(@PathVariable long rootUserId, @PathVariable long groupId) {
         groupService.join(rootUserId, groupId);
-        return ResponseEntity.ok("ok");
+        return Response.ok();
     }
 }

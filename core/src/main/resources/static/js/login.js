@@ -1,16 +1,27 @@
 
-app.controller('LoginController', ['$scope', '$http', '$state', '$window', function ($scope, $http, $state, $window) {
-    $scope.email = '';
-    $scope.password = '';
+app.controller('LoginController', ['$scope', '$state', '$window', 'AuthService', function ($scope, $state, $window, AuthService) {
+    $scope.loginModel = {
+        email: '',
+        password: ''
+    };
+
+    $scope.errors = [];
 
     $scope.login = function () {
-        $http({
-            url: "/api/v1/login",
-            params: {email: $scope.email, password: $scope.password},
-            method: "GET"
-        }).then(function (response) {
-            $window.sessionStorage.setItem("userId",response.data.id);
-            $state.go('myPage');
-        })
+        $scope.errors = [];
+        AuthService.login($scope.loginModel).then(function (response) {
+            var data = response.data;
+            if (data.success == true) {
+                $window.sessionStorage.setItem("userId",data.data.id);
+                $state.go('myPage');
+            } else {
+                $scope.errors = data.errors;
+            }
+        });
+
+    };
+
+    $scope.hasError = function () {
+        return $scope.errors.length !== 0;
     }
 }]);

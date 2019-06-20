@@ -1,4 +1,4 @@
-package util;
+package com.social.server.util;
 
 import java.time.format.DateTimeFormatter;
 

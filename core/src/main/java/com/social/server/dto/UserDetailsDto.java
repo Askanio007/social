@@ -2,13 +2,13 @@ package com.social.server.dto;
 
 import com.social.server.entity.Sex;
 import com.social.server.entity.UserDetails;
+import com.social.server.util.ImageUtil;
 import lombok.Data;
-import util.ImageUtil;
 
 import java.time.LocalDateTime;
 
-import static util.DateFormatterUtil.viewFormat;
-import static util.DateFormatterUtil.viewInputFormat;
+import static com.social.server.util.DateFormatterUtil.viewFormat;
+import static com.social.server.util.DateFormatterUtil.viewInputFormat;
 
 @Data
 public class UserDetailsDto {

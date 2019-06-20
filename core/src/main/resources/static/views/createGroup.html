@@ -15,6 +15,9 @@
                     <label for="inputDescription">{{'groups.description' | translate}}</label>
                     <input ng-model="newGroup.description" class="form-control" id="inputDescription">
                 </div>
+                <div ng-show="hasError()" class="alert alert-danger">
+                    <div ng-repeat="error in errors track by $index">{{error | translate}}</div>
+                </div>
                 <button ng-click="create()" class="btn btn-secondary btn-custom">{{'common.create' | translate}}</button>
             </form>
         </div>

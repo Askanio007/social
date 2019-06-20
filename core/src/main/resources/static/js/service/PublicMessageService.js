@@ -5,12 +5,12 @@ app.service('PublicMessageService', ['$http', function ($http) {
         },
         findToUser: function (userId) {
             return $http.get('/api/v1/message/public/' + userId + '/' + 'true').then(function (response) {
-                return response.data;
+                return response.data.data;
             })
         },
         findToGroup: function (groupId) {
             return $http.get('/api/v1/message/public/' + groupId + '/' + 'false').then(function (response) {
-                return response.data;
+                return response.data.data;
             })
         }
     }

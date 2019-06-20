@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "group_social")
 @Entity
 @Data
-public class Group {
+public class Group implements ShortModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
@@ -51,4 +51,8 @@ public class Group {
     @JoinColumn(name = "image_id")
     private Image image;
 
+    @Override
+    public String getFullName() {
+        return this.name;
+    }
 }

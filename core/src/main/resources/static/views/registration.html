@@ -37,6 +37,9 @@
             <label for="inputPassword">{{'common.password' | translate}}</label>
             <input ng-model="registrationData.password" type="password" class="form-control" id="inputPassword" placeholder="{{'common.password.enter' | translate}}">
         </div>
+        <div ng-show="hasError()" class="alert alert-danger">
+            <div ng-repeat="error in errors track by $index">{{error | translate}}</div>
+        </div>
         <button ng-click="registration()" class="btn btn-primary">{{'common.registration' | translate}}</button>
         <a ui-sref="login">{{'common.login' | translate}}</a>
     </form>

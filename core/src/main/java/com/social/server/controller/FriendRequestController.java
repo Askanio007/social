@@ -1,9 +1,9 @@
 package com.social.server.controller;
 
 import com.social.server.dto.FriendshipRequestDto;
+import com.social.server.http.Response;
 import com.social.server.service.FriendshipRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,30 +18,30 @@ public class FriendRequestController {
     }
 
     @GetMapping
-    public ResponseEntity findRequests(@PathVariable long rootUserId) {
-        return ResponseEntity.ok(friendshipRequestService.find(rootUserId));
+    public Response findRequests(@PathVariable long rootUserId) {
+        return Response.ok(friendshipRequestService.find(rootUserId));
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity isFriendRequests(@PathVariable long rootUserId, @PathVariable long userId) {
-        return ResponseEntity.ok(friendshipRequestService.isFriendRequest(rootUserId, userId));
+    public Response isFriendRequests(@PathVariable long rootUserId, @PathVariable long userId) {
+        return Response.ok(friendshipRequestService.isFriendRequest(rootUserId, userId));
     }
 
     @PostMapping("/add")
-    public ResponseEntity addFriendRequest(@RequestBody FriendshipRequestDto friendshipRequestDto) {
+    public Response addFriendRequest(@RequestBody FriendshipRequestDto friendshipRequestDto) {
         friendshipRequestService.add(friendshipRequestDto);
-        return ResponseEntity.ok("Success");
+        return Response.ok();
     }
 
     @PostMapping("/accept")
-    public ResponseEntity acceptRequest(@RequestBody long friendshipRequestId) {
+    public Response acceptRequest(@RequestBody long friendshipRequestId) {
         friendshipRequestService.accept(friendshipRequestId);
-        return ResponseEntity.ok("ok");
+        return Response.ok();
     }
 
     @PostMapping("/decline")
-    public ResponseEntity declineRequest(@RequestBody long friendshipRequestId) {
+    public Response declineRequest(@RequestBody long friendshipRequestId) {
         friendshipRequestService.decline(friendshipRequestId);
-        return ResponseEntity.ok("ok");
+        return Response.ok();
     }
 }

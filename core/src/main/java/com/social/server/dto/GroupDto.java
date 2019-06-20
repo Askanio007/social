@@ -1,8 +1,8 @@
 package com.social.server.dto;
 
 import com.social.server.entity.Group;
+import com.social.server.util.ImageUtil;
 import lombok.Data;
-import util.ImageUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;

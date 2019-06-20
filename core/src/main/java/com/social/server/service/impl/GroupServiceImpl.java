@@ -6,14 +6,15 @@ import com.social.server.entity.EventType;
 import com.social.server.entity.Group;
 import com.social.server.entity.Image;
 import com.social.server.entity.User;
+import com.social.server.http.model.GroupModel;
 import com.social.server.service.EventService;
 import com.social.server.service.GroupService;
 import com.social.server.service.UserService;
+import com.social.server.util.FileUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import util.FileUtil;
 
 import java.nio.file.Path;
 import java.util.Collections;
@@ -45,11 +46,11 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     }
 
     @Override
-    public GroupDto create(long adminId, GroupDto groupDto) {
+    public GroupDto create(long adminId, GroupModel groupModel) {
         User admin = userService.findById(adminId);
         Group group = new Group();
-        group.setName(groupDto.getName());
-        group.setDescription(groupDto.getDescription());
+        group.setName(groupModel.getName());
+        group.setDescription(groupModel.getDescription());
         group.setAdmin(admin);
         group.getUsers().add(admin);
         group = repository.save(group);

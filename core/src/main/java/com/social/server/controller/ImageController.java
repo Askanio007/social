@@ -1,8 +1,8 @@
 package com.social.server.controller;
 
+import com.social.server.http.Response;
 import com.social.server.service.GroupService;
 import com.social.server.service.UserService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,16 +19,14 @@ public class ImageController {
     }
 
     @PostMapping("/user/{rootUserId}/upload")
-    public ResponseEntity uploadUserImage(@PathVariable long rootUserId,
-                                          @RequestBody MultipartFile file) {
+    public Response uploadUserImage(@PathVariable long rootUserId, @RequestBody MultipartFile file) {
         userService.savePhoto(rootUserId, file);
-        return ResponseEntity.ok("ok");
+        return Response.ok();
     }
 
     @PostMapping("/group/{groupId}/upload")
-    public ResponseEntity uploadGroupImage(@PathVariable long groupId,
-                                           @RequestBody MultipartFile file) {
+    public Response uploadGroupImage(@PathVariable long groupId, @RequestBody MultipartFile file) {
         groupService.savePhoto(groupId, file);
-        return ResponseEntity.ok("ok");
+        return Response.ok();
     }
 }

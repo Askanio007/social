@@ -2,7 +2,7 @@ app.service('GroupService', ['$http', function ($http) {
     return {
         findByUserId: function (rootUserId) {
             return $http.get('/api/v1/' + rootUserId + '/groups').then(function (response) {
-                return response.data;
+                return response.data.data;
             })
         },
         createGroup: function (rootUserId, newGroup) {
@@ -10,7 +10,7 @@ app.service('GroupService', ['$http', function ($http) {
         },
         find: function (groupId) {
             return $http.get('/api/v1/group/' + groupId).then(function (response) {
-                return response.data;
+                return response.data.data;
             })
         },
         isUserInGroup: function (userId, groupId) {

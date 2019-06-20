@@ -61,33 +61,50 @@ app
 
     .controller('CreateGroupController', ['$scope', '$window', '$state', 'GroupService',
         function ($scope, $window, $state, GroupService) {
-        $scope.newGroup = {
-            name: "",
-            description: "",
-            photo: ""
-        };
-        $scope.rootUserId = $window.sessionStorage.getItem("userId");
+            $scope.newGroup = {
+                name: "",
+                description: ""
+            };
+            $scope.errors = [];
+            $scope.rootUserId = $window.sessionStorage.getItem("userId");
 
-        $scope.create = function () {
-            GroupService.createGroup($scope.rootUserId, $scope.newGroup).then(function (response) {
-                $state.go("group" + response.data.id);
-            });
-        };
+            $scope.create = function () {
+                $scope.errors = [];
+                GroupService.createGroup($scope.rootUserId, $scope.newGroup).then(function (response) {
+                    var data = response.data;
+                    if (data.success === true) {
+                        $state.go("group" + data.data.id);
+                    } else {
+                        $scope.errors = data.errors;
+                    }
+                });
+            };
+
+            $scope.hasError = function () {
+                return $scope.errors.length !== 0;
+            }
     }])
     .controller('EditGroupController', ['$scope', '$window', '$state', 'GroupService', 'ImageService',
         function ($scope, $window, $state, GroupService, ImageService) {
             $scope.group = $scope.$resolve.group;
             $scope.rootUserId = $window.sessionStorage.getItem("userId");
+            $scope.errors = [];
 
             $scope.edit = function () {
+                $scope.errors = [];
                 GroupService.createGroup($scope.rootUserId, $scope.group).then(function (response) {
-                    $state.go("group" + $scope.group.id);
+                    var data = response.data;
+                    if (data.success === true) {
+                        $state.go("group" + data.data.id);
+                    } else {
+                        $scope.errors = data.errors;
+                    }
                 });
             };
 
             $scope.uploadFile = function () {
                 ImageService.upload($scope.group.id, $scope.myFile, false)
-            }
+            };
 
             $scope.tab = 1;
 
@@ -98,6 +115,10 @@ app
             $scope.isSet = function(tabNum){
                 return $scope.tab === tabNum;
             };
+
+            $scope.hasError = function () {
+                return $scope.errors.length !== 0;
+            }
         }]
     );
 

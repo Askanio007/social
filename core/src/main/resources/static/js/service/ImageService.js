@@ -9,7 +9,7 @@ app.service('ImageService', ['$http', function ($http) {
                 headers: {'Content-Type': undefined}
             };
             return $http.post(url, fileFormData, options).then(function (response) {
-                return response.data;
+                return response.data.success;
             })
         }
     }

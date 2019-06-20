@@ -1,9 +1,9 @@
 package com.social.server.dto;
 
 import com.social.server.entity.Event;
+import com.social.server.util.DateFormatterUtil;
+import com.social.server.util.ImageUtil;
 import lombok.Data;
-import util.DateFormatterUtil;
-import util.ImageUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;

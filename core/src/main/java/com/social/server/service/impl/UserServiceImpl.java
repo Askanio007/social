@@ -1,17 +1,18 @@
 package com.social.server.service.impl;
 
 import com.social.server.dao.UserRepository;
-import com.social.server.dto.RegistrationDto;
 import com.social.server.dto.UserDto;
 import com.social.server.entity.Image;
 import com.social.server.entity.User;
 import com.social.server.entity.UserDetails;
+import com.social.server.http.model.RegistrationModel;
+import com.social.server.http.model.UserDetailsModel;
 import com.social.server.service.UserService;
+import com.social.server.util.FileUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import util.FileUtil;
 
 import java.nio.file.Path;
 import java.util.Collections;
@@ -36,15 +37,15 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
     }
 
     @Override
-    public UserDto registerUser(RegistrationDto registrationDto) {
+    public UserDto registerUser(RegistrationModel registrationModel) {
         User user = new User();
-        user.setEmail(registrationDto.getEmail());
-        user.setPassword(registrationDto.getPassword());
+        user.setEmail(registrationModel.getEmail());
+        user.setPassword(registrationModel.getPassword());
         user.setEnable(true);
-        user.setName(formatName(registrationDto.getName()));
-        user.setSurname(formatName(registrationDto.getSurname()));
+        user.setName(formatName(registrationModel.getName()));
+        user.setSurname(formatName(registrationModel.getSurname()));
         UserDetails userDetails = new UserDetails();
-        userDetails.setSex(registrationDto.getSex());
+        userDetails.setSex(registrationModel.getSex());
         user.setDetails(userDetails);
         userDetails.setUser(user);
 
@@ -57,19 +58,19 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
     }
 
     @Override
-    public UserDto updateProfile(UserDto userDto) {
-        User user = findById(userDto.getId());
+    public UserDto updateProfile(UserDetailsModel userDetailsModel) {
+        User user = findById(userDetailsModel.getId());
         UserDetails details = user.getDetails();
 
-        details.setAbout(userDto.getDetails().getAbout());
-        details.setBirthday(userDto.getDetails().getBirthday());
-        details.setCity(userDto.getDetails().getCity());
-        details.setCountry(userDto.getDetails().getCountry());
-        details.setPhone(userDto.getDetails().getPhone());
-        details.setSex(userDto.getDetails().getSex());
+        details.setAbout(userDetailsModel.getAbout());
+        details.setBirthday(userDetailsModel.getBirthday());
+        details.setCity(userDetailsModel.getCity());
+        details.setCountry(userDetailsModel.getCountry());
+        details.setPhone(userDetailsModel.getPhone());
+        details.setSex(userDetailsModel.getSex());
 
-        user.setName(userDto.getName());
-        user.setSurname(userDto.getSurname());
+        user.setName(userDetailsModel.getName());
+        user.setSurname(userDetailsModel.getSurname());
 
         return save(user);
     }

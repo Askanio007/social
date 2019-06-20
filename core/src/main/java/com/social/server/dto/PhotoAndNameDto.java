@@ -1,9 +1,8 @@
 package com.social.server.dto;
 
-import com.social.server.entity.Group;
-import com.social.server.entity.User;
+import com.social.server.entity.ShortModel;
+import com.social.server.util.ImageUtil;
 import lombok.Data;
-import util.ImageUtil;
 
 @Data
 public class PhotoAndNameDto {
@@ -11,23 +10,12 @@ public class PhotoAndNameDto {
     private String fullName;
     private String image64code;
 
-    public static PhotoAndNameDto of(User user) {
-        if (user != null) {
+    public static <T extends ShortModel> PhotoAndNameDto of(T model) {
+        if (model != null) {
             PhotoAndNameDto photoAndNameDto = new PhotoAndNameDto();
-            photoAndNameDto.setId(user.getId());
-            photoAndNameDto.setFullName(user.getFullName());
-            photoAndNameDto.setImage64code(ImageUtil.convertImageTo64encode(user.getDetails().getImage()));
-            return photoAndNameDto;
-        }
-        return null;
-    }
-
-    public static PhotoAndNameDto of(Group group) {
-        if (group != null) {
-            PhotoAndNameDto photoAndNameDto = new PhotoAndNameDto();
-            photoAndNameDto.setId(group.getId());
-            photoAndNameDto.setFullName(group.getName());
-            photoAndNameDto.setImage64code(ImageUtil.convertImageTo64encode(group.getImage()));
+            photoAndNameDto.setId(model.getId());
+            photoAndNameDto.setFullName(model.getFullName());
+            photoAndNameDto.setImage64code(ImageUtil.convertImageTo64encode(model.getImage()));
             return photoAndNameDto;
         }
         return null;
