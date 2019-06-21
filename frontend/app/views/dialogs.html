@@ -1,0 +1,38 @@
+<div class="container" ng-controller="DialogsController">
+    <div class="row" style="margin-top: 10px">
+        <div class="col-sm-2">
+            <ng-include src="'views/menu.html'"></ng-include>
+        </div>
+
+        <div class="col-sm-6">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" ui-sref="dialogs">{{'dialogs.title' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link">{{'dialogs.message' | translate}}</a>
+                </li>
+            </ul>
+            <div style="padding-top: 10px">
+                <table style="width: 100%;">
+                    <tr class="blocks" ng-repeat="dialog in dialogs track by $index">
+                        <td style="vertical-align: top">
+                            <a ng-show="user.id != rootUserId" ng-repeat="user in dialog.users track by $index" ui-sref="dialog({dialogId: dialog.id})"><img width="70" height="70" ng-src="data:image/JPEG;base64,{{user.details.image64code}}"></a>
+                        </td>
+                        <td style="vertical-align: top; width: 100%">
+                            <div ng-show="user.id != rootUserId" ng-repeat="user in dialog.users track by $index" style="background-color: gainsboro; padding: 3px; padding-left: 5px">
+                                <a class="custom-link" ui-sref="dialog({dialogId: dialog.id})">
+                                    <h5>{{user.fullName}}</h5>
+                                </a>
+                            </div>
+                            <div>
+                                {{dialog.lastMessage}}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

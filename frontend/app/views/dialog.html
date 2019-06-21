@@ -1,0 +1,39 @@
+<div class="container" ng-controller="DialogController">
+    <div class="row" style="margin-top: 10px">
+        <div class="col-sm-2">
+            <ng-include src="'views/menu.html'"></ng-include>
+        </div>
+
+        <div class="col-sm-6">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" ui-sref="dialogs">{{'dialogs.title' | translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active">{{'dialogs.message' | translate}}</a>
+                </li>
+            </ul>
+            <table style="width: 100%">
+                <tr ng-repeat="message in messages">
+                    <td style="vertical-align: top">
+                        <div class="mini-image-circle" style="background: url('data:image/gif;base64,{{message.image64encode}}') 40% 30% no-repeat;">
+                            <a ui-sref="userPage({userId: message.senderId})"></a>
+                        </div>
+                    </td>
+                    <td style="vertical-align: top; width: 100%;">
+                        <div style="background-color: gainsboro; padding: 3px; padding-left: 5px">
+                            <div>{{message.senderName}}</div>
+                            <div>{{message.createDateView}}</div>
+                        </div>
+                        <div>{{message.message}}</div>
+                    </td>
+                </tr>
+            </table>
+            <div class="form-group">
+                <textarea ng-model="textMessage" class="form-control rounded-0" id="formControlTextarea" rows="3"></textarea>
+            </div>
+            <button ng-click="sendMessage()" style="margin-bottom: 5px" type="button" class="btn btn-secondary btn-custom">{{'wall.message.send' | translate}}</button>
+        </div>
+    </div>
+
+</div>

@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('app', ['ui.router', 'ngCookies', 'pascalprecht.translate']);
+var app = angular.module('app', ['ui.router', 'ngCookies', 'pascalprecht.translate', 'ngWebSocket']);
 
 app.config(stateProvider);
 stateProvider.$inject = ['$stateProvider', '$urlRouterProvider'];
@@ -114,6 +114,26 @@ function stateProvider($stateProvider, $urlRouterProvider) {
                   return EventService.find($window.sessionStorage.getItem("userId"));
               }]
 
+          }
+      })
+      .state('dialogs', {
+          url: '/dialogs',
+          templateUrl: '/views/dialogs.html',
+          controller: 'DialogsController',
+          resolve: {
+              dialogs: ['$stateParams', '$window', 'DialogService', function ($stateParams, $window, DialogService) {
+                  return DialogService.find($window.sessionStorage.getItem("userId"));
+              }]
+          }
+      })
+      .state('dialog', {
+          url: '/dialog{dialogId}',
+          templateUrl: '/views/dialog.html',
+          controller: 'DialogController',
+          resolve: {
+              dialog: ['$stateParams', '$window', 'DialogService', function ($stateParams, $window, DialogService) {
+                  return DialogService.findMessages($window.sessionStorage.getItem("userId"), $stateParams.dialogId);
+              }]
           }
       });
 }

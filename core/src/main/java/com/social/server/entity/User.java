@@ -62,6 +62,9 @@ public class User implements ShortModel {
     @ManyToMany(mappedBy = "users")
     private Set<Group> groups = new HashSet<>();
 
+    @ManyToMany(mappedBy = "users")
+    private Set<Dialog> dialogs = new HashSet<>();
+
     public String getFullName() {
         return this.name + " " + this.surname;
     }
