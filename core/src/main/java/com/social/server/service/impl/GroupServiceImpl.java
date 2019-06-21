@@ -91,4 +91,14 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
             repository.save(group);
         }
     }
+
+    @Override
+    public void exit(long userId, long groupId) {
+        Group group = findById(groupId);
+        User user = userService.findById(userId);
+        group.getUsers().remove(user);
+        user.getGroups().remove(group);
+        userService.save(user);
+        repository.save(group);
+    }
 }

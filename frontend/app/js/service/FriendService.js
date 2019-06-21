@@ -6,8 +6,8 @@ app.service('FriendService', ['$http', 'ENV', function ($http, ENV) {
         declineRequest: function (rootUserId, friendshipRequestId) {
             return $http.post(ENV.API_URL + rootUserId + '/friends/request/decline', friendshipRequestId)
         },
-        remove: function (userId) {
-            return $http.post(ENV.API_URL + rootUserId + '/friends/remove' + userId);
+        remove: function (rootUserId, userId) {
+            return $http.post(ENV.API_URL + rootUserId + '/friends/remove/' + userId);
         }
     }
 }]);

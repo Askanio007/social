@@ -21,6 +21,9 @@ app.service('GroupService', ['$http', 'ENV', function ($http, ENV) {
         },
         search: function (groupName) {
             return $http.get(ENV.API_URL + 'group/search?groupName=' + groupName);
+        },
+        exit: function (groupId, userId) {
+            return $http.post(ENV.API_URL + userId + '/groups/' + groupId + '/exit', {})
         }
     }
 }]);

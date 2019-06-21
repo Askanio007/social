@@ -28,6 +28,7 @@ public class PublicMessageDto {
             dto.setId(message.getId());
             dto.setMessage(message.getMessage());
             dto.setSender(message.getSender().getFullName());
+            dto.setSenderId(message.getSender().getId());
             dto.setRecipientUser(message.getUser() != null);
             if (dto.isRecipientUser()) {
                 dto.setRecipientId(message.getUser().getId());

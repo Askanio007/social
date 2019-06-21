@@ -45,4 +45,10 @@ public class GroupController {
         groupService.join(rootUserId, groupId);
         return Response.ok();
     }
+
+    @PostMapping("/{rootUserId}/groups/{groupId}/exit")
+    public Response exit(@PathVariable long rootUserId, @PathVariable long groupId) {
+        groupService.exit(rootUserId, groupId);
+        return Response.ok();
+    }
 }

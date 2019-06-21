@@ -15,4 +15,5 @@ public interface GroupService extends CommonService<Group, Long> {
     void join(long userId, long groupId);
     List<GroupDto> search(String name);
     void savePhoto(long groupId, MultipartFile file);
+    void exit(long userId, long groupId);
 }

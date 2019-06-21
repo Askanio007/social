@@ -19,8 +19,10 @@
                 </div>
                 <div style="text-align: left">
                     <div style="display: inline-block; margin-left: 2px; margin-top: 3px " ng-repeat="friend in user.friends track by $index">
-                        <a href="#!/id{{friend.id}}"><img width="70" height="70" ng-src="data:image/JPEG;base64,{{friend.image64code}}"></a>
-                        <a class="custom-link" href="#!/id{{friend.id}}"><p style="width: 70px; text-align: center">{{friend.fullName}}</p></a>
+                        <div class="mini-image-block" style="background: url('data:image/gif;base64,{{friend.image64code}}') 40% 30% no-repeat;">
+                            <a ui-sref="userPage({userId: friend.id})"></a>
+                        </div>
+                        <a class="custom-link" ui-sref="userPage({userId: friend.id})"><p style="width: 70px; text-align: center">{{friend.fullName}}</p></a>
                     </div>
                 </div>
             </div>
@@ -29,10 +31,12 @@
                 <table>
                     <tr ng-repeat="group in user.groups track by $index">
                         <td>
-                            <a href="#!/group{{group.id}}"><img width="70" height="70" ng-src="data:image/JPEG;base64,{{group.image64code}}"></a>
+                            <div class="mini-image-circle" style="background: url('data:image/gif;base64,{{group.image64code}}') 40% 30% no-repeat;">
+                                <a ui-sref="groupPage({groupId: group.id})"></a>
+                            </div>
                         </td>
                         <td style="width: 100%; text-align: center">
-                            <a class="custom-link" href="#!/group{{group.id}}"><p>{{group.fullName}}</p></a>
+                            <a class="custom-link" ui-sref="groupPage({groupId: group.id})"><p>{{group.fullName}}</p></a>
                         </td>
                     </tr>
                 </table>
@@ -57,7 +61,7 @@
                 </tr>
             </table>
 
-            <ng-include src="'views/templates/wall.html'"></ng-include>
+            <ng-include src="'views/templates/wall.html'" />
         </div>
     </div>
 </div>

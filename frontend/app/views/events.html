@@ -13,7 +13,11 @@
             <br>
             <table style="width: 100%">
                 <tr style="border: 1px solid gainsboro; margin-top: 3px" ng-repeat="event in events track by $index">
-                    <td style="vertical-align: top;"><a href="#!/id{{event.userId}}"><img height="100px" ng-src="data:image/JPEG;base64,{{event.userAvatar64code}}"></a></td>
+                    <td style="vertical-align: top;">
+                        <div class="wall-image-block" style="background: url('data:image/gif;base64,{{event.userAvatar64code}}') 40% 30% no-repeat;">
+                            <a ui-sref="userPage({userId: event.userId})"></a>
+                        </div>
+                    </td>
                     <td style="vertical-align: top">
                         <div><p>{{event.dateView}}</p></div>
                         <div style="padding: 3px; padding-left: 5px"><p>{{event.userName}} {{event.description | translate}} <a class="custom-link" href="#!/id{{event.targetActionId}}">{{event.targetActionName}}</a></p></div>

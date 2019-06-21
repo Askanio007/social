@@ -5,10 +5,10 @@ app.controller('UserController', ['$scope', '$state', 'PublicMessageService', '$
     $scope.rootUserId = $window.sessionStorage.getItem("userId");
     $scope.message = "";
     UserService.isFriend($scope.rootUserId, $scope.user.id).then(function (response) {
-        $scope.isYouFriend = response.data;
+        $scope.isYouFriend = response.data.data;
     });
     UserService.isFriendRequest($scope.rootUserId, $scope.user.id).then(function (response) {
-        $scope.isFriendRequestFromYou = response.data;
+        $scope.isFriendRequestFromYou = response.data.data;
     });
 
     $scope.sendMessage = function () {

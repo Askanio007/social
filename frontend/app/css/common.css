@@ -32,3 +32,50 @@
 .custom-link:hover {
     color: black;
 }
+
+.wall-image-block {
+    width: 100px;
+    height: 100px;
+}
+
+.wall-image-block a {
+    display: block;
+    width: 100px;
+    height: 100px;
+}
+
+.wall-image-block a:hover {
+
+}
+
+.mini-image-block {
+    width: 70px;
+    height: 70px;
+}
+
+.mini-image-block a {
+    display: block;
+    width: 70px;
+    height: 70px;
+}
+
+.mini-image-block a:hover {
+
+}
+
+.mini-image-circle {
+    border-radius: 35px;
+    width: 70px;
+    height: 70px;
+}
+
+.mini-image-circle a {
+    display: block;
+    width: 70px;
+    height: 70px;
+}
+
+.mini-image-circle a:hover {
+
+}
+

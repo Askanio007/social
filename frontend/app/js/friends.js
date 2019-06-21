@@ -41,7 +41,7 @@ app.controller('FriendController', ['$scope', '$window', '$state', 'FriendServic
 
         $scope.search = function() {
             UserService.searchUser($scope.rootUserId, $scope.searchText).then(function (response) {
-                $scope.foundUser = response.data;
+                $scope.foundUser = response.data.data;
             });
         };
 

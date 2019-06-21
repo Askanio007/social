@@ -1,6 +1,7 @@
 app
-    .controller('GroupsController', ['$scope', 'GroupService', function ($scope, GroupService) {
+    .controller('GroupsController', ['$scope', '$window', '$state', 'GroupService', function ($scope, $window, $state, GroupService) {
         $scope.groups = $scope.$resolve.groups;
+        $scope.rootUserId = $window.sessionStorage.getItem("userId");
         $scope.tab = 1;
 
         $scope.setTab = function(newTab){
@@ -17,46 +18,62 @@ app
             });
         };
 
+        $scope.exit = function (groupId) {
+            GroupService.exit(groupId, $scope.rootUserId).then(function () {
+                if (response.data.success == true) {
+                    $state.reload();
+                }
+            })
+        }
+
     }])
 
     .controller('GroupController', ['$scope', '$window', '$state', 'PublicMessageService', 'GroupService',
         function ($scope, $window, $state, PublicMessageService, GroupService) {
-        $scope.group = $scope.$resolve.group;
-        $scope.wall = $scope.$resolve.wall;
-        $scope.rootUserId = $window.sessionStorage.getItem("userId");
-        GroupService.isUserInGroup($scope.rootUserId, $scope.group.id).then(function (response) {
-            $scope.isYouGroup = response.data;
-        });
+            $scope.group = $scope.$resolve.group;
+            $scope.wall = $scope.$resolve.wall;
+            $scope.rootUserId = $window.sessionStorage.getItem("userId");
+            GroupService.isUserInGroup($scope.rootUserId, $scope.group.id).then(function (response) {
+                $scope.isYouGroup = response.data.data;
+            });
 
-        $scope.message = "";
+            $scope.message = "";
 
-        $scope.sendMessage = function () {
-            var params = {
-                message: $scope.message,
-                recipientId: $scope.group.id,
-                recipientUser: false,
-                senderId: $scope.rootUserId
+            $scope.sendMessage = function () {
+                var params = {
+                    message: $scope.message,
+                    recipientId: $scope.group.id,
+                    recipientUser: false,
+                    senderId: $scope.rootUserId
+                };
+                PublicMessageService.sendMessage(params).then(function (response) {
+                    $scope.wall.push(response.data.data);
+                    $state.reload();
+                });
             };
-            PublicMessageService.sendMessage(params).then(function (response) {
-                $scope.wall.push(response.data);
-                $state.reload();
-            });
-        };
 
-        $scope.join = function () {
-            GroupService.join($scope.group.id, $scope.rootUserId).then(function (response) {
-                $scope.isYouGroup = true;
-                $state.reload();
-            });
-        };
+            $scope.join = function () {
+                GroupService.join($scope.group.id, $scope.rootUserId).then(function (response) {
+                    $scope.isYouGroup = true;
+                    $state.reload();
+                });
+            };
 
-        $scope.isYou = function () {
-            return $scope.isYouGroup;
-        }
+            $scope.isYou = function () {
+                return $scope.isYouGroup;
+            };
 
-        $scope.isAdmin = function () {
-            return $scope.rootUserId == $scope.group.adminId;
-        }
+            $scope.isAdmin = function () {
+                return $scope.rootUserId == $scope.group.adminId;
+            };
+
+            $scope.exit = function (groupId) {
+                GroupService.exit(groupId, $scope.rootUserId).then(function () {
+                    if (response.data.success == true) {
+                        $state.reload();
+                    }
+                })
+            }
     }])
 
     .controller('CreateGroupController', ['$scope', '$window', '$state', 'GroupService',
