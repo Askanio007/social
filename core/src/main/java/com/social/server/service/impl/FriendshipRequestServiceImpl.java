@@ -4,6 +4,7 @@ import com.social.server.dao.FriendshipRequestRepository;
 import com.social.server.dao.UserRepository;
 import com.social.server.dto.FriendshipRequestDto;
 import com.social.server.entity.FriendshipRequest;
+import com.social.server.entity.UserRelation;
 import com.social.server.service.DialogService;
 import com.social.server.service.FriendService;
 import com.social.server.service.FriendshipRequestService;
@@ -73,5 +74,19 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
     @Override
     public boolean isFriendRequest(long rootUserId, long userId) {
         return friendshipRequestRepository.existsByRequestFromIdAndRequestToIdAndAcceptIsFalse(rootUserId, userId);
+    }
+
+    @Override
+    public UserRelation getRelation(long rootUserId, long userId) {
+        if (rootUserId == userId) {
+            return UserRelation.ME;
+        }
+        if (friendService.isFriends(rootUserId, userId)) {
+            return UserRelation.FRIEND;
+        }
+        if (isFriendRequest(rootUserId, userId)) {
+            return UserRelation.REQUEST_FRIEND;
+        }
+        return UserRelation.NOT_FRIEND;
     }
 }

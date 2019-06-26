@@ -46,6 +46,11 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     }
 
     @Override
+    public long countParticipant(long groupId) {
+        return repository.countParticipant(groupId);
+    }
+
+    @Override
     public GroupDto create(long adminId, GroupModel groupModel) {
         User admin = userService.findById(adminId);
         Group group = new Group();
@@ -100,5 +105,10 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
         user.getGroups().remove(group);
         userService.save(user);
         repository.save(group);
+    }
+
+    @Override
+    public long count(long userId) {
+        return repository.countAllByUsersIdIn(userId);
     }
 }

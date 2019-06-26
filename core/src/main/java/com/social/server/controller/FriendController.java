@@ -21,6 +21,16 @@ public class FriendController {
         return Response.ok(friendService.find(rootUserId));
     }
 
+    @GetMapping("/{count}")
+    public Response findFixCount(@PathVariable long rootUserId, @PathVariable long count) {
+        return Response.ok(friendService.find(rootUserId, count));
+    }
+
+    @GetMapping("/count")
+    public Response findCount(@PathVariable long rootUserId) {
+        return Response.ok(friendService.count(rootUserId));
+    }
+
     @GetMapping("/existence/{friendId}")
     public Response isFriends(@PathVariable long rootUserId, @PathVariable long friendId) {
         return Response.ok(friendService.isFriends(rootUserId, friendId));

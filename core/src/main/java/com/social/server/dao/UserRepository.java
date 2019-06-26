@@ -12,6 +12,7 @@ import java.util.Set;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
     boolean existsByEmail(String email);
+    long countAllByFriendsIdIn(long userId);
     boolean existsByIdAndFriends(long id, User friend);
     @Query("select u from User u where u.id <> :rootUserId and ( " +
             "(u.name like concat('%',:name,'%') and u.surname like concat('%',:surname,'%')) " +

@@ -1,0 +1,12 @@
+.middle-block {
+    max-width: 250px
+}
+
+.userPhoto {
+    border-radius: .25rem;
+    width: 100%
+}
+
+.btn-margin {
+    margin-bottom: 5px
+}

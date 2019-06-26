@@ -1,0 +1,58 @@
+
+.wall-record tr {
+    margin-top: 3px;
+}
+
+.wall-record td {
+    vertical-align: top;
+}
+
+.wall-record-photo td {
+    width: 100px;
+    height: 100px;
+    vertical-align: top;
+}
+
+.wall-photo-block {
+    width: 100px;
+    height: 100px;
+}
+
+.wall-photo-block a {
+    display: block;
+    width: 100px;
+    height: 100px;
+}
+
+.wall-photo-block a:hover {
+
+}
+
+.wall-record-name td {
+    width: 100%;
+    vertical-align: top;
+    border: 1px solid gainsboro
+}
+
+.wall-record-name div {
+    background-color: gainsboro;
+    padding: 3px;
+    padding-left: 5px
+}
+
+.wall-record-message {
+    padding: 3px;
+    padding-left: 5px;
+    background-color: white;
+}
+
+.wall-btn {
+    margin-bottom: 5px
+}
+
+.wall-user-info {
+    width: 100%;
+    vertical-align: top;
+    border: 1px solid gainsboro
+}
+

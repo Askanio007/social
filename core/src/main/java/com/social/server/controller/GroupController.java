@@ -25,9 +25,19 @@ public class GroupController {
         return Response.ok(groupService.findBy(rootUserId));
     }
 
+    @GetMapping("/{rootUserId}/groups/count")
+    public Response findCount(@PathVariable long rootUserId) {
+        return Response.ok(groupService.count(rootUserId));
+    }
+
     @GetMapping("/group/{groupId}")
     public Response findOne(@PathVariable long groupId) {
         return Response.ok(groupService.find(groupId));
+    }
+
+    @GetMapping("/group/{groupId}/count")
+    public Response countParticipant(@PathVariable long groupId) {
+        return Response.ok(groupService.countParticipant(groupId));
     }
 
     @PostMapping("/{rootUserId}/groups/create")

@@ -10,10 +10,12 @@ import java.util.List;
 public interface GroupService extends CommonService<Group, Long> {
     List<GroupDto> findBy(long userId);
     GroupDto find(long groupId);
+    long countParticipant(long groupId);
     GroupDto create(long adminId, GroupModel groupModel);
     boolean isUserHasGroup(long userId, long groupId);
     void join(long userId, long groupId);
     List<GroupDto> search(String name);
     void savePhoto(long groupId, MultipartFile file);
     void exit(long userId, long groupId);
+    long count(long userId);
 }

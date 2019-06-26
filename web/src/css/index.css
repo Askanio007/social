@@ -1,0 +1,121 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.blocks {
+  border: 1px solid gainsboro;
+  border-radius: .25rem;
+  margin-bottom: 5px
+}
+.blocksTitle {
+  background-color: gainsboro;
+  margin-bottom: 0;
+  border-top-left-radius: .25rem;
+  border-top-right-radius: .25rem;
+  padding-left: 6px;
+  padding-bottom: 3px;
+}
+.btn-custom {
+  background-color: gainsboro;
+  color: black;
+  border: none;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.btn-custom-style {
+  background-color: gainsboro;
+  color: black;
+  border: none;
+  width: 100%;
+}
+.nav-link:hover {
+  background-color: gainsboro;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  background-color: gainsboro;
+}
+
+.custom-link {
+  color: black;
+}
+
+.custom-link:hover {
+  color: black;
+}
+
+.mini-image-block {
+  width: 70px;
+  height: 70px;
+}
+
+.mini-image-block a {
+  display: block;
+  width: 70px;
+  height: 70px;
+}
+
+.mini-image-block a:hover {
+
+}
+
+.mini-image-circle {
+  border-radius: 35px;
+  width: 70px;
+  height: 70px;
+}
+
+.mini-image-circle a {
+  display: block;
+  width: 70px;
+  height: 70px;
+}
+
+.mini-image-circle a:hover {
+
+}
+
+.widthMax {
+  width: 100%;
+}
+
+.width40 {
+  width: 40%;
+}
+
+.width60 {
+  width: 60%;
+}
+
+
+.main-container {
+  width: 400px
+}
+
+.center {
+  text-align: center;
+}
+
+.left {
+  text-align: left;
+}
+
+.vertical-top {
+  vertical-align: top;
+}
+
+.menu-margin {
+  margin-bottom: 10px;
+}
+
+

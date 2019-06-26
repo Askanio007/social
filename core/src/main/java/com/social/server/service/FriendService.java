@@ -8,6 +8,8 @@ import java.util.List;
 public interface FriendService extends CommonService<User, Long> {
     void addFriend(long rootUserId, long friendId);
     List<UserDto> find(long userId);
+    List<UserDto> find(long userId, long limit);
+    long count(long userId);
     boolean isFriends(long rootUserId, long friendId);
     void remove(long rootUserId, long friendId);
 }

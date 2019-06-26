@@ -20,9 +20,8 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
     private final EventService eventService;
 
     @Autowired
-    public FriendServiceImpl(UserRepository userRepository,
-                             EventService eventService) {
-        super(userRepository);
+    public FriendServiceImpl(UserRepository repository, EventService eventService) {
+        super(repository);
         this.eventService = eventService;
     }
 
@@ -42,6 +41,11 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
     }
 
     @Override
+    public List<UserDto> find(long userId, long limit) {
+        return null;
+    }
+
+    @Override
     public boolean isFriends(long rootUserId, long friendId) {
         return repository.existsByIdAndFriends(rootUserId, repository.getOne(friendId));
     }
@@ -53,5 +57,10 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
         rootUser.getFriends().remove(friend);
         friend.getFriends().remove(rootUser);
         repository.saveAll(Arrays.asList(rootUser, friend));
+    }
+
+    @Override
+    public long count(long userId) {
+        return repository.countAllByFriendsIdIn(userId);
     }
 }

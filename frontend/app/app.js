@@ -165,9 +165,3 @@ function translateConfig($translateProvider) {
     $translateProvider.preferredLanguage('ru');
     $translateProvider.fallbackLanguage('ru');
 }
-
-app.constant('config', {
-    apiUrl: 'https://your-api.com',
-    baseUrl: '/',
-    enableDebug: true
-});
