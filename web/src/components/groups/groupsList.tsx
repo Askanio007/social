@@ -25,6 +25,14 @@ class GroupsList extends Component<any, GroupsListState> {
         })
     }
 
+    updateState = (promise:Promise<any>) => {
+        promise.then((res:any) => {
+            if (res.data.success) {
+                this.componentDidMount();
+            }
+        });
+    };
+
     ListGroups = (value:any) => {
         let group = value.group;
         return (
@@ -38,7 +46,7 @@ class GroupsList extends Component<any, GroupsListState> {
                             <Link className="custom-link" to={'/group/' + group.id}>{group.name}</Link>
                         </h4>
                     </div>
-                    <ExitGroupBtn groupId={group.id} />
+                    <ExitGroupBtn groupId={group.id} callback={this.updateState} />
                 </td>
             </tr>
         );

@@ -3,10 +3,18 @@ import {FormattedMessage} from 'react-intl';
 import GroupService from '../../service/GroupService';
 import FriendService, {FriendshipRequest} from '../../service/FriendService';
 
-class AddFriendBtn extends Component<{request:FriendshipRequest}> {
+interface AddFriendProps {
+    request:FriendshipRequest
+    callback:(userRelation:string) => void
+}
+class AddFriendBtn extends Component<AddFriendProps, any> {
 
     add = () => {
-        FriendService.sendFriendRequest(this.props.request)
+        FriendService.sendFriendRequest(this.props.request).then((res:any) => {
+            if (res.data.success === true) {
+                this.props.callback("REQUEST_FRIEND");
+            }
+        })
     };
 
     render() {
@@ -14,10 +22,18 @@ class AddFriendBtn extends Component<{request:FriendshipRequest}> {
     }
 }
 
-class RemoveFriendBtn extends Component<{userId:number}, any> {
+interface RemoveFriendProps {
+    userId:number
+    callback:(userRelation:string) => void
+}
+class RemoveFriendBtn extends Component<RemoveFriendProps, any> {
 
     remove = () => {
-        FriendService.remove(this.props.userId);
+        FriendService.remove(this.props.userId).then((res:any) => {
+            if (res.data.success === true) {
+                this.props.callback("NOT_FRIEND");
+            }
+        });
     };
 
     render() {
@@ -55,10 +71,14 @@ class DeclineRequestBtn extends Component {
     }
 }
 
-class ExitGroupBtn extends Component<{groupId:number}, any> {
+interface EnterGroupProps {
+    groupId:number
+    callback:(promise:Promise<any>) => void
+}
+class ExitGroupBtn extends Component<EnterGroupProps, any> {
 
     exit = () => {
-        GroupService.exit(this.props.groupId);
+        this.props.callback(GroupService.exit(this.props.groupId));
     };
 
     render() {
@@ -66,10 +86,14 @@ class ExitGroupBtn extends Component<{groupId:number}, any> {
     }
 }
 
-class EnterGroupBtn extends Component<{groupId:number}, any> {
+interface EnterGroupProps {
+    groupId:number
+    callback:(promise:Promise<any>) => void
+}
+class EnterGroupBtn extends Component<EnterGroupProps, any> {
 
     join = () => {
-        GroupService.join(this.props.groupId);
+        this.props.callback(GroupService.join(this.props.groupId));
     };
 
     render() {

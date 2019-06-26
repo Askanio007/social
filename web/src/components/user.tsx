@@ -64,6 +64,12 @@ class User extends Component<any, UserState> {
         })
     }
 
+    updateRelation = (relation:string) => {
+        let state = this.state;
+        state.relation = relation;
+        this.setState(state);
+    };
+
     MyPageButton = () => {
         return (
             <div>
