@@ -18,6 +18,14 @@ class FriendsSearch extends Component<any, FriendsSearchState> {
         searchText: ""
     };
 
+    updateRelation = (promise:Promise<any>) => {
+        promise.then((res:any) => {
+            if (res.data.success === true) {
+                this.forceUpdate();
+            }
+        })
+    };
+
     FoundedUser = (value:any) => {
         const user = value.user;
         const request:FriendshipRequest = {
@@ -34,7 +42,7 @@ class FriendsSearch extends Component<any, FriendsSearchState> {
                         <h4><Link to={'/user/' + user.id} className="custom-link">{user.fullName}</Link></h4>
                     </div>
                     <SendMessageBtn />
-                    <AddFriendBtn request={request}/>
+                    <AddFriendBtn request={request} callback={this.updateRelation}/>
                 </td>
             </tr>
         );

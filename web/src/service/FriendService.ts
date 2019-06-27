@@ -21,11 +21,11 @@ class FriendService {
     }
 
     async acceptRequest(friendshipRequestId:number) {
-        return axios.post(api + '/' +  UserService.getRootUserId() + '/friends/request/accept', friendshipRequestId);
+        return axios.post(api + '/' +  UserService.getRootUserId() + '/friends/request/accept/' + friendshipRequestId);
     }
 
     async declineRequest(friendshipRequestId:number) {
-        return axios.post(api + '/' +  UserService.getRootUserId() + '/friends/request/decline', friendshipRequestId);
+        return axios.post(api + '/' +  UserService.getRootUserId() + '/friends/request/decline/' + friendshipRequestId);
     }
 
     async remove(userId:number) {

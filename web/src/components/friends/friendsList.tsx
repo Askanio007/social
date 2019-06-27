@@ -26,6 +26,14 @@ class FriendsList extends Component<{}, FriendsListState> {
         })
     }
 
+    updateState = (promise:Promise<any>) => {
+        promise.then((res:any) => {
+            if (res.data.success === true) {
+                this.componentDidMount();
+            }
+        })
+    };
+
     ListFriends = (value:any) => {
 
         const friend = value.friend;
@@ -39,7 +47,7 @@ class FriendsList extends Component<{}, FriendsListState> {
                         <h4><Link to={'/user/' + friend.id} className="custom-link">{friend.fullName}</Link></h4>
                     </div>
                     <SendMessageBtn />
-                    <RemoveFriendBtn userId={friend.id} />
+                    <RemoveFriendBtn id={friend.id} callback={this.updateState} />
                 </td>
             </tr>
         );

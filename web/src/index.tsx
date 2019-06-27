@@ -12,6 +12,7 @@ import Friends from './components/friends/friends';
 import Groups from './components/groups/groups';
 import CreateGroup from './components/groups/createGroup';
 import Group from './components/groups/group';
+import Profile from './components/profile/profile';
 
 let elLocaleData = require('react-intl/locale-data/ru');
 addLocaleData(elLocaleData);
@@ -39,6 +40,7 @@ fetch(getLocalizationMessage + 'ru')
                         <Route path='/groups' component={Groups} />
                         <Route path='/createGroup' component={CreateGroup} />
                         <Route path='/group/:groupId' component={Group} />
+                        <Route path='/profile' component={Profile} />
                     </Switch>
                 </BrowserRouter>
             </IntlProvider>, document.getElementById('root'));

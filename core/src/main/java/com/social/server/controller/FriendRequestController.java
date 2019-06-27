@@ -33,14 +33,14 @@ public class FriendRequestController {
         return Response.ok();
     }
 
-    @PostMapping("/accept")
-    public Response acceptRequest(@RequestBody long friendshipRequestId) {
+    @PostMapping("/accept/{friendshipRequestId}")
+    public Response acceptRequest(@PathVariable long friendshipRequestId) {
         friendshipRequestService.accept(friendshipRequestId);
         return Response.ok();
     }
 
-    @PostMapping("/decline")
-    public Response declineRequest(@RequestBody long friendshipRequestId) {
+    @PostMapping("/decline/{friendshipRequestId}")
+    public Response declineRequest(@PathVariable long friendshipRequestId) {
         friendshipRequestService.decline(friendshipRequestId);
         return Response.ok();
     }

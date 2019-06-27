@@ -46,7 +46,7 @@ class GroupsList extends Component<any, GroupsListState> {
                             <Link className="custom-link" to={'/group/' + group.id}>{group.name}</Link>
                         </h4>
                     </div>
-                    <ExitGroupBtn groupId={group.id} callback={this.updateState} />
+                    <ExitGroupBtn id={group.id} callback={this.updateState} />
                 </td>
             </tr>
         );

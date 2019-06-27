@@ -69,8 +69,8 @@ export default class Group extends Component<any, GroupState> {
                         </div>
                         <button ng-show="isAdmin()" ui-sref="groupEdit({groupId: group.id})" type="button"
                                 className="btn btn-secondary btn-custom"><FormattedMessage id={"common.edit"} /></button>
-                        <EnterGroupBtn groupId={this.state.group.id} callback={this.updateState} />
-                        <ExitGroupBtn groupId={this.state.group.id} callback={this.updateState} />
+                        <EnterGroupBtn id={this.state.group.id} callback={this.updateState} />
+                        <ExitGroupBtn id={this.state.group.id} callback={this.updateState} />
                         <FriendsBlock friends={this.state.group.participant} count={this.state.participantCount}/>
                     </div>
                 </div>

@@ -54,7 +54,7 @@ class GroupsSearch extends Component<{}, GroupsSearchState> {
                             <Link className="custom-link" to={'/group/' + group.id}>{group.name}</Link>
                         </h4>
                     </div>
-                    <EnterGroupBtn groupId={group.id} callback={this.enterGroup}/>
+                    <EnterGroupBtn id={group.id} callback={this.enterGroup}/>
                 </td>
             </tr>
         );

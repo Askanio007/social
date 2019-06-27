@@ -2,19 +2,21 @@ import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import GroupService from '../../service/GroupService';
 import FriendService, {FriendshipRequest} from '../../service/FriendService';
+import {UserRelation} from '../user';
+
+interface GeneralBtnProps {
+    id:number
+    callback:(promise:Promise<any>, userRelation?:UserRelation) => void
+}
 
 interface AddFriendProps {
     request:FriendshipRequest
-    callback:(userRelation:string) => void
+    callback:(promise:Promise<any>, userRelation?:UserRelation) => void
 }
 class AddFriendBtn extends Component<AddFriendProps, any> {
 
     add = () => {
-        FriendService.sendFriendRequest(this.props.request).then((res:any) => {
-            if (res.data.success === true) {
-                this.props.callback("REQUEST_FRIEND");
-            }
-        })
+        this.props.callback(FriendService.sendFriendRequest(this.props.request), UserRelation.REQUEST_FRIEND);
     };
 
     render() {
@@ -22,18 +24,10 @@ class AddFriendBtn extends Component<AddFriendProps, any> {
     }
 }
 
-interface RemoveFriendProps {
-    userId:number
-    callback:(userRelation:string) => void
-}
-class RemoveFriendBtn extends Component<RemoveFriendProps, any> {
+class RemoveFriendBtn extends Component<GeneralBtnProps, any> {
 
     remove = () => {
-        FriendService.remove(this.props.userId).then((res:any) => {
-            if (res.data.success === true) {
-                this.props.callback("NOT_FRIEND");
-            }
-        });
+        this.props.callback(FriendService.remove(this.props.id), UserRelation.NOT_FRIEND);
     };
 
     render() {
@@ -53,32 +47,32 @@ class RequestFriendBtn extends Component {
     }
 }
 
-class EditBtn extends Component {
+class AcceptRequestBtn extends Component<GeneralBtnProps, any> {
+
+    accept = () => {
+        this.props.callback(FriendService.acceptRequest(this.props.id), UserRelation.FRIEND);
+    };
+
     render() {
-        return (<button type="button" className="btn btn-secondary btn-custom btn-margin"><FormattedMessage id='common.edit' /></button>);
+        return (<button type="button" className="btn btn-secondary btn-custom btn-margin" onClick={this.accept}><FormattedMessage id='friends.accept' /></button>);
     }
 }
 
-class AcceptRequestBtn extends Component {
+class DeclineRequestBtn extends Component<GeneralBtnProps, any> {
+
+    decline = () => {
+        this.props.callback(FriendService.declineRequest(this.props.id), UserRelation.NOT_FRIEND);
+    };
+
     render() {
-        return (<button type="button" className="btn btn-secondary btn-custom btn-margin"><FormattedMessage id='friends.accept' /></button>);
+        return (<button type="button" className="btn btn-secondary btn-custom btn-margin" onClick={this.decline}><FormattedMessage id='friends.decline' /></button>);
     }
 }
 
-class DeclineRequestBtn extends Component {
-    render() {
-        return (<button type="button" className="btn btn-secondary btn-custom btn-margin"><FormattedMessage id='friends.decline' /></button>);
-    }
-}
-
-interface EnterGroupProps {
-    groupId:number
-    callback:(promise:Promise<any>) => void
-}
-class ExitGroupBtn extends Component<EnterGroupProps, any> {
+class ExitGroupBtn extends Component<GeneralBtnProps, any> {
 
     exit = () => {
-        this.props.callback(GroupService.exit(this.props.groupId));
+        this.props.callback(GroupService.exit(this.props.id));
     };
 
     render() {
@@ -86,14 +80,10 @@ class ExitGroupBtn extends Component<EnterGroupProps, any> {
     }
 }
 
-interface EnterGroupProps {
-    groupId:number
-    callback:(promise:Promise<any>) => void
-}
-class EnterGroupBtn extends Component<EnterGroupProps, any> {
+class EnterGroupBtn extends Component<GeneralBtnProps, any> {
 
     join = () => {
-        this.props.callback(GroupService.join(this.props.groupId));
+        this.props.callback(GroupService.join(this.props.id));
     };
 
     render() {
@@ -103,4 +93,4 @@ class EnterGroupBtn extends Component<EnterGroupProps, any> {
 
 
 
-export {AddFriendBtn, RemoveFriendBtn, SendMessageBtn, RequestFriendBtn, EditBtn, DeclineRequestBtn, ExitGroupBtn, EnterGroupBtn, AcceptRequestBtn};
+export {AddFriendBtn, RemoveFriendBtn, SendMessageBtn, RequestFriendBtn, DeclineRequestBtn, ExitGroupBtn, EnterGroupBtn, AcceptRequestBtn};

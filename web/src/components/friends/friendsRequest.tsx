@@ -26,6 +26,14 @@ class FriendsRequest extends Component<{}, FriendsRequestState> {
         })
     }
 
+    updateState = (promise:Promise<any>) => {
+        promise.then((res:any) => {
+            if (res.data.success === true) {
+                this.componentDidMount();
+            }
+        })
+    };
+
     RequestsFriends = (value:any) => {
 
         const request = value.request;
@@ -40,11 +48,11 @@ class FriendsRequest extends Component<{}, FriendsRequestState> {
                             <Link to={'/user/' + request.fromUserId} className="custom-link">{request.fromUserName}</Link>
                         </h4>
                     </div>
-                    <AcceptRequestBtn />
-                    <DeclineRequestBtn />
+                    <AcceptRequestBtn id={request.id} callback={this.updateState} />
+                    <DeclineRequestBtn id={request.id} callback={this.updateState} />
                 </td>
             </tr>
-    );
+        );
     };
 
     render() {

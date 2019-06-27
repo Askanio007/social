@@ -5,16 +5,23 @@ import Wall from './templates/wall';
 import FriendsBlock from './templates/friendsBlock';
 import GroupBlock from './templates/groupBlock';
 import UserService from '../service/UserService';
-import {AddFriendBtn, EditBtn, RemoveFriendBtn, RequestFriendBtn, SendMessageBtn} from './templates/buttons';
+import {AddFriendBtn, RemoveFriendBtn, RequestFriendBtn, SendMessageBtn} from './templates/buttons';
 import '../css/user.css';
 import {FriendshipRequest} from '../service/FriendService';
+import {withRouter} from 'react-router';
 
+export enum UserRelation {
+    ME = "ME",
+    FRIEND = "FRIEND",
+    REQUEST_FRIEND = "REQUEST_FRIEND",
+    NOT_FRIEND = "NOT_FRIEND"
+}
 interface UserState {
     loading?: boolean,
     user?: any
     friendCount: number,
     groupCount: number,
-    relation: string
+    relation: UserRelation
 }
 
 class User extends Component<any, UserState> {
@@ -24,14 +31,14 @@ class User extends Component<any, UserState> {
         user: null,
         friendCount: 0,
         groupCount: 0,
-        relation: ""
+        relation: UserRelation.ME
     };
 
     componentDidMount() {
         let user:any;
         let friendCount:number;
         let groupCount:number;
-        let relation:string;
+        let relation:UserRelation;
         const rootUserId = UserService.getRootUserId();
         let userId:number = this.props.match.params.userId ? this.props.match.params.userId : rootUserId;
         UserService.find(userId).then((res:any) => {
@@ -48,7 +55,7 @@ class User extends Component<any, UserState> {
             if (res.data.success === true) {
                 groupCount = res.data.data;
             }
-            return UserService.getRelation(rootUserId, userId)
+            return UserService.getRelation(rootUserId)
         }).then((res:any) => {
             if (res.data.success === true) {
                 relation = res.data.data;
@@ -64,25 +71,31 @@ class User extends Component<any, UserState> {
         })
     }
 
-    updateRelation = (relation:string) => {
-        let state = this.state;
-        state.relation = relation;
-        this.setState(state);
+    updateRelation = (promise:Promise<any>, relation?:UserRelation) => {
+        promise.then((res:any) => {
+            if (res.data.success === true) {
+                if (relation) {
+                    let state = this.state;
+                    state.relation = relation;
+                    this.setState(state);
+                }
+            }
+        })
+    };
+
+    redirectToEditProfile = () => {
+        this.props.history.push('/profile')
     };
 
     MyPageButton = () => {
-        return (
-            <div>
-                <EditBtn />
-            </div>
-        )
+        return (<div><button type="button" className="btn btn-secondary btn-custom btn-margin" onClick={this.redirectToEditProfile} ><FormattedMessage id='common.edit' /></button></div>);
     };
 
     FriendPageButton = () => {
         return (
             <div>
                 <SendMessageBtn />
-                <RemoveFriendBtn userId={this.state.user.id} />
+                <RemoveFriendBtn id={this.state.user.id} callback={this.updateRelation} />
             </div>
         )
     };
@@ -104,10 +117,21 @@ class User extends Component<any, UserState> {
         return (
             <div>
                 <SendMessageBtn />
-                <AddFriendBtn request={request} />
+                <AddFriendBtn request={request} callback={this.updateRelation} />
             </div>
         )
     };
+
+    ButtonSet = () => {
+        switch (this.state.relation) {
+            case UserRelation.ME: return (<this.MyPageButton />);
+            case UserRelation.FRIEND: return (<this.FriendPageButton />);
+            case UserRelation.NOT_FRIEND: return (<this.NotFriendPageButton />);
+            case UserRelation.REQUEST_FRIEND: return (<this.RequestFriendPageButton />)
+        }
+    };
+
+
 
     render() {
         if (this.state.loading === true) {
@@ -121,10 +145,7 @@ class User extends Component<any, UserState> {
                         <div className="blocks">
                             <img className="userPhoto" src={"data:image/JPEG;base64," + this.state.user.details.image64code} />
                         </div>
-                        {this.state.relation === "ME" ? <this.MyPageButton /> : null}
-                        {this.state.relation === "FRIEND" ? <this.FriendPageButton /> : null}
-                        {this.state.relation === "REQUEST_FRIEND" ? <this.RequestFriendPageButton /> : null}
-                        {this.state.relation === "NOT_FRIEND" ? <this.NotFriendPageButton /> : null}
+                        <this.ButtonSet />
                         <FriendsBlock friends={this.state.user.friends} count={this.state.friendCount}/>
                         <GroupBlock groups={this.state.user.groups} count={this.state.groupCount} />
                     </div>
@@ -145,6 +166,22 @@ class User extends Component<any, UserState> {
                                     <td><FormattedMessage id='common.birthday' />:</td>
                                     <td>{this.state.user.details.birthdayView}</td>
                                 </tr>
+                                <tr>
+                                    <td><FormattedMessage id='profile.country' />:</td>
+                                    <td>{this.state.user.details.country}</td>
+                                </tr>
+                                <tr>
+                                    <td><FormattedMessage id='profile.city' />:</td>
+                                    <td>{this.state.user.details.city}</td>
+                                </tr>
+                                <tr>
+                                    <td><FormattedMessage id='profile.phone' />:</td>
+                                    <td>{this.state.user.details.phone}</td>
+                                </tr>
+                                <tr>
+                                    <td><FormattedMessage id='profile.about' />:</td>
+                                    <td>{this.state.user.details.about}</td>
+                                </tr>
                             </tbody>
                         </table>
 
@@ -156,4 +193,4 @@ class User extends Component<any, UserState> {
     }
 }
 
-export default User;
+export default withRouter(User);
