@@ -32,7 +32,7 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
         user.getFriends().add(friend);
         friend.getFriends().add(user);
         repository.saveAll(Arrays.asList(user, friend));
-        eventService.createEvent(rootUserId, EventType.ADD_FRIEND, friend.getId(), friend.getFullName());
+        eventService.createEvent(rootUserId, friend.getId(), friend.getFullName(), EventType.ADD_FRIEND);
     }
 
     @Override

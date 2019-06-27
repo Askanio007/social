@@ -1,6 +1,7 @@
 package com.social.server.controller;
 
 import com.social.server.dto.PublicMessageDto;
+import com.social.server.entity.PublicMessageRecipientType;
 import com.social.server.http.Response;
 import com.social.server.service.PublicMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,9 @@ public class PublicMessageController {
         this.publicMessageService = publicMessageService;
     }
 
-    @GetMapping("/{recipientId}/{isUser}")
-    public Response findPublicMessage(@PathVariable Long recipientId, @PathVariable boolean isUser) {
-        return Response.ok(publicMessageService.findByRecipientId(recipientId, isUser));
+    @GetMapping("/{recipientId}/{type}")
+    public Response findPublicMessage(@PathVariable Long recipientId, @PathVariable PublicMessageRecipientType type) {
+        return Response.ok(publicMessageService.findByRecipientId(recipientId, type));
     }
 
     @PostMapping("/save")

@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -48,16 +47,13 @@ public class User implements ShortModel {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
-    private UserDetails details;
+    private UserDetails details = new UserDetails();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_friend",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "friend_id"))
     private Set<User> friends = new HashSet<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PublicMessage> messages;
 
     @ManyToMany(mappedBy = "users")
     private Set<Group> groups = new HashSet<>();

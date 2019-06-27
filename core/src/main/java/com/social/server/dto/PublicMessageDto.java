@@ -1,6 +1,7 @@
 package com.social.server.dto;
 
 import com.social.server.entity.PublicMessage;
+import com.social.server.entity.PublicMessageRecipientType;
 import com.social.server.util.ImageUtil;
 import lombok.Data;
 
@@ -17,9 +18,9 @@ public class PublicMessageDto {
     private String avatarSender;
     private String sender;
     private String recipient;
+    private PublicMessageRecipientType recipientType;
     private Long recipientId;
     private String createDate;
-    private boolean recipientUser;
 
     public static PublicMessageDto of(PublicMessage message) {
         if (message != null) {
@@ -29,14 +30,8 @@ public class PublicMessageDto {
             dto.setMessage(message.getMessage());
             dto.setSender(message.getSender().getFullName());
             dto.setSenderId(message.getSender().getId());
-            dto.setRecipientUser(message.getUser() != null);
-            if (dto.isRecipientUser()) {
-                dto.setRecipientId(message.getUser().getId());
-                dto.setRecipient(message.getUser().getName());
-            } else {
-                dto.setRecipientId(message.getGroup().getId());
-                dto.setRecipient(message.getGroup().getName());
-            }
+            dto.setRecipientId(message.getRecipientId());
+            dto.setRecipientType(message.getRecipientType());
             dto.setAvatarSender(ImageUtil.convertImageTo64encode(message.getSender().getDetails().getImage()));
             return dto;
         }

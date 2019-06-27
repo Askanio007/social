@@ -9,11 +9,11 @@ public interface EventService {
     /**
      * Создать событие для пользователя
      * @param userId - Идентификатор пользователя
-     * @param type - Тип события
      * @param targetId - Идентификатор объекта события (добавленный друг, новая группа)
      * @param targetActionName - Название объекта события (Имя добавленного друга, название группы)
+     * @param type - Тип события
      */
-    void createEvent(long userId, EventType type, long targetId, String targetActionName);
+    void createEvent(long userId, long targetId, String targetActionName, EventType type);
 
     List<EventDto> findBy(long userId);
 }

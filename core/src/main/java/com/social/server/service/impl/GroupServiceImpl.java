@@ -59,7 +59,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
         group.setAdmin(admin);
         group.getUsers().add(admin);
         group = repository.save(group);
-        eventService.createEvent(admin.getId(), EventType.ENTER_GROUP, group.getId(), group.getName());
+        eventService.createEvent(admin.getId(), group.getId(), group.getName(), EventType.ENTER_GROUP);
         return GroupDto.of(group);
     }
 
@@ -76,7 +76,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
         user.getGroups().add(group);
         repository.save(group);
         userService.save(user);
-        eventService.createEvent(userId, EventType.ENTER_GROUP, group.getId(), group.getName());
+        eventService.createEvent(userId, group.getId(), group.getName(), EventType.ENTER_GROUP);
     }
 
     @Override

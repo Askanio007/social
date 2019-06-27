@@ -44,10 +44,7 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
         user.setEnable(true);
         user.setName(formatName(registrationModel.getName()));
         user.setSurname(formatName(registrationModel.getSurname()));
-        UserDetails userDetails = new UserDetails();
-        userDetails.setSex(registrationModel.getSex());
-        user.setDetails(userDetails);
-        userDetails.setUser(user);
+        user.getDetails().setSex(registrationModel.getSex());
 
         return save(user);
     }
@@ -97,16 +94,16 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
         }
     }
 
-    private String formatName(String word){
+    @Override
+    public UserDto save(User user) {
+        return UserDto.of(repository.save(user));
+    }
+
+    private String formatName(String word) {
         if (StringUtils.isBlank(word)) {
             return word;
         }
         word = word.toLowerCase();
         return word.substring(0, 1).toUpperCase() + word.substring(1);
-    }
-
-    @Override
-    public UserDto save(User user) {
-        return UserDto.of(repository.save(user));
     }
 }

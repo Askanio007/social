@@ -7,9 +7,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Table(name = "group_social")
@@ -42,9 +40,6 @@ public class Group implements ShortModel {
             joinColumns = { @JoinColumn(name = "group_id") },
             inverseJoinColumns = { @JoinColumn(name = "user_id") })
     private Set<User> users = new HashSet<>();
-
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PublicMessage> messages = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")

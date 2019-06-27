@@ -15,7 +15,6 @@ public class GroupDto {
     private String adminName;
     private String avatar64code;
     private long adminId;
-    private List<PublicMessageDto> wall;
     private List<PhotoAndNameDto> participant;
 
     public static GroupDto of(Group entity) {
@@ -31,7 +30,6 @@ public class GroupDto {
                     .limit(6)
                     .map(PhotoAndNameDto::of)
                     .collect(Collectors.toList()));
-            dto.setWall(PublicMessageDto.of(entity.getMessages()));
             return dto;
         }
         return null;

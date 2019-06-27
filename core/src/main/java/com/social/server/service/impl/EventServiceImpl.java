@@ -31,24 +31,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void createEvent(long userId, EventType type, long targetId, String targetActionName) {
-        switch (type) {
-            case ADD_FRIEND: {
-                createEvent(userId, targetId, targetActionName, EventType.ADD_FRIEND);
-                return;
-            }
-            case ENTER_GROUP: {
-                createEvent(userId, targetId, targetActionName, EventType.ENTER_GROUP);
-                return;
-            }
-            case ADD_PUBLIC_MESSAGE: {
-                createEvent(userId, targetId, targetActionName, EventType.ADD_PUBLIC_MESSAGE);
-            }
-        }
-
-    }
-
-    private void createEvent(long userId, long targetId, String targetActionName, EventType type) {
+    public void createEvent(long userId, long targetId, String targetActionName, EventType type) {
         Event event = new Event();
         event.setType(type);
         event.setTargetActionName(targetActionName);

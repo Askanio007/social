@@ -282,10 +282,17 @@
                                  referencedTableName="user_social"
                                  referencedColumnNames="id" />
 
-
     </changeSet>
 
 
+    <changeSet author="Artyom Poshvykin" id="public-message-add-new-column">
+        <addColumn tableName="public_message">
+            <column name="recipient_type" type="varchar(50)"/>
+            <column name="recipient_id" type="integer"/>
+        </addColumn>
+        <dropColumn tableName="public_message" columnName="user_id" />
+        <dropColumn tableName="public_message" columnName="group_id" />
+    </changeSet>
 
 
 </databaseChangeLog>

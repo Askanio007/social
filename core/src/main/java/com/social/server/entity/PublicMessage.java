@@ -24,8 +24,8 @@ public class PublicMessage {
     private LocalDateTime createDate;
 
     @NotNull
-    @Length(max = 500)
-    @Column(name = "message", nullable = false, length = 500)
+    @Length(max = 2000)
+    @Column(name = "message", nullable = false, length = 2000)
     private String message;
 
     @NotNull
@@ -33,12 +33,13 @@ public class PublicMessage {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User sender;
 
-    @JoinColumn(name = "user_id")
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private User user;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "recipient_type", nullable = false)
+    private PublicMessageRecipientType recipientType;
 
-    @JoinColumn(name = "group_id")
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Group group;
+    @NotNull
+    @Column(name = "recipient_id", nullable = false)
+    private long recipientId;
 
 }
