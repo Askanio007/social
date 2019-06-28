@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import '../../css/wall.css';
-import WallService, {PublicMessage} from '../../service/WallService';
+import WallService, {PublicMessage, RecipientType} from '../../service/WallService';
 import Photo from './photo';
 import {Link} from 'react-router-dom';
 
@@ -12,7 +12,7 @@ interface WallInterface {
 
 interface WallProps {
     receiptId: number
-    isUser: boolean
+    recipientType: RecipientType
 }
 
 class Wall extends Component<WallProps, WallInterface> {
@@ -25,18 +25,18 @@ class Wall extends Component<WallProps, WallInterface> {
 
     props: WallProps = {
         receiptId: 0,
-        isUser: false
+        recipientType: RecipientType.USER
     };
 
     componentDidMount() {
         let publicMessage = {
             message: "",
             recipientId: this.props.receiptId,
-            recipientUser: this.props.isUser,
+            recipientType: this.props.recipientType,
             senderId: 20
         };
 
-        WallService.find(this.props.receiptId, this.props.isUser).then((res: any) => {
+        WallService.find(this.props.receiptId, this.props.recipientType).then((res: any) => {
             let responseData = res.data;
             if (responseData.success) {
                 this.setState({

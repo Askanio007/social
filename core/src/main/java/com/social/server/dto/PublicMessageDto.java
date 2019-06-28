@@ -2,14 +2,15 @@ package com.social.server.dto;
 
 import com.social.server.entity.PublicMessage;
 import com.social.server.entity.PublicMessageRecipientType;
+import com.social.server.util.DateFormatterUtil;
 import com.social.server.util.ImageUtil;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.social.server.util.DateFormatterUtil.viewFormat;
-
+@Slf4j
 @Data
 public class PublicMessageDto {
     private long id;
@@ -23,20 +24,21 @@ public class PublicMessageDto {
     private String createDate;
 
     public static PublicMessageDto of(PublicMessage message) {
-        if (message != null) {
-            PublicMessageDto dto = new PublicMessageDto();
-            dto.setCreateDate(message.getCreateDate().format(viewFormat));
-            dto.setId(message.getId());
-            dto.setMessage(message.getMessage());
-            dto.setSender(message.getSender().getFullName());
-            dto.setSenderId(message.getSender().getId());
-            dto.setRecipientId(message.getRecipientId());
-            dto.setRecipientType(message.getRecipientType());
-            dto.setAvatarSender(ImageUtil.convertImageTo64encode(message.getSender().getDetails().getImage()));
-            return dto;
+        if (message == null) {
+            log.warn("Entity PublicMessage is null");
+            return null;
         }
-        return null;
 
+        PublicMessageDto dto = new PublicMessageDto();
+        dto.setCreateDate(DateFormatterUtil.withoutTimeFormat(message.getCreateDate()));
+        dto.setId(message.getId());
+        dto.setMessage(message.getMessage());
+        dto.setSender(message.getSender().getFullName());
+        dto.setSenderId(message.getSender().getId());
+        dto.setRecipientId(message.getRecipientId());
+        dto.setRecipientType(message.getRecipientType());
+        dto.setAvatarSender(ImageUtil.convertImageTo64encode(message.getSender().getDetails().getImage()));
+        return dto;
     }
 
     public static List<PublicMessageDto> of(List<PublicMessage> messages) {

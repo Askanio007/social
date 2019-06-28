@@ -7,15 +7,71 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+/**
+ * Сервис для групп
+ * @see Group
+ */
 public interface GroupService extends CommonService<Group, Long> {
+    /**
+     * Найти группы, в которых состоит пользователь
+     * @param userId - идентификатор пользователя
+     */
     List<GroupDto> findBy(long userId);
+
+    /**
+     * Найти группу по идентификатору
+     */
     GroupDto find(long groupId);
+
+    /**
+     * Найти количество участников группы по её идентификатору
+     */
     long countParticipant(long groupId);
+
+    /**
+     * Создать новую группу
+     * @param adminId - идентификатор пользователя, который создаёт группу
+     * @param groupModel - модель группы {@link GroupModel}
+     */
     GroupDto create(long adminId, GroupModel groupModel);
+
+    /**
+     * Проверить, состоит ли пользователь в группе
+     * @param userId - идентификатор пользователя
+     * @param groupId - идентификатор группы
+     */
     boolean isUserHasGroup(long userId, long groupId);
+
+    /**
+     * Сделать пользователя участником группы
+     * @param userId - идентификатор пользователя
+     * @param groupId - идентификатор группы
+     */
     void join(long userId, long groupId);
+
+    /**
+     * Найти группы по названию
+     * @param name - название группы
+     */
     List<GroupDto> search(String name);
+
+    /**
+     * Сохранить фотографию группы
+     * @param groupId - идентификатор группы
+     * @param file - файл фотографии
+     */
     void savePhoto(long groupId, MultipartFile file);
+
+    /**
+     * Удалить пользователя из участников группы
+     * @param userId - идентификатор пользователя
+     * @param groupId - идентификатор группы
+     */
     void exit(long userId, long groupId);
-    long count(long userId);
+
+    /**
+     * Получить количество групп, в которых состоит пользователь
+     * @param userId - идентификатор пользователя
+     */
+    long countBy(long userId);
 }

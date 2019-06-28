@@ -1,5 +1,16 @@
 package com.social.server.entity;
 
+/**
+ * Пол пользователей
+ */
 public enum Sex {
-    MALE, FEMALE
+    /**
+     * Мужской
+     */
+    MALE,
+
+    /**
+     * Женский
+     */
+    FEMALE
 }

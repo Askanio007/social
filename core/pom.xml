@@ -90,4 +90,28 @@
         </plugins>
     </build>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <jdbc.url>jdbc:postgresql://localhost:5432/social</jdbc.url>
+                <jdbc.username>user</jdbc.username>
+                <jdbc.password>password</jdbc.password>
+                <spring.profiles.active>dev</spring.profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <jdbc.url>jdbc:postgresql://localhost:5432/social</jdbc.url>
+                <jdbc.username>user</jdbc.username>
+                <jdbc.password>password</jdbc.password>
+                <spring.profiles.active>prod</spring.profiles.active>
+            </properties>
+        </profile>
+    </profiles>
+
 </project>

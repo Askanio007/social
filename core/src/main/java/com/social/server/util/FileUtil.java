@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 @Slf4j
 public class FileUtil {
 
-    public static byte[] getFileByteBy(Path path) {
+    static byte[] getFileByteBy(Path path) {
         return Files.exists(path) ? readAllBytes(path) : null;
     }
 
@@ -28,7 +28,7 @@ public class FileUtil {
         try {
             return Files.readAllBytes(path);
         } catch (IOException e) {
-            log.error("read file failed. File path: {}", path, e);
+            log.error("Read file is failed. File path: {}", path, e);
             return null;
         }
     }

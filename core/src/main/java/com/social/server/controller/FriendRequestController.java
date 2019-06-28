@@ -29,7 +29,7 @@ public class FriendRequestController {
 
     @PostMapping("/add")
     public Response addFriendRequest(@RequestBody FriendshipRequestDto friendshipRequestDto) {
-        friendshipRequestService.add(friendshipRequestDto);
+        friendshipRequestService.create(friendshipRequestDto);
         return Response.ok();
     }
 

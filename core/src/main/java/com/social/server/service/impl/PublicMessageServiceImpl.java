@@ -11,7 +11,6 @@ import com.social.server.service.PublicMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,7 +33,6 @@ public class PublicMessageServiceImpl implements PublicMessageService {
     public PublicMessageDto create(PublicMessageDto messageDto) {
         PublicMessage publicMessage = new PublicMessage();
         publicMessage.setMessage(messageDto.getMessage());
-        publicMessage.setCreateDate(LocalDateTime.now());
         publicMessage.setSender(userRepository.getOne(messageDto.getSenderId()));
         publicMessage.setRecipientId(messageDto.getRecipientId());
         publicMessage.setRecipientType(messageDto.getRecipientType());

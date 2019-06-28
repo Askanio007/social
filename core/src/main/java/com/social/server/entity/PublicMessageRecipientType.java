@@ -1,5 +1,16 @@
 package com.social.server.entity;
 
+/**
+ * Типы получаетелей публичных сообщений
+ */
 public enum PublicMessageRecipientType {
-    USER, GROUP
+    /**
+     * Пользователь
+     */
+    USER,
+
+    /**
+     * Группа
+     */
+    GROUP
 }

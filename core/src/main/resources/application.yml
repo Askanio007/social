@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: @spring.profiles.active@
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: POSTGRESQL
@@ -7,9 +9,9 @@ spring:
       hibernate.jdbc.lob.non_contextual_creation: true
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/social
-    username: user
-    password: password
+    url: @jdbc.url@
+    username: @jdbc.username@
+    password: @jdbc.password@
     driverClassName: org.postgresql.Driver
   liquibase:
     change-log: classpath:/liquibase/crate-test-db-scheme.xml

@@ -108,7 +108,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     }
 
     @Override
-    public long count(long userId) {
+    public long countBy(long userId) {
         return repository.countAllByUsersIdIn(userId);
     }
 }

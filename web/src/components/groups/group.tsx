@@ -5,6 +5,7 @@ import Wall from '../templates/wall';
 import FriendsBlock from '../templates/friendsBlock';
 import GroupService from '../../service/GroupService';
 import {EnterGroupBtn, ExitGroupBtn} from '../templates/buttons';
+import {RecipientType} from '../../service/WallService';
 
 interface GroupState {
     group:any
@@ -61,7 +62,7 @@ export default class Group extends Component<any, GroupState> {
                     <div className="col-sm-6">
                         <h3>{this.state.group.name}</h3>
                         <p>{this.state.group.description}</p>
-                        <Wall receiptId={this.state.group.id} isUser={false}/>
+                        <Wall receiptId={this.state.group.id} recipientType={RecipientType.GROUP}/>
                     </div>
                     <div className="col-sm-3">
                         <div className="blocks">

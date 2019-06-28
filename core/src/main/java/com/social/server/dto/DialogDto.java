@@ -3,10 +3,12 @@ package com.social.server.dto;
 import com.social.server.entity.Dialog;
 import com.social.server.util.DateFormatterUtil;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Data
 public class DialogDto {
     private long id;
@@ -16,16 +18,14 @@ public class DialogDto {
 
     public static DialogDto of(Dialog entity) {
         if (entity == null) {
+            log.warn("Entity Dialog is null");
             return null;
         }
-
         DialogDto dialogDto = new DialogDto();
         dialogDto.setId(entity.getId());
         dialogDto.setLastMessage(entity.getLastMessage());
         dialogDto.setUsers(UserDto.of(entity.getUsers()));
-        if (entity.getDateLastMessage() != null) {
-            dialogDto.setDateLastMessage(entity.getDateLastMessage().format(DateFormatterUtil.viewMessageFormat));
-        }
+        dialogDto.setDateLastMessage(DateFormatterUtil.withTimeFormat(entity.getDateLastMessage()));
         return dialogDto;
     }
 

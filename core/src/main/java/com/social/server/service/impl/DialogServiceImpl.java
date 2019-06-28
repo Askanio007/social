@@ -8,6 +8,8 @@ import com.social.server.service.DialogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,11 +26,19 @@ public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRep
         return DialogDto.of(repository.findByUsersIdInOrderByDateLastMessageDesc(rootUserId));
     }
 
-    @Override
-    public void create(Set<User> users) {
+    private void create(Set<User> users) {
         Dialog dialog = new Dialog();
         dialog.setUsers(users);
         repository.save(dialog);
+    }
 
+    @Override
+    public void create(User... user) {
+        create(new HashSet<>(Arrays.asList(user)));
+    }
+
+    @Override
+    public void create(List<User> users) {
+        create(new HashSet<>(users));
     }
 }

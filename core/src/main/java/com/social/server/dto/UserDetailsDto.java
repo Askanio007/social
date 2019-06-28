@@ -4,12 +4,14 @@ import com.social.server.entity.Sex;
 import com.social.server.entity.UserDetails;
 import com.social.server.util.ImageUtil;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 
-import static com.social.server.util.DateFormatterUtil.viewFormat;
-import static com.social.server.util.DateFormatterUtil.viewInputFormat;
+import static com.social.server.util.DateFormatterUtil.inputFormat;
+import static com.social.server.util.DateFormatterUtil.withoutTimeFormat;
 
+@Slf4j
 @Data
 public class UserDetailsDto {
     private LocalDateTime birthday;
@@ -23,20 +25,21 @@ public class UserDetailsDto {
     private String image64code;
 
     public static UserDetailsDto of(UserDetails userDetails) {
-        UserDetailsDto dto = new UserDetailsDto();
-        if (userDetails != null) {
-            dto.setAbout(userDetails.getAbout());
-            if (userDetails.getBirthday() != null) {
-                dto.setBirthdayView(userDetails.getBirthday().format(viewFormat));
-                dto.setBirthdayInputView(userDetails.getBirthday().format(viewInputFormat));
-                dto.setBirthday(userDetails.getBirthday());
-            }
-            dto.setCity(userDetails.getCity());
-            dto.setCountry(userDetails.getCountry());
-            dto.setPhone(userDetails.getPhone());
-            dto.setSex(userDetails.getSex());
-            dto.setImage64code(ImageUtil.convertImageTo64encode(userDetails.getImage()));
+        if (userDetails == null) {
+            log.warn("Entity UserDetails is null");
+            return null;
         }
+
+        UserDetailsDto dto = new UserDetailsDto();
+        dto.setAbout(userDetails.getAbout());
+        dto.setBirthday(userDetails.getBirthday());
+        dto.setBirthdayView(withoutTimeFormat(userDetails.getBirthday()));
+        dto.setBirthdayInputView(inputFormat(userDetails.getBirthday()));
+        dto.setCity(userDetails.getCity());
+        dto.setCountry(userDetails.getCountry());
+        dto.setPhone(userDetails.getPhone());
+        dto.setSex(userDetails.getSex());
+        dto.setImage64code(ImageUtil.convertImageTo64encode(userDetails.getImage()));
         return dto;
     }
 }

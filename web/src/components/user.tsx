@@ -9,6 +9,7 @@ import {AddFriendBtn, RemoveFriendBtn, RequestFriendBtn, SendMessageBtn} from '.
 import '../css/user.css';
 import {FriendshipRequest} from '../service/FriendService';
 import {withRouter} from 'react-router';
+import {RecipientType} from '../service/WallService';
 
 export enum UserRelation {
     ME = "ME",
@@ -185,7 +186,7 @@ class User extends Component<any, UserState> {
                             </tbody>
                         </table>
 
-                        <Wall receiptId={this.state.user.id} isUser={true} />
+                        <Wall receiptId={this.state.user.id} recipientType={RecipientType.USER} />
                     </div>
                 </div>
             </div>

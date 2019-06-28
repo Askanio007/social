@@ -27,7 +27,7 @@ public class GroupController {
 
     @GetMapping("/{rootUserId}/groups/count")
     public Response findCount(@PathVariable long rootUserId) {
-        return Response.ok(groupService.count(rootUserId));
+        return Response.ok(groupService.countBy(rootUserId));
     }
 
     @GetMapping("/group/{groupId}")

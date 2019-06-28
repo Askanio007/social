@@ -9,7 +9,6 @@ import com.social.server.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -37,7 +36,6 @@ public class EventServiceImpl implements EventService {
         event.setTargetActionName(targetActionName);
         event.setTargetActionId(targetId);
         event.setUser(userRepository.getOne(userId));
-        event.setDate(LocalDateTime.now());
         eventRepository.save(event);
     }
 }

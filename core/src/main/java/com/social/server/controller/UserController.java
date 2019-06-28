@@ -25,7 +25,7 @@ public class UserController {
 
     @GetMapping("/user/{userId}")
     public Response getUser(@PathVariable Long userId) {
-        return Response.ok(userService.findDtoById(userId));
+        return Response.ok(userService.findBy(userId));
     }
 
     @GetMapping("/{rootUserId}/friends/relation/{userId}")

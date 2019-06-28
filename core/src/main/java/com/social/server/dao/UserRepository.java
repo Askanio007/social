@@ -10,8 +10,8 @@ import java.util.Set;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByEmail(String email);
     boolean existsByEmail(String email);
+    User findByEmailAndPassword(String email, String password);
     long countAllByFriendsIdIn(long userId);
     boolean existsByIdAndFriends(long id, User friend);
     @Query("select u from User u where u.id <> :rootUserId and ( " +

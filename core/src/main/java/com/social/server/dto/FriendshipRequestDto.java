@@ -3,10 +3,12 @@ package com.social.server.dto;
 import com.social.server.entity.FriendshipRequest;
 import com.social.server.util.ImageUtil;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Data
 public class FriendshipRequestDto {
     private long id;
@@ -18,18 +20,19 @@ public class FriendshipRequestDto {
     private boolean accept;
 
     public static FriendshipRequestDto of(FriendshipRequest entity) {
-        if (entity != null) {
-            FriendshipRequestDto dto = new FriendshipRequestDto();
-            dto.setId(entity.getId());
-            dto.setAccept(entity.isAccept());
-            dto.setFromUserId(entity.getRequestFrom().getId());
-            dto.setFromUserName(entity.getRequestFrom().getFullName());
-            dto.setFromUserAvatar64code(ImageUtil.convertImageTo64encode(entity.getRequestFrom().getDetails().getImage()));
-            dto.setToUserId(entity.getRequestTo().getId());
-            dto.setToUserName(entity.getRequestTo().getFullName());
-            return dto;
+        if (entity == null) {
+            log.warn("Entity Dialog is null");
+            return null;
         }
-        return null;
+        FriendshipRequestDto dto = new FriendshipRequestDto();
+        dto.setId(entity.getId());
+        dto.setAccept(entity.isAccept());
+        dto.setFromUserId(entity.getRequestFrom().getId());
+        dto.setFromUserName(entity.getRequestFrom().getFullName());
+        dto.setFromUserAvatar64code(ImageUtil.convertImageTo64encode(entity.getRequestFrom().getDetails().getImage()));
+        dto.setToUserId(entity.getRequestTo().getId());
+        dto.setToUserName(entity.getRequestTo().getFullName());
+        return dto;
     }
 
     public static List<FriendshipRequestDto> of(List<FriendshipRequest> entities) {

@@ -13,16 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
-public class FriendshipRequestServiceImpl implements FriendshipRequestService {
+public class FriendshipRequestServiceImpl extends CommonServiceImpl<FriendshipRequest, Long, FriendshipRequestRepository> implements FriendshipRequestService {
 
-    private final FriendshipRequestRepository friendshipRequestRepository;
     private final UserRepository userRepository;
     private final FriendService friendService;
     private final DialogService dialogService;
@@ -32,48 +28,43 @@ public class FriendshipRequestServiceImpl implements FriendshipRequestService {
                                         UserRepository userRepository,
                                         FriendService friendService,
                                         DialogService dialogService) {
-        this.friendshipRequestRepository = friendshipRequestRepository;
+        super(friendshipRequestRepository);
         this.userRepository = userRepository;
         this.friendService = friendService;
         this.dialogService = dialogService;
     }
 
     @Override
-    public void add(FriendshipRequestDto dto) {
+    public void create(FriendshipRequestDto dto) {
         FriendshipRequest request = new FriendshipRequest();
         request.setRequestTo(userRepository.getOne(dto.getToUserId()));
         request.setRequestFrom(userRepository.getOne(dto.getFromUserId()));
-        friendshipRequestRepository.save(request);
+        repository.save(request);
     }
 
     @Override
     @Transactional
     public void accept(long friendshipRequestId) {
-        Optional<FriendshipRequest> requestOptional = friendshipRequestRepository.findById(friendshipRequestId);
-        if (!requestOptional.isPresent()) {
-            log.error("friendship request not found. Id = " + friendshipRequestId);
-            return;
-        }
-        FriendshipRequest request = requestOptional.get();
-        request.setAccept(true);
-        friendshipRequestRepository.save(request);
-        friendService.addFriend(request.getRequestTo().getId(), request.getRequestFrom().getId());
-        dialogService.create(new HashSet<>(Arrays.asList(request.getRequestFrom(), request.getRequestTo())));
+        FriendshipRequest friendshipRequest = findById(friendshipRequestId);
+        friendshipRequest.setAccept(true);
+        repository.save(friendshipRequest);
+        friendService.addFriend(friendshipRequest.getRequestTo().getId(), friendshipRequest.getRequestFrom().getId());
+        dialogService.create(friendshipRequest.getRequestFrom(), friendshipRequest.getRequestTo());
     }
 
     @Override
     public void decline(long friendshipRequestId) {
-        friendshipRequestRepository.deleteById(friendshipRequestId);
+        repository.deleteById(friendshipRequestId);
     }
 
     @Override
     public List<FriendshipRequestDto> find(long userId) {
-        return FriendshipRequestDto.of(friendshipRequestRepository.findByAcceptIsFalseAndRequestToId(userId));
+        return FriendshipRequestDto.of(repository.findByAcceptIsFalseAndRequestToId(userId));
     }
 
     @Override
     public boolean isFriendRequest(long rootUserId, long userId) {
-        return friendshipRequestRepository.existsByRequestFromIdAndRequestToIdAndAcceptIsFalse(rootUserId, userId);
+        return repository.existsByRequestFromIdAndRequestToIdAndAcceptIsFalse(rootUserId, userId);
     }
 
     @Override

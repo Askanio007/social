@@ -27,25 +27,19 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
     }
 
     @Override
-    public UserDto findByEmail(String email) {
-        return UserDto.of(repository.findByEmail(email));
-    }
-
-    @Override
-    public UserDto findDtoById(long id) {
+    public UserDto findBy(long id) {
         return UserDto.of(findById(id));
     }
 
     @Override
     public UserDto registerUser(RegistrationModel registrationModel) {
-        User user = new User();
-        user.setEmail(registrationModel.getEmail());
-        user.setPassword(registrationModel.getPassword());
-        user.setEnable(true);
-        user.setName(formatName(registrationModel.getName()));
-        user.setSurname(formatName(registrationModel.getSurname()));
-        user.getDetails().setSex(registrationModel.getSex());
-
+        User user = User.builder()
+                .email(registrationModel.getEmail())
+                .password(registrationModel.getPassword())
+                .name(formatName(registrationModel.getName()))
+                .surname(formatName(registrationModel.getSurname()))
+                .sex(registrationModel.getSex())
+                .create();
         return save(user);
     }
 
@@ -97,6 +91,12 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
     @Override
     public UserDto save(User user) {
         return UserDto.of(repository.save(user));
+    }
+
+    @Override
+    public UserDto findBy(String email, String password) {
+        User user = repository.findByEmailAndPassword(email, password);
+        return user == null ? null : UserDto.of(user);
     }
 
     private String formatName(String word) {

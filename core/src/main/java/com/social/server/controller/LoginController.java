@@ -23,8 +23,9 @@ public class LoginController {
 
     @GetMapping("/login")
     public Response login(@RequestParam String email, @RequestParam String password) {
-        UserDto userDto = userService.findByEmail(email);
-        if (userDto != null && userDto.getPassword().equals(password)) {
+        UserDto userDto = userService.findBy(email, password);
+
+        if (userDto != null) {
             return Response.ok(userDto);
         }
 

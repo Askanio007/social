@@ -3,8 +3,8 @@ import {api} from '../api';
 
 class WallService {
 
-    async find(receiptId:number, isUser:boolean): Promise<AxiosResponse<any>> {
-        return axios.get(api + '/message/public/' + receiptId + '/' + isUser);
+    async find(receiptId:number, recipientType:RecipientType): Promise<AxiosResponse<any>> {
+        return axios.get(api + '/message/public/' + receiptId + '/' + recipientType);
     }
 
     async sendMessage(message:PublicMessage): Promise<AxiosResponse<any>> {
@@ -16,6 +16,10 @@ export default new WallService();
 export interface PublicMessage {
     message: string,
     recipientId: number,
-    recipientUser: boolean,
+    recipientType: RecipientType,
     senderId: number
+}
+export enum RecipientType {
+    USER = "USER",
+    GROUP = "GROUP"
 }
