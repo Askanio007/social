@@ -9,9 +9,12 @@
     <description>Social Network</description>
     <packaging>pom</packaging>
 
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
     <modules>
         <module>core</module>
-        <module>frontend</module>
     </modules>
 
     <parent>

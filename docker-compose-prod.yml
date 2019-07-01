@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+  server:
+    container_name: social-server
+    image: social-server:latest
+    ports:
+      - 8081:8080
+    depends_on:
+      - postgres
+    environment:
+      - JAVA_OPTIONS=-Xmx512m -Xms256m
+      - SPRING_PROFILES_ACTIVE=prod
+  frontend:
+    container_name: social-web
+    image: social-web:latest
+    ports:
+      - 3001:3000
+  postgres:
+    container_name: postgres
+    image: postgres:11.2
+    environment:
+      - POSTGRES_USER=social
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=social
+    ports:
+      - 5433:5432

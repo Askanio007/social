@@ -106,8 +106,8 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <jdbc.url>jdbc:postgresql://localhost:5432/social</jdbc.url>
-                <jdbc.username>user</jdbc.username>
+                <jdbc.url>jdbc:postgresql://postgres:5432/social</jdbc.url>
+                <jdbc.username>social</jdbc.username>
                 <jdbc.password>password</jdbc.password>
                 <spring.profiles.active>prod</spring.profiles.active>
             </properties>
