@@ -89,7 +89,9 @@ export default class Dialogs extends Component<any, DialogListState> {
                         </ul>
                         <div>
                             <table className="widthMax">
-                                {this.state.dialogs.map((dialog:any) => <this.ListDialogs  key={dialog.id} users={dialog.users} dialog={dialog} />)}
+                                <tbody>
+                                    {this.state.dialogs.map((dialog:any) => <this.ListDialogs  key={dialog.id} users={dialog.users} dialog={dialog} />)}
+                                </tbody>
                             </table>
                         </div>
                     </div>

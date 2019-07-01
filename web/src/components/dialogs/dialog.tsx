@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 import DialogService from '../../service/DialogService';
 import Photo from '../templates/photo';
+import '../../css/dialog.css';
 
 interface DialogState {
     messages: any[],
@@ -19,6 +20,8 @@ export default class Dialog extends Component<any, DialogState> {
         dialogId: 0
     };
 
+    chat:any;
+
     componentDidMount(): void {
         let dialogId = this.props.match.params.dialogId;
         DialogService.findMessages(dialogId).then((res:any) => {
@@ -27,9 +30,10 @@ export default class Dialog extends Component<any, DialogState> {
                     messages: res.data.data,
                     message: "",
                     dialogId: dialogId
-                })
+                });
+                this.scrollToBottom();
             }
-        })
+        });
     }
 
     ListMessages = (value:any) => {
@@ -63,9 +67,14 @@ export default class Dialog extends Component<any, DialogState> {
                 state.messages.push(res.data.data);
                 state.message = "";
                 this.setState(state);
+                this.scrollToBottom();
             }
         })
     };
+
+    scrollToBottom() {
+        this.chat.scrollTop = this.chat.scrollHeight;
+    }
 
 
     render() {
@@ -83,9 +92,13 @@ export default class Dialog extends Component<any, DialogState> {
                             </li>
                         </ul>
                         <div>
-                            <table className="widthMax">
-                                {this.state.messages.map((message:any) => <this.ListMessages  key={message.id} message={message} />)}
-                            </table>
+                            <div className="chat-scroll" ref={(el) => { this.chat = el; }}>
+                                <table className="widthMax">
+                                    <tbody>
+                                    {this.state.messages.map((message:any) => <this.ListMessages  key={message.id} message={message} />)}
+                                    </tbody>
+                                </table>
+                            </div>
                             <div className="form-group">
                                 <textarea name="textMessage" value={this.state.message} className="form-control rounded-0" id="formControlTextarea" rows={3} onChange={this.handleMessage} />
                             </div>

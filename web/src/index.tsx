@@ -49,5 +49,3 @@ fetch(getLocalizationMessage + 'ru')
                 </BrowserRouter>
             </IntlProvider>, document.getElementById('root'));
     });
-
-//serviceWorker.unregister();
