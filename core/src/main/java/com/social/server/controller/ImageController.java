@@ -20,8 +20,7 @@ public class ImageController {
 
     @PostMapping("/user/{rootUserId}/upload")
     public Response uploadUserImage(@PathVariable long rootUserId, @RequestBody MultipartFile file) {
-        userService.savePhoto(rootUserId, file);
-        return Response.ok();
+        return Response.ok(userService.savePhoto(rootUserId, file));
     }
 
     @PostMapping("/group/{groupId}/upload")

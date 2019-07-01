@@ -5,6 +5,10 @@ import com.social.server.util.ImageUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Data
 public class PhotoAndNameDto {
@@ -23,5 +27,11 @@ public class PhotoAndNameDto {
         photoAndNameDto.setFullName(model.getFullName());
         photoAndNameDto.setImage64code(ImageUtil.convertImageTo64encode(model.getImage()));
         return photoAndNameDto;
+    }
+
+    public static <T extends ShortModel> List<PhotoAndNameDto> of(Set<T> models) {
+        return models.stream()
+                .map(PhotoAndNameDto::of)
+                .collect(Collectors.toList());
     }
 }

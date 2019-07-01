@@ -27,6 +27,16 @@ class UserService {
         return axios.post( api + '/' + profile.id + '/profile', profile);
     }
 
+    public async savePhoto(file:File): Promise<AxiosResponse<any>> {
+        let url = api + '/image/user/' + this.getRootUserId() + '/upload';
+        var fileFormData = new FormData();
+        fileFormData.append('file', file);
+        var options = {
+            headers: {'Content-Type': undefined}
+        };
+        return axios.post(url, fileFormData, options)
+    }
+
     public setRootUserId(rootUserId:number) {
         localStorage.setItem("rootUserId", String(rootUserId));
     }

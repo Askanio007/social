@@ -9,6 +9,7 @@ import com.social.server.http.model.RegistrationModel;
 import com.social.server.http.model.UserDetailsModel;
 import com.social.server.service.UserService;
 import com.social.server.util.FileUtil;
+import com.social.server.util.ImageUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,13 +80,15 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
     }
 
     @Override
-    public void savePhoto(long userId, MultipartFile file) {
+    public String savePhoto(long userId, MultipartFile file) {
         User user = findById(userId);
         Path filePath = FileUtil.writeFile(file);
         if (filePath != null) {
             user.getDetails().setImage(Image.of(file.getOriginalFilename(), filePath));
-            save(user);
+            user = repository.save(user);
+            return ImageUtil.convertImageTo64encode(user.getImage());
         }
+        return null;
     }
 
     @Override

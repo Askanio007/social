@@ -49,8 +49,9 @@ public interface UserService extends CommonService<User, Long> {
      * Сохранить фото пользователя
      * @param rootUserId - идентификатор пользователя, который производит поиск
      * @param file - файл в фото
+     * @return фото в формате base64
      */
-    void savePhoto(long rootUserId, MultipartFile file);
+    String savePhoto(long rootUserId, MultipartFile file);
 
     /**
      * Сохранить объект {@link User}

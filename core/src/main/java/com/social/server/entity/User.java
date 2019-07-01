@@ -14,8 +14,8 @@ import java.util.Set;
 @Table(name = "user_social")
 @Entity
 @Data
-@EqualsAndHashCode(exclude = {"details", "friends"})
-@ToString(exclude = {"details", "friends"})
+@EqualsAndHashCode(exclude = {"details", "friends", "groups", "dialogs"})
+@ToString(exclude = {"details", "friends", "groups", "dialogs"})
 public class User implements ShortModel {
     /**
      * Идентификатор

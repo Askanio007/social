@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Data
 public class DialogDto {
     private long id;
-    private List<UserDto> users;
+    private List<PhotoAndNameDto> users;
     private String lastMessage;
     private String dateLastMessage;
 
@@ -24,7 +24,7 @@ public class DialogDto {
         DialogDto dialogDto = new DialogDto();
         dialogDto.setId(entity.getId());
         dialogDto.setLastMessage(entity.getLastMessage());
-        dialogDto.setUsers(UserDto.of(entity.getUsers()));
+        dialogDto.setUsers(PhotoAndNameDto.of(entity.getUsers()));
         dialogDto.setDateLastMessage(DateFormatterUtil.withTimeFormat(entity.getDateLastMessage()));
         return dialogDto;
     }
