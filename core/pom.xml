@@ -93,6 +93,9 @@
     <profiles>
         <profile>
             <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
                 <jdbc.url>jdbc:postgresql://localhost:5432/social</jdbc.url>
                 <jdbc.username>user</jdbc.username>
@@ -102,9 +105,6 @@
         </profile>
         <profile>
             <id>prod</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <jdbc.url>jdbc:postgresql://postgres:5432/social</jdbc.url>
                 <jdbc.username>social</jdbc.username>

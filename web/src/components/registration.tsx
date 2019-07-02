@@ -1,8 +1,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link, Redirect} from 'react-router-dom';
-import {registration} from '../api';
-import axios from 'axios';
 import UserService from '../service/UserService';
 
 interface RegistrationState {
@@ -42,7 +40,7 @@ class Registration extends React.Component<{}, RegistrationState> {
             password: this.state.password,
         };
 
-        axios.post(registration, registrationModel).then( res => {
+        UserService.registration(registrationModel).then((res:any) => {
             if (res.data.success === true) {
                 UserService.setRootUserId(res.data.data.id);
             } else {
@@ -50,7 +48,7 @@ class Registration extends React.Component<{}, RegistrationState> {
                     errors: res.data.errors
                 })
             }
-        })
+        });
     };
 
     render() {

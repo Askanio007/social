@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
-import {api} from '../api';
+import {api} from '../index';
 import UserService from './UserService';
 
 class GroupService {

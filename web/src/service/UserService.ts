@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from 'axios';
-import {api} from '../api';
+import {api} from '../index';
 
 class UserService {
 
@@ -26,6 +26,14 @@ class UserService {
     public async saveProfile(profile:Profile): Promise<AxiosResponse<any>> {
         return axios.post( api + '/' + profile.id + '/profile', profile);
     }
+
+    public async registration(registrationModel:any): Promise<AxiosResponse<any>> {
+        return axios.post(api + "/registration", registrationModel);
+    }
+    public async login(email:any, password:any): Promise<AxiosResponse<any>> {
+        return axios.get(api + "/login?email=" + email + "&password=" + password);
+    }
+
 
     public async savePhoto(file:File): Promise<AxiosResponse<any>> {
         let url = api + '/image/user/' + this.getRootUserId() + '/upload';

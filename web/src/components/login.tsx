@@ -1,8 +1,6 @@
 import React from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
-import axios from 'axios';
-import {login} from '../api';
 import UserService from '../service/UserService';
 
 interface LoginModel {
@@ -22,7 +20,7 @@ class Login extends React.Component<any, LoginModel> {
     };
 
     login = () => {
-        axios.get(login + '?email=' + this.state.email + '&password=' + this.state.password).then( res => {
+        UserService.login(this.state.email, this.state.password).then((res:any) => {
             if (res.data.success === true) {
                 UserService.setRootUserId(res.data.data.id);
             }
@@ -31,7 +29,6 @@ class Login extends React.Component<any, LoginModel> {
                 errors: res.data.errors
             });
         });
-
     };
 
     handleChange = (event: React.FormEvent<HTMLInputElement>) => {
