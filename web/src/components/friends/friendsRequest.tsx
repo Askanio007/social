@@ -5,6 +5,7 @@ import '../../css/friends.css';
 import '../../css/wall.css';
 import {Link} from 'react-router-dom';
 import {AcceptRequestBtn, DeclineRequestBtn} from '../templates/buttons';
+import UserService from '../../service/UserService';
 
 interface FriendsRequestState {
     requests: any[]
@@ -16,8 +17,7 @@ class FriendsRequest extends Component<{}, FriendsRequestState> {
     };
 
     componentDidMount(): void {
-        let rootUserId = localStorage.getItem("rootUserId");
-        FriendService.findRequestsToUser(rootUserId).then((res:any) => {
+        FriendService.findRequestsToUser(UserService.getRootUserId(), (res:any) => {
             if (res.data.success === true) {
                 this.setState({
                     requests: res.data.data

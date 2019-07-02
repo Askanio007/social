@@ -27,6 +27,13 @@ interface UserState {
 
 class User extends Component<any, UserState> {
 
+    rootUserId:number = UserService.getRootUserId();
+    userId:number = this.props.match.params.userId ? this.props.match.params.userId : this.rootUserId;
+    user:any;
+    friendCount:number = 0;
+    groupCount:number = 0;
+    relation:UserRelation = UserRelation.ME;
+
     state: UserState = {
         loading: true,
         user: null,
@@ -35,39 +42,41 @@ class User extends Component<any, UserState> {
         relation: UserRelation.ME
     };
 
+    setUser = (res:any) => {
+        if (res.data.success === true) {
+            this.user = res.data.data;
+        }
+        return UserService.countFriends(this.userId, this.setFriendsCount)
+    };
+
+    setFriendsCount = (res:any) => {
+        if (res.data.success === true) {
+            this.friendCount = res.data.data;
+        }
+        return UserService.countGroups(this.userId, this.setGroupCount)
+    };
+
+    setGroupCount = (res:any) => {
+        if (res.data.success === true) {
+            this.groupCount = res.data.data;
+        }
+        return UserService.getRelation(this.userId, this.setRelation)
+    };
+
+    setRelation = (res:any) => {
+        if (res.data.success === true) {
+            this.relation = res.data.data;
+        }
+    };
+
     componentDidMount() {
-        let user:any;
-        let friendCount:number;
-        let groupCount:number;
-        let relation:UserRelation;
-        const rootUserId = UserService.getRootUserId();
-        let userId:number = this.props.match.params.userId ? this.props.match.params.userId : rootUserId;
-        UserService.find(userId).then((res:any) => {
-            if (res.data.success === true) {
-                user = res.data.data;
-            }
-            return UserService.countFriends(userId)
-        }).then((res:any) => {
-            if (res.data.success === true) {
-                friendCount = res.data.data;
-            }
-            return UserService.countGroups(userId)
-        }).then((res:any) => {
-            if (res.data.success === true) {
-                groupCount = res.data.data;
-            }
-            return UserService.getRelation(rootUserId)
-        }).then((res:any) => {
-            if (res.data.success === true) {
-                relation = res.data.data;
-            }
-        }).then(() => {
+        UserService.find(this.userId, this.setUser).then(() => {
             this.setState({
-                user: user,
-                groupCount: groupCount,
-                friendCount: friendCount,
+                user: this.user,
+                groupCount: this.groupCount,
+                friendCount: this.friendCount,
                 loading: false,
-                relation: relation
+                relation: this.relation
             })
         })
     }

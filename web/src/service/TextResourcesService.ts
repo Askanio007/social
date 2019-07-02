@@ -1,12 +1,11 @@
-import axios, {AxiosResponse} from 'axios';
 import {api} from '../index';
+import ApiClient from './ApiClient';
 
 class TextResourcesService {
 
-    async getAllTextResources(): Promise<AxiosResponse<any>> {
-        return axios.get(api + "/resources?lang=ru");
+    public static getAllTextResources(callback:any): void {
+        ApiClient.get(api + "/resources?lang=ru", callback);
     }
-
 }
 
-export default new TextResourcesService();
+export default TextResourcesService;

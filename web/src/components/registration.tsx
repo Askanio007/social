@@ -2,6 +2,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link, Redirect} from 'react-router-dom';
 import UserService from '../service/UserService';
+import ApiClient from '../service/ApiClient';
 
 interface RegistrationState {
     name?: string;
@@ -25,12 +26,6 @@ class Registration extends React.Component<{}, RegistrationState> {
         isLogged: false
     };
 
-    handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-        this.setState({
-            [event.currentTarget.name]: event.currentTarget.value
-        });
-    };
-
     registration = () => {
         var registrationModel = {
             name: this.state.name,
@@ -39,15 +34,23 @@ class Registration extends React.Component<{}, RegistrationState> {
             email: this.state.email,
             password: this.state.password,
         };
+        UserService.registration(registrationModel, this.handleRegistrationResponse);
+    };
 
-        UserService.registration(registrationModel).then((res:any) => {
-            if (res.data.success === true) {
-                UserService.setRootUserId(res.data.data.id);
-            } else {
-                this.setState({
-                    errors: res.data.errors
-                })
-            }
+    handleRegistrationResponse = (res:any) => {
+        if (res.data.success === true) {
+            UserService.setRootUserId(res.data.data.id);
+            ApiClient.setToken(res.data.token);
+        } else {
+            this.setState({
+                errors: res.data.errors
+            })
+        }
+    };
+
+    handleChange = (event: React.FormEvent<HTMLInputElement>) => {
+        this.setState({
+            [event.currentTarget.name]: event.currentTarget.value
         });
     };
 

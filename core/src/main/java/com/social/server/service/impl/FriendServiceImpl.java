@@ -27,8 +27,8 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
 
     @Override
     public void addFriend(long rootUserId, long friendId) {
-        User user = findById(rootUserId);
-        User friend = findById(friendId);
+        User user = getById(rootUserId);
+        User friend = getById(friendId);
         user.getFriends().add(friend);
         friend.getFriends().add(user);
         repository.saveAll(Arrays.asList(user, friend));
@@ -37,7 +37,7 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
 
     @Override
     public List<UserDto> find(long userId) {
-        return UserDto.of(findById(userId).getFriends());
+        return UserDto.of(getById(userId).getFriends());
     }
 
     @Override
@@ -52,8 +52,8 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
 
     @Override
     public void remove(long rootUserId, long friendId) {
-        User rootUser = findById(rootUserId);
-        User friend = findById(friendId);
+        User rootUser = getById(rootUserId);
+        User friend = getById(friendId);
         rootUser.getFriends().remove(friend);
         friend.getFriends().remove(rootUser);
         repository.saveAll(Arrays.asList(rootUser, friend));

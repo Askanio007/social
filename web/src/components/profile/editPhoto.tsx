@@ -12,7 +12,7 @@ class EditPhoto extends Component<any, EditPhotoState> {
     };
 
     componentDidMount(): void {
-        UserService.getRootUser().then((res:any) => {
+        UserService.getRootUser((res:any) => {
             if (res.data.success === true) {
                 this.setState({currentPhoto: res.data.data.details.image64code});
             }
@@ -21,12 +21,11 @@ class EditPhoto extends Component<any, EditPhotoState> {
 
     handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
-            UserService.savePhoto(event.target.files[0]).then((res:any) => {
+            UserService.savePhoto(event.target.files[0], (res:any) => {
                 if (res.data.success === true) {
                     this.setState({currentPhoto: res.data.data});
                 }
-            }
-            )
+            })
         }
     };
 

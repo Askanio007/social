@@ -42,7 +42,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
 
     @Override
     public GroupDto find(long groupId) {
-        return GroupDto.of(findById(groupId));
+        return GroupDto.of(getById(groupId));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
 
     @Override
     public GroupDto create(long adminId, GroupModel groupModel) {
-        User admin = userService.findById(adminId);
+        User admin = userService.getById(adminId);
         Group group = new Group();
         group.setName(groupModel.getName());
         group.setDescription(groupModel.getDescription());
@@ -70,8 +70,8 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
 
     @Override
     public void join(long userId, long groupId) {
-        Group group = findById(groupId);
-        User user = userService.findById(userId);
+        Group group = getById(groupId);
+        User user = userService.getById(userId);
         group.getUsers().add(user);
         user.getGroups().add(group);
         repository.save(group);
@@ -89,7 +89,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
 
     @Override
     public void savePhoto(long groupId, MultipartFile file) {
-        Group group = findById(groupId);
+        Group group = getById(groupId);
         Path filePath = FileUtil.writeFile(file);
         if (filePath != null) {
             group.setImage(Image.of(file.getName(), filePath));
@@ -99,8 +99,8 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
 
     @Override
     public void exit(long userId, long groupId) {
-        Group group = findById(groupId);
-        User user = userService.findById(userId);
+        Group group = getById(groupId);
+        User user = userService.getById(userId);
         group.getUsers().remove(user);
         user.getGroups().remove(group);
         userService.save(user);

@@ -16,15 +16,15 @@ class Events extends Component<{}, EventsState> {
         events: []
     };
 
+    setListEvents = (res:any) => {
+        if (res.data.success === true) {
+            this.setState({events: res.data.data})
+        }
+    };
+
     componentDidMount() {
         let rootUserId = localStorage.getItem("rootUserId");
-        EventService.find(rootUserId).then((res:any) => {
-            if (res.data.success === true) {
-                this.setState({
-                    events: res.data.data
-                })
-            }
-        })
+        EventService.find(rootUserId, this.setListEvents)
     }
 
     Event = (value:any) => {

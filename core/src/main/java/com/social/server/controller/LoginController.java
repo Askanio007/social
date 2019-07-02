@@ -26,7 +26,7 @@ public class LoginController {
         UserDto userDto = userService.findBy(email, password);
 
         if (userDto != null) {
-            return Response.ok(userDto);
+            return Response.authorized(userDto);
         }
 
         return Response.error(ErrorCode.LOGIN_CREDENTIALS_ERROR);

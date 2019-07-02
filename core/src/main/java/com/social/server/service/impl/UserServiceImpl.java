@@ -12,6 +12,7 @@ import com.social.server.util.FileUtil;
 import com.social.server.util.ImageUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,21 +23,25 @@ import java.util.List;
 @Service
 public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepository> implements UserService {
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordEncoder passwordEncoder) {
         super(userRepository);
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public UserDto findBy(long id) {
-        return UserDto.of(findById(id));
+        return UserDto.of(getById(id));
     }
 
     @Override
     public UserDto registerUser(RegistrationModel registrationModel) {
         User user = User.builder()
                 .email(registrationModel.getEmail())
-                .password(registrationModel.getPassword())
+                .password(passwordEncoder.encode(registrationModel.getPassword()))
                 .name(formatName(registrationModel.getName()))
                 .surname(formatName(registrationModel.getSurname()))
                 .sex(registrationModel.getSex())
@@ -51,7 +56,7 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
 
     @Override
     public UserDto updateProfile(UserDetailsModel userDetailsModel) {
-        User user = findById(userDetailsModel.getId());
+        User user = getById(userDetailsModel.getId());
         UserDetails details = user.getDetails();
 
         details.setAbout(userDetailsModel.getAbout());
@@ -72,6 +77,7 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
         if (StringUtils.isBlank(userName)) {
             return Collections.emptyList();
         }
+
         String[] nameAndSurname = userName.split(" ");
         if (nameAndSurname.length > 1) {
             return UserDto.of(repository.searchByFullName(rootUserId, formatName(nameAndSurname[0]), formatName(nameAndSurname[1])));
@@ -81,7 +87,7 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
 
     @Override
     public String savePhoto(long userId, MultipartFile file) {
-        User user = findById(userId);
+        User user = getById(userId);
         Path filePath = FileUtil.writeFile(file);
         if (filePath != null) {
             user.getDetails().setImage(Image.of(file.getOriginalFilename(), filePath));
@@ -98,7 +104,7 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
 
     @Override
     public UserDto findBy(String email, String password) {
-        User user = repository.findByEmailAndPassword(email, password);
+        User user = repository.findByEmailAndPassword(email, passwordEncoder.encode(password));
         return user == null ? null : UserDto.of(user);
     }
 

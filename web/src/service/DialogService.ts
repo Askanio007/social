@@ -1,24 +1,24 @@
-import axios from 'axios';
 import {api} from '../index';
 import UserService from './UserService';
+import ApiClient from './ApiClient';
 
 class DialogService {
 
-    async find() {
-        return axios.get(api + '/' + UserService.getRootUserId() + '/dialog');
+    public find(callback:any): void {
+        ApiClient.get(api + '/' + UserService.getRootUserId() + '/dialog', callback);
     }
 
-    async findMessages(dialogId:number) {
-        return axios.get(api + '/' + UserService.getRootUserId() + '/dialog/' + dialogId + '/message');
+    public findMessages(dialogId:number, callback:any): void {
+        ApiClient.get(api + '/' + UserService.getRootUserId() + '/dialog/' + dialogId + '/message', callback);
     }
 
-    async saveMessage(message:string, dialogId:number) {
+    public saveMessage(message:string, dialogId:number, callback:any): void {
         let params = {
             senderId: UserService.getRootUserId(),
             message: message,
             dialogId: dialogId
         };
-        return axios.post(api + '/dialog/message/save', params);
+        ApiClient.post(api + '/dialog/message/save', params, {}, callback);
     }
 }
 export default new DialogService();

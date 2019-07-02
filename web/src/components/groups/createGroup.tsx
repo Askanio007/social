@@ -39,7 +39,7 @@ class CreateGroup extends Component<any, CreateGroupState> {
     };
 
     create = () => {
-        GroupService.create(UserService.getRootUserId(), this.state.group).then((res:any) => {
+        GroupService.create(UserService.getRootUserId(), this.state.group, (res:any) => {
             if (res.data.success === true) {
                 this.props.history.push('/group/' + res.data.data.id);
             }

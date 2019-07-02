@@ -4,6 +4,7 @@ import '../../css/wall.css';
 import WallService, {PublicMessage, RecipientType} from '../../service/WallService';
 import Photo from './photo';
 import {Link} from 'react-router-dom';
+import UserService from '../../service/UserService';
 
 interface WallInterface {
     wall?: any
@@ -29,33 +30,35 @@ class Wall extends Component<WallProps, WallInterface> {
     };
 
     componentDidMount() {
-        let publicMessage = {
-            message: "",
-            recipientId: this.props.receiptId,
-            recipientType: this.props.recipientType,
-            senderId: 20
-        };
+        WallService.find(this.props.receiptId, this.props.recipientType, this.handleWallResponse);
+    }
 
-        WallService.find(this.props.receiptId, this.props.recipientType).then((res: any) => {
-            let responseData = res.data;
-            if (responseData.success) {
-                this.setState({
-                    wall: responseData.data,
-                    publicMessage: publicMessage
-                });
-            }
-        })
+    handleWallResponse = (res: any) => {
+        let responseData = res.data;
+        if (responseData.success) {
+            this.setState({
+                wall: responseData.data,
+                publicMessage: {
+                    message: "",
+                    recipientId: this.props.receiptId,
+                    recipientType: this.props.recipientType,
+                    senderId: UserService.getRootUserId()
+                }
+            });
+        }
     }
 
     sendMessage = () => {
         if (this.state.publicMessage.message !== "") {
-            WallService.sendMessage(this.state.publicMessage).then((res:any) => {
-                let state = this.state;
-                state.wall.unshift(res.data.data);
-                state.publicMessage.message = "";
-                this.setState(state);
-            });
+            WallService.sendMessage(this.state.publicMessage, this.handleResponseAfterMessage);
         }
+    };
+
+    handleResponseAfterMessage = (res:any) => {
+        let state = this.state;
+        state.wall.unshift(res.data.data);
+        state.publicMessage.message = "";
+        this.setState(state);
     };
 
     handleMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) => {

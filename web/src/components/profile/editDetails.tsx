@@ -4,9 +4,9 @@ import UserService, {Gender, Profile} from '../../service/UserService';
 import {withRouter} from 'react-router-dom';
 
 interface EditDetailsState {
-    name: string
-    surname: string
-    sex: Gender
+    name?: string
+    surname?: string
+    sex?: Gender
     city?: string
     country?: string
     birthday?: string
@@ -31,7 +31,7 @@ class EditDetails extends Component<any, EditDetailsState> {
 
 
     componentDidMount(): void {
-        UserService.getRootUser().then((res:any) => {
+        UserService.getRootUser((res:any) => {
             if (res.data.success === true) {
                 let data = res.data.data;
                 this.setState({
@@ -52,9 +52,6 @@ class EditDetails extends Component<any, EditDetailsState> {
     updateState = (name:string, value:string) => {
         this.setState({
             [name]: value,
-            name: this.state.name,
-            surname: this.state.surname,
-            sex: this.state.sex,
             errors: this.state.errors
         })
     };
@@ -79,7 +76,7 @@ class EditDetails extends Component<any, EditDetailsState> {
             phone: this.state.phone,
             about: this.state.about,
         };
-        UserService.saveProfile(profile).then((res:any) => {
+        UserService.saveProfile(profile, (res:any) => {
             this.props.history.push('/me');
         })
     };

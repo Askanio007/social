@@ -1,48 +1,48 @@
-import axios, {AxiosResponse} from 'axios';
+import {AxiosResponse} from 'axios';
 import {api} from '../index';
+import ApiClient from './ApiClient';
 
 class UserService {
 
-    public async find(userId:number): Promise<AxiosResponse<any>> {
-       return axios.get( api + '/user/' + userId);
+    public async find(userId:number, callback:any): Promise<any> {
+       return ApiClient.get( api + '/user/' + userId, callback);
     }
 
-    public async getRootUser(): Promise<AxiosResponse<any>> {
-        return axios.get( api + '/user/' + this.getRootUserId());
+    public getRootUser(callback:any):void {
+        ApiClient.get( api + '/user/' + this.getRootUserId(), callback);
     }
 
-    public async getRelation(userId:number): Promise<AxiosResponse<any>> {
-        return axios.get( api + '/' + this.getRootUserId() + '/friends/relation/' + userId);
+    public async getRelation(userId:number, callback?:any): Promise<AxiosResponse<any>> {
+        return ApiClient.get( api + '/' + this.getRootUserId() + '/friends/relation/' + userId, callback);
     }
 
-    public async countGroups(userId:number): Promise<AxiosResponse<any>> {
-        return axios.get( api + '/' + userId + '/groups/count');
+    public async countGroups(userId:number, callback?:any): Promise<AxiosResponse<any>> {
+        return ApiClient.get( api + '/' + userId + '/groups/count', callback);
     }
 
-    public async countFriends(userId:number): Promise<AxiosResponse<any>> {
-        return axios.get( api + '/' + userId + '/friends/count');
+    public async countFriends(userId:number, callback?:any): Promise<AxiosResponse<any>> {
+        return ApiClient.get( api + '/' + userId + '/friends/count', callback);
     }
 
-    public async saveProfile(profile:Profile): Promise<AxiosResponse<any>> {
-        return axios.post( api + '/' + profile.id + '/profile', profile);
+    public saveProfile(profile:Profile, callback:any): void {
+        ApiClient.post( api + '/' + profile.id + '/profile', profile, {}, callback);
     }
 
-    public async registration(registrationModel:any): Promise<AxiosResponse<any>> {
-        return axios.post(api + "/registration", registrationModel);
+    public async registration(registrationModel:any, callback:any) {
+        ApiClient.post(api + "/registration", registrationModel, callback);
     }
-    public async login(email:any, password:any): Promise<AxiosResponse<any>> {
-        return axios.get(api + "/login?email=" + email + "&password=" + password);
+    public async login(email:any, password:any, callback:any) {
+        ApiClient.get(api + "/login?email=" + email + "&password=" + password, callback);
     }
 
-
-    public async savePhoto(file:File): Promise<AxiosResponse<any>> {
+    public savePhoto(file:File, callback:any) {
         let url = api + '/image/user/' + this.getRootUserId() + '/upload';
         var fileFormData = new FormData();
         fileFormData.append('file', file);
         var options = {
             headers: {'Content-Type': undefined}
         };
-        return axios.post(url, fileFormData, options)
+        ApiClient.post(url, fileFormData, options, callback)
     }
 
     public setRootUserId(rootUserId:number) {
@@ -60,9 +60,9 @@ export default new UserService();
 
 export interface Profile {
     id: number
-    name: string
-    surname: string
-    sex: Gender
+    name?: string
+    surname?: string
+    sex?: Gender
     city?: string
     country?: string
     birthday?: Date | null

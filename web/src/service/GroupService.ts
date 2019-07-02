@@ -1,38 +1,39 @@
-import axios, {AxiosResponse} from 'axios';
+import {AxiosResponse} from 'axios';
 import {api} from '../index';
 import UserService from './UserService';
+import ApiClient from './ApiClient';
 
 class GroupService {
-    async findListByUserId(rootUserId:number): Promise<AxiosResponse<any>> {
-        return axios.get(api + '/' + rootUserId + '/groups');
+    public findListByUserId(rootUserId:number, callback:any): void {
+        ApiClient.get(api + '/' + rootUserId + '/groups', callback);
     }
 
-    async create(rootUserId:number, newGroup:Group): Promise<AxiosResponse<any>> {
-        return axios.post(api + '/' + rootUserId + '/groups/create', newGroup);
+    public create(rootUserId:number, newGroup:Group, callback:any): void {
+        ApiClient.post(api + '/' + rootUserId + '/groups/create', newGroup, {}, callback);
     }
 
-    async find(groupId:number): Promise<AxiosResponse<any>> {
-        return axios.get(api + '/group/' + groupId);
+    public async find(groupId:number, callback:any): Promise<any> {
+        return ApiClient.get(api + '/group/' + groupId, callback);
     }
 
-    public async countParticipant(groupId:number): Promise<AxiosResponse<any>> {
-        return axios.get( api + '/group/' + groupId + '/count');
+    public async countParticipant(groupId:number, callback:any): Promise<any> {
+        return ApiClient.get( api + '/group/' + groupId + '/count', callback);
     }
 
     async isUserInGroup(userId:number, groupId:number): Promise<AxiosResponse<any>> {
-        return axios.get(api + '/' + userId + '/groups/existence/' + groupId);
+        return ApiClient.get(api + '/' + userId + '/groups/existence/' + groupId);
     }
 
     async join(groupId:number): Promise<AxiosResponse<any>> {
-        return axios.post(api + '/' + UserService.getRootUserId() + '/groups/' + groupId + '/join');
+        return ApiClient.post(api + '/' + UserService.getRootUserId() + '/groups/' + groupId + '/join');
     }
 
-    async search(groupName:string): Promise<AxiosResponse<any>> {
-        return axios.get(api + '/group/search?groupName=' + groupName);
+    public search(groupName:string, callback:any): void {
+        ApiClient.get(api + '/group/search?groupName=' + groupName, callback);
     }
 
     async exit(groupId:number): Promise<AxiosResponse<any>> {
-        return axios.post(api + '/' + UserService.getRootUserId() + '/groups/' + groupId + '/exit');
+        return ApiClient.post(api + '/' + UserService.getRootUserId() + '/groups/' + groupId + '/exit');
     }
 }
 

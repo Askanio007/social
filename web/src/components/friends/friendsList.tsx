@@ -5,6 +5,7 @@ import '../../css/friends.css';
 import '../../css/wall.css';
 import {Link} from 'react-router-dom';
 import {RemoveFriendBtn, SendMessageBtn} from '../templates/buttons';
+import UserService from '../../service/UserService';
 
 interface FriendsListState {
     friends: any[]
@@ -16,8 +17,7 @@ class FriendsList extends Component<{}, FriendsListState> {
     };
 
     componentDidMount(): void {
-        let rootUserId = localStorage.getItem("rootUserId");
-        FriendService.findToUser(rootUserId).then((res:any) => {
+        FriendService.findToUser(UserService.getRootUserId(),(res:any) => {
             if (res.data.success === true) {
                 this.setState({
                     friends: res.data.data

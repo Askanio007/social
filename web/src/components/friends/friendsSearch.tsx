@@ -55,8 +55,7 @@ class FriendsSearch extends Component<any, FriendsSearchState> {
     };
 
     search = () => {
-        let rootUserId = localStorage.getItem("rootUserId");
-        FriendService.searchUser(this.state.searchText).then((res:any) => {
+        FriendService.searchUser(this.state.searchText,(res:any) => {
             if (res.data.success === true) {
                 let state = this.state;
                 state.friends = res.data.data;

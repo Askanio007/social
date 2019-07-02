@@ -26,4 +26,7 @@ public class ErrorCode {
     public final static String DETAILS_ABOUT_INCORRECT="profile.about.error.incorrect";
     public final static String DETAILS_BIRTHDAY_INCORRECT="profile.birthday.error.incorrect";
 
+    public final static String TOKEN_NOT_FOUND = "login.token.empty";
+    public final static String USER_NOT_ACTIVE = "login.user.not.active";
+
 }

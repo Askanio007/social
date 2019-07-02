@@ -15,7 +15,7 @@ export default class Dialogs extends Component<any, DialogListState> {
     };
 
     componentDidMount(): void {
-        DialogService.find().then((res:any) => {
+        DialogService.find((res:any) => {
             if (res.data.success === true) {
                 this.setState({dialogs : res.data.data});
             }

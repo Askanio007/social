@@ -2,6 +2,7 @@ import React from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 import UserService from '../service/UserService';
+import ApiClient from '../service/ApiClient';
 
 interface LoginModel {
     email?: string;
@@ -20,14 +21,17 @@ class Login extends React.Component<any, LoginModel> {
     };
 
     login = () => {
-        UserService.login(this.state.email, this.state.password).then((res:any) => {
-            if (res.data.success === true) {
-                UserService.setRootUserId(res.data.data.id);
-            }
-            this.setState({
-                isLogged: res.data.success,
-                errors: res.data.errors
-            });
+        UserService.login(this.state.email, this.state.password, this.handleLoginResponse);
+    };
+
+    handleLoginResponse = (res:any) => {
+        if (res.data.success === true) {
+            UserService.setRootUserId(res.data.data.id);
+            ApiClient.setToken(res.data.token);
+        }
+        this.setState({
+            isLogged: res.data.success,
+            errors: res.data.errors
         });
     };
 

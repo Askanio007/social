@@ -31,7 +31,7 @@ let i18nConfig = {
     messages: {}
 };
 
-TextResourcesService.getAllTextResources().then((res:any) => {
+TextResourcesService.getAllTextResources((res:any) => {
     i18nConfig.messages = res.data;
     ReactDOM.render(
         <IntlProvider locale={i18nConfig.locale} messages={i18nConfig.messages}>

@@ -24,7 +24,7 @@ export default class Dialog extends Component<any, DialogState> {
 
     componentDidMount(): void {
         let dialogId = this.props.match.params.dialogId;
-        DialogService.findMessages(dialogId).then((res:any) => {
+        DialogService.findMessages(dialogId, (res:any) => {
             if (res.data.success === true) {
                 this.setState({
                     messages: res.data.data,
@@ -61,7 +61,7 @@ export default class Dialog extends Component<any, DialogState> {
     };
 
     sendMessage = () => {
-        DialogService.saveMessage(this.state.message, this.state.dialogId).then((res:any) => {
+        DialogService.saveMessage(this.state.message, this.state.dialogId, (res:any) => {
             if (res.data.success === true) {
                 let state = this.state;
                 state.messages.push(res.data.data);

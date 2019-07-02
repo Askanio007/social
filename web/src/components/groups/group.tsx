@@ -24,15 +24,16 @@ export default class Group extends Component<any, GroupState> {
         let group:any;
         let participantCount = 0;
         let groupId:number = this.props.match.params.groupId;
-        GroupService.find(groupId).then((res:any) => {
+        GroupService.find(groupId, (res:any) => {
             if (res.data.success === true) {
                 group = res.data.data;
             }
-            return GroupService.countParticipant(groupId)
-        }).then((res:any) => {
-            if (res.data.success === true) {
-                participantCount = res.data.data;
-            }
+        }).then(() => {
+            GroupService.countParticipant(groupId,(res:any) => {
+                if (res.data.success === true) {
+                    participantCount = res.data.data;
+                }
+            })
         }).then(() => {
             this.setState({
                 group: group,

@@ -45,7 +45,7 @@ public class FriendshipRequestServiceImpl extends CommonServiceImpl<FriendshipRe
     @Override
     @Transactional
     public void accept(long friendshipRequestId) {
-        FriendshipRequest friendshipRequest = findById(friendshipRequestId);
+        FriendshipRequest friendshipRequest = getById(friendshipRequestId);
         friendshipRequest.setAccept(true);
         repository.save(friendshipRequest);
         friendService.addFriend(friendshipRequest.getRequestTo().getId(), friendshipRequest.getRequestFrom().getId());

@@ -37,9 +37,10 @@ public class PublicMessageServiceImpl implements PublicMessageService {
         publicMessage.setRecipientId(messageDto.getRecipientId());
         publicMessage.setRecipientType(messageDto.getRecipientType());
 
-        PublicMessageDto message = PublicMessageDto.of(publicMessageRepository.save(publicMessage));
-        eventService.createEvent(messageDto.getSenderId(), message.getId(), null, EventType.ADD_PUBLIC_MESSAGE);
-        return message;
+        publicMessage = publicMessageRepository.save(publicMessage);
+
+        eventService.createEvent(messageDto.getSenderId(), publicMessage.getId(), null, EventType.ADD_PUBLIC_MESSAGE);
+        return PublicMessageDto.of(publicMessageRepository.save(publicMessage));
     }
 
     @Override

@@ -74,11 +74,4 @@ public class UserDetails implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
     private Image image;
-
-    /**
-     * Пользователь
-     */
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "details")
-    private User user;
-
 }

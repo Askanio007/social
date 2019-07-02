@@ -23,7 +23,7 @@ class GroupsSearch extends Component<{}, GroupsSearchState> {
     };
 
     search = () => {
-        GroupService.search(this.state.searchText).then((res:any) => {
+        GroupService.search(this.state.searchText,(res:any) => {
             if (res.data.success === true) {
                 let state = this.state;
                 state.groups = res.data.data;

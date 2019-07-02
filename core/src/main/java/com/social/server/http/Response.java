@@ -1,5 +1,8 @@
 package com.social.server.http;
 
+import com.social.server.dto.UserDto;
+import com.social.server.util.JsonUtil;
+import com.social.server.util.TokenUtil;
 import lombok.Data;
 import org.springframework.validation.ObjectError;
 
@@ -10,6 +13,7 @@ import java.util.stream.Collectors;
 @Data
 public class Response<T> {
     private boolean success;
+    private String token;
     private T data;
     private List<String> errors;
 
@@ -40,5 +44,15 @@ public class Response<T> {
         response.setSuccess(false);
         response.setErrors(Arrays.asList(errorCode));
         return response;
+    }
+
+    public static Response authorized(UserDto userDto) {
+        Response response = Response.ok(userDto);
+        response.setToken(TokenUtil.generateToken(userDto));
+        return response;
+    }
+
+    public String toJson() {
+        return JsonUtil.toJson(this);
     }
 }

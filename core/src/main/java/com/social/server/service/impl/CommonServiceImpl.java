@@ -21,7 +21,7 @@ public abstract class CommonServiceImpl<EntityClass, ID, Repository extends JpaR
     }
 
     @Override
-    public EntityClass findById(ID id) {
+    public EntityClass getById(ID id) {
         Optional<EntityClass> optionalClass = repository.findById(id);
         if (!optionalClass.isPresent()) {
             throw new EntityNotFoundException("Entity " + persistentClass.getName() + " not found. ID = " + id);

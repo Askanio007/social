@@ -8,8 +8,8 @@ package com.social.server.service;
 public interface CommonService<Class, ID> {
 
     /**
-     * Найти Entity по идентификатору
+     * Получить Entity по идентификатору
      * @param id - идентификатор Entity
      */
-    Class findById(ID id);
+    Class getById(ID id);
 }

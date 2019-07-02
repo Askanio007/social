@@ -30,10 +30,10 @@ public class PrivateMessageServiceImpl extends CommonServiceImpl<PrivateMessage,
     @Override
     public PrivateMessageDto save(PrivateMessageDto message) {
         PrivateMessage privateMessage = new PrivateMessage();
-        privateMessage.setSender(userService.findById(message.getSenderId()));
+        privateMessage.setSender(userService.getById(message.getSenderId()));
         privateMessage.setMessage(message.getMessage());
 
-        Dialog dialog = dialogService.findById(message.getDialogId());
+        Dialog dialog = dialogService.getById(message.getDialogId());
         dialog.setDateLastMessage(privateMessage.getCreateDate());
         dialog.setLastMessage(privateMessage.getMessage());
         privateMessage.setDialog(dialog);

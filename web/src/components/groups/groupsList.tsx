@@ -16,7 +16,7 @@ class GroupsList extends Component<any, GroupsListState> {
     };
 
     componentDidMount(): void {
-        GroupService.findListByUserId(UserService.getRootUserId()).then((res:any) => {
+        GroupService.findListByUserId(UserService.getRootUserId(), (res:any) => {
             if (res.data.success === true) {
                 this.setState({
                     groups: res.data.data

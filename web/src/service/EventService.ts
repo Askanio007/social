@@ -1,10 +1,10 @@
-import axios from 'axios';
 import {api} from '../index';
+import ApiClient from './ApiClient';
 
 class EventService {
 
-    async find(rootUserId:any) {
-        return axios.get(api + '/' + rootUserId + '/events');
+    public find(rootUserId:any, callback:any):void {
+        ApiClient.get(api + '/' + rootUserId + '/events', callback);
     }
 
 }
