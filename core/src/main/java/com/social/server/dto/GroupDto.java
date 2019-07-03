@@ -16,6 +16,7 @@ public class GroupDto {
     private String description;
     private String adminName;
     private String avatar64code;
+    private String miniAvatar64code;
     private long adminId;
     private List<PhotoAndNameDto> participant;
 
@@ -32,6 +33,7 @@ public class GroupDto {
         dto.setName(entity.getName());
         dto.setDescription(entity.getDescription());
         dto.setAvatar64code(ImageUtil.convertImageTo64encode(entity.getImage()));
+        dto.setMiniAvatar64code(ImageUtil.convertImageTo64encode(entity.getMiniImage()));
         dto.setParticipant(entity.getUsers().stream()
                 .limit(6)
                 .map(PhotoAndNameDto::of)

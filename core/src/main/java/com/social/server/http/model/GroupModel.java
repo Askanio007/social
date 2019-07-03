@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 @Data
 public class GroupModel {
 
+    private long id;
+
     @Length(min = 2, message = ErrorCode.GROUP_NAME_INCORRECT)
     @NotNull(message = ErrorCode.GROUP_NAME_EMPTY)
     private String name;

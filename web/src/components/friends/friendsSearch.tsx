@@ -35,7 +35,7 @@ class FriendsSearch extends Component<any, FriendsSearchState> {
         return (
             <tr>
                 <td className="vertical-top">
-                    <Photo link={'/user/' + user.id} photoHashCode={user.details.image64code} stylePhoto="photo-friend"/>
+                    <Photo link={'/user/' + user.id} photoHashCode={user.details.miniImage64code} stylePhoto="photo-friend"/>
                 </td>
                 <td className="vertical-top">
                     <div className="wall-record-name">

@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRepository> implements DialogService {
@@ -27,14 +28,20 @@ public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRep
     }
 
     private void create(Set<User> users) {
-        Dialog dialog = new Dialog();
-        dialog.setUsers(users);
-        repository.save(dialog);
+        if (!dialogExist(users)) {
+            Dialog dialog = new Dialog();
+            dialog.setUsers(users);
+            repository.save(dialog);
+        }
     }
 
     @Override
     public void create(User... user) {
         create(new HashSet<>(Arrays.asList(user)));
+    }
+
+    private boolean dialogExist(Set<User> users) {
+        return repository.existsByUsersIdIn(users.stream().map(User::getId).collect(Collectors.toSet()));
     }
 
     @Override

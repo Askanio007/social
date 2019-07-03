@@ -294,5 +294,27 @@
         <dropColumn tableName="public_message" columnName="group_id" />
     </changeSet>
 
+    <changeSet author="Artyom Poshvykin" id="image-add-column-mini-image">
+        <addColumn tableName="user_details_social">
+            <column name="mini_image_id" type="integer"/>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="user_details_social"
+                                 baseColumnNames="mini_image_id"
+                                 constraintName="mini_image_user"
+                                 referencedTableName="image"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+    <changeSet author="Artyom Poshvykin" id="group-add-column-mini-image">
+        <addColumn tableName="group_social">
+            <column name="mini_image_id" type="integer"/>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="group_social"
+                                 baseColumnNames="mini_image_id"
+                                 constraintName="mini_image_group"
+                                 referencedTableName="image"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
 
 </databaseChangeLog>

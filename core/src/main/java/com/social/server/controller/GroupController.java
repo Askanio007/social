@@ -40,9 +40,19 @@ public class GroupController {
         return Response.ok(groupService.countParticipant(groupId));
     }
 
+    @GetMapping("/group/{groupId}/relation/{rootUserId}")
+    public Response relation(@PathVariable long groupId, @PathVariable long rootUserId) {
+        return Response.ok(groupService.getGroupRelationToUser(groupId, rootUserId));
+    }
+
     @PostMapping("/{rootUserId}/groups/create")
     public Response create(@PathVariable long rootUserId, @RequestBody @Valid GroupModel groupModel, BindingResult result) {
         return result.hasErrors() ? Response.error(result.getAllErrors()) : Response.ok(groupService.create(rootUserId, groupModel));
+    }
+
+    @PostMapping("/group/{groupId}/edit")
+    public Response create(@RequestBody @Valid GroupModel groupModel, BindingResult result) {
+        return result.hasErrors() ? Response.error(result.getAllErrors()) : Response.ok(groupService.edit(groupModel));
     }
 
     @GetMapping("/{rootUserId}/groups/existence/{groupId}")

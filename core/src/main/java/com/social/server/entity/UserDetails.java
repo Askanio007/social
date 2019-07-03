@@ -74,4 +74,11 @@ public class UserDetails implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
     private Image image;
+
+    /**
+     * Минриатюра фотография
+     */
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "mini_image_id")
+    private Image miniImage;
 }

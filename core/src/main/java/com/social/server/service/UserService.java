@@ -46,14 +46,6 @@ public interface UserService extends CommonService<User, Long> {
     List<UserDto> search(long rootUserId, String userName);
 
     /**
-     * Сохранить фото пользователя
-     * @param rootUserId - идентификатор пользователя, который производит поиск
-     * @param file - файл в фото
-     * @return фото в формате base64
-     */
-    String savePhoto(long rootUserId, MultipartFile file);
-
-    /**
      * Сохранить объект {@link User}
      * @param user - пользователь
      * @return модель данных пользователя
@@ -65,4 +57,13 @@ public interface UserService extends CommonService<User, Long> {
      * @return модель данных пользователя
      */
     UserDto findBy(String email, String password);
+
+    /**
+     * Сохранить фото пользователя
+     * @param rootUserId - идентификатор пользователя, для которого сохраняется фото
+     * @param file - файл с фото
+     * @param isMini - миниатюра фото или нет
+     * @return фото в формате base64
+     */
+    String savePhoto(long rootUserId, MultipartFile file, boolean isMini);
 }

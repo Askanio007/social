@@ -66,6 +66,13 @@ public class Group implements ShortModel {
     @JoinColumn(name = "image_id")
     private Image image;
 
+    /**
+     * Минриатюра фотография
+     */
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "mini_image_id")
+    private Image miniImage;
+
     @Override
     public String getFullName() {
         return this.name;

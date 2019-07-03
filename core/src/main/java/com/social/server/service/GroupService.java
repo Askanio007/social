@@ -2,6 +2,7 @@ package com.social.server.service;
 
 import com.social.server.dto.GroupDto;
 import com.social.server.entity.Group;
+import com.social.server.entity.GroupRelation;
 import com.social.server.http.model.GroupModel;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,8 +60,9 @@ public interface GroupService extends CommonService<Group, Long> {
      * Сохранить фотографию группы
      * @param groupId - идентификатор группы
      * @param file - файл фотографии
+     * @param isMini - большая или маленькая фотография
      */
-    void savePhoto(long groupId, MultipartFile file);
+    String savePhoto(long groupId, MultipartFile file, boolean isMini);
 
     /**
      * Удалить пользователя из участников группы
@@ -74,4 +76,19 @@ public interface GroupService extends CommonService<Group, Long> {
      * @param userId - идентификатор пользователя
      */
     long countBy(long userId);
+
+    /**
+     * Получить отношение группы и пользователя {@link GroupRelation}
+     * @param groupId - идентификатор группы
+     * @param rootUserId - идентификатор пользователь
+     * @return отношение группы и пользователя
+     */
+    GroupRelation getGroupRelationToUser(long groupId, long rootUserId);
+
+    /**
+     * Редактировать группу
+     * @param groupModel - модель данных группы
+     * @return обновлённая группа
+     */
+    GroupDto edit(GroupModel groupModel);
 }

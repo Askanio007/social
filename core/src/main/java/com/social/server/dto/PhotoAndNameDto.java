@@ -25,7 +25,7 @@ public class PhotoAndNameDto {
         PhotoAndNameDto photoAndNameDto = new PhotoAndNameDto();
         photoAndNameDto.setId(model.getId());
         photoAndNameDto.setFullName(model.getFullName());
-        photoAndNameDto.setImage64code(ImageUtil.convertImageTo64encode(model.getImage()));
+        photoAndNameDto.setImage64code(ImageUtil.convertImageTo64encode(model.getMiniImage()));
         return photoAndNameDto;
     }
 

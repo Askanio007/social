@@ -34,7 +34,7 @@ public class EventDto {
         eventDto.setTargetActionName(event.getTargetActionName());
         eventDto.setUserName(event.getUser().getFullName());
         eventDto.setUserId(event.getUser().getId());
-        eventDto.setUserAvatar64code(ImageUtil.convertImageTo64encode(event.getUser().getDetails().getImage()));
+        eventDto.setUserAvatar64code(ImageUtil.convertImageTo64encode(event.getUser().getMiniImage()));
         eventDto.setDateView(DateFormatterUtil.withoutTimeFormat(event.getDate()));
         return eventDto;
     }

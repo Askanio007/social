@@ -37,7 +37,8 @@ public class PublicMessageDto {
         dto.setSenderId(message.getSender().getId());
         dto.setRecipientId(message.getRecipientId());
         dto.setRecipientType(message.getRecipientType());
-        dto.setAvatarSender(ImageUtil.convertImageTo64encode(message.getSender().getDetails().getImage()));
+        dto.setAvatarSender(ImageUtil.convertImageTo64encode(message.getSender().getMiniImage()));
+
         return dto;
     }
 

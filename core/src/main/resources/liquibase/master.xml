@@ -28,12 +28,23 @@
             <column name="about" type="varchar(255)"/>
             <column name="sex" type="varchar(10)"/>
             <column name="image_id" type="integer" />
+            <column name="mini_image_id" type="integer"/>
         </createTable>
         <addPrimaryKey tableName="user_details_social" columnNames="id" />
         <addForeignKeyConstraint baseTableName="user_details_social"
                                  baseColumnNames="id"
                                  constraintName="user_detail_key"
                                  referencedTableName="user_social"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="user_details_social"
+                                 baseColumnNames="image_id"
+                                 constraintName="image_user"
+                                 referencedTableName="image"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="user_details_social"
+                                 baseColumnNames="mini_image_id"
+                                 constraintName="mini_image_user"
+                                 referencedTableName="image"
                                  referencedColumnNames="id" />
 
         <createTable tableName="group_social">

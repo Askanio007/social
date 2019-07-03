@@ -18,6 +18,6 @@ public interface ShortModel {
     /**
      * Фотография
      */
-    Image getImage();
+    Image getMiniImage();
 
 }

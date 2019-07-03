@@ -29,7 +29,7 @@ public class FriendshipRequestDto {
         dto.setAccept(entity.isAccept());
         dto.setFromUserId(entity.getRequestFrom().getId());
         dto.setFromUserName(entity.getRequestFrom().getFullName());
-        dto.setFromUserAvatar64code(ImageUtil.convertImageTo64encode(entity.getRequestFrom().getDetails().getImage()));
+        dto.setFromUserAvatar64code(ImageUtil.convertImageTo64encode(entity.getRequestFrom().getMiniImage()));
         dto.setToUserId(entity.getRequestTo().getId());
         dto.setToUserName(entity.getRequestTo().getFullName());
         return dto;

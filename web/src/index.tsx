@@ -15,6 +15,7 @@ import Profile from './components/profile/profile';
 import Dialogs from './components/dialogs/dialogs';
 import Dialog from './components/dialogs/dialog';
 import TextResourcesService from './service/TextResourcesService';
+import EditGroup from './components/groups/edit/editGroup';
 
 let tempApi = process.env.REACT_APP_LOCAL_API_URL;
 if (process.env.REACT_APP_PRODUCTION_API_URL) {
@@ -50,6 +51,7 @@ TextResourcesService.getAllTextResources((res:any) => {
                     <Route path='/profile' component={Profile} />
                     <Route path='/dialogs' component={Dialogs} />
                     <Route path='/dialog/:dialogId' component={Dialog} />
+                    <Route path='/editGroup/:groupId' component={EditGroup} />
                 </Switch>
             </BrowserRouter>
         </IntlProvider>, document.getElementById('root'));

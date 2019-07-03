@@ -40,7 +40,7 @@ class FriendsList extends Component<{}, FriendsListState> {
         return (
             <tr>
                 <td className="vertical-top">
-                    <Photo link={"/user/" + friend.id} photoHashCode={friend.details.image64code} stylePhoto="photo-friend"/>
+                    <Photo link={"/user/" + friend.id} photoHashCode={friend.details.miniImage64code} stylePhoto="photo-friend"/>
                 </td>
                 <td className="vertical-top">
                     <div className="wall-record-name">

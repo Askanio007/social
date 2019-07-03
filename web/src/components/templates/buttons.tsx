@@ -35,9 +35,9 @@ class RemoveFriendBtn extends Component<GeneralBtnProps, any> {
     }
 }
 
-class SendMessageBtn extends Component {
+class SendMessageBtn extends Component<any, any> {
     render() {
-        return (<button type="button" className="btn btn-secondary btn-custom"><FormattedMessage id='user.message.send' /></button>);
+        return (<button type="button" className="btn btn-secondary btn-custom" onClick={() => {this.props.history.push('/dialog')}} ><FormattedMessage id='user.message.send' /></button>);
     }
 }
 

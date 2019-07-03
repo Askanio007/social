@@ -22,14 +22,8 @@ class Photo extends Component<PhotoProps, any> {
     };
 
     render() {
-        const imageStyle = {
-            background: 'url(data:image/gif;base64,' + this.props.photoHashCode +')' // 40% 30% no-repeat;
-        };
-
         return (
-            <div className={this.props.stylePhoto} style={imageStyle}>
-                <Link to={this.props.link} />
-            </div>
+            <Link to={this.props.link}><img className={this.props.stylePhoto} src={'data:image/gif;base64,' + this.props.photoHashCode} /></Link>
         );
     }
 }

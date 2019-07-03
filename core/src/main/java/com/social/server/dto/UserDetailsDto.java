@@ -23,6 +23,7 @@ public class UserDetailsDto {
     private String about;
     private Sex sex;
     private String image64code;
+    private String miniImage64code;
 
     public static UserDetailsDto of(UserDetails userDetails) {
         if (userDetails == null) {
@@ -40,6 +41,7 @@ public class UserDetailsDto {
         dto.setPhone(userDetails.getPhone());
         dto.setSex(userDetails.getSex());
         dto.setImage64code(ImageUtil.convertImageTo64encode(userDetails.getImage()));
+        dto.setMiniImage64code(ImageUtil.convertImageTo64encode(userDetails.getMiniImage()));
         return dto;
     }
 }

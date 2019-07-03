@@ -40,7 +40,7 @@ public class PrivateMessageDto {
         privateMessageDto.setCreateDate(entity.getCreateDate());
         privateMessageDto.setCreateDateView(DateFormatterUtil.withTimeFormat(entity.getCreateDate()));
         privateMessageDto.setDialogId(entity.getDialog().getId());
-        privateMessageDto.setImage64encode(ImageUtil.convertImageTo64encode(entity.getSender().getDetails().getImage()));
+        privateMessageDto.setImage64encode(ImageUtil.convertImageTo64encode(entity.getSender().getMiniImage()));
         return privateMessageDto;
     }
 

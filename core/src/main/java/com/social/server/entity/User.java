@@ -99,8 +99,8 @@ public class User implements ShortModel {
     }
 
     @Override
-    public Image getImage() {
-        return this.details.getImage();
+    public Image getMiniImage() {
+        return this.details.getMiniImage();
     }
 
     public static Builder builder() {

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import MainMenu from './templates/menu';
 import Wall from './templates/wall';
-import FriendsBlock from './templates/friendsBlock';
+import UserBlock from './templates/userBlock';
 import GroupBlock from './templates/groupBlock';
 import UserService from '../service/UserService';
 import {AddFriendBtn, RemoveFriendBtn, RequestFriendBtn, SendMessageBtn} from './templates/buttons';
@@ -156,7 +156,7 @@ class User extends Component<any, UserState> {
                             <img className="userPhoto" src={"data:image/JPEG;base64," + this.state.user.details.image64code} />
                         </div>
                         <this.ButtonSet />
-                        <FriendsBlock friends={this.state.user.friends} count={this.state.friendCount}/>
+                        <UserBlock friends={this.state.user.friends} count={this.state.friendCount} title="common.friends"/>
                         <GroupBlock groups={this.state.user.groups} count={this.state.groupCount} />
                     </div>
 

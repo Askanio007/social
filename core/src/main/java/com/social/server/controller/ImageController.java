@@ -20,12 +20,21 @@ public class ImageController {
 
     @PostMapping("/user/{rootUserId}/upload")
     public Response uploadUserImage(@PathVariable long rootUserId, @RequestBody MultipartFile file) {
-        return Response.ok(userService.savePhoto(rootUserId, file));
+        return Response.ok(userService.savePhoto(rootUserId, file, false));
+    }
+
+    @PostMapping("/user/{rootUserId}/mini/upload")
+    public Response uploadUserMiniImage(@PathVariable long rootUserId, @RequestBody MultipartFile file) {
+        return Response.ok(userService.savePhoto(rootUserId, file, true));
     }
 
     @PostMapping("/group/{groupId}/upload")
     public Response uploadGroupImage(@PathVariable long groupId, @RequestBody MultipartFile file) {
-        groupService.savePhoto(groupId, file);
-        return Response.ok();
+        return Response.ok(groupService.savePhoto(groupId, file, false));
+    }
+
+    @PostMapping("/group/{groupId}/mini/upload")
+    public Response uploadGroupMiniImage(@PathVariable long groupId, @RequestBody MultipartFile file) {
+        return Response.ok(groupService.savePhoto(groupId, file, true));
     }
 }

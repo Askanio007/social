@@ -35,14 +35,25 @@ class UserService {
         ApiClient.get(api + "/login?email=" + email + "&password=" + password, callback);
     }
 
-    public savePhoto(file:File, callback:any) {
-        let url = api + '/image/user/' + this.getRootUserId() + '/upload';
+    public savePhoto(userId:number, file:File, callback:any):void {
+        let url = api + '/image/user/' + userId + '/upload';
         var fileFormData = new FormData();
         fileFormData.append('file', file);
         var options = {
             headers: {'Content-Type': undefined}
         };
         ApiClient.post(url, fileFormData, options, callback)
+    }
+
+    public saveMiniPhoto(userId:number, blob:Blob, callback:any):void {
+        let url = api + '/image/user/' + userId + '/mini/upload';
+        var fileFormData = new FormData();
+        fileFormData.append('file', new File([blob], ""));
+        var options = {
+            headers: {'Content-Type': undefined}
+        };
+        ApiClient.post(url, fileFormData, options, callback)
+
     }
 
     public setRootUserId(rootUserId:number) {

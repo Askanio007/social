@@ -7,8 +7,8 @@ import com.social.server.entity.User;
 import com.social.server.entity.UserDetails;
 import com.social.server.http.model.RegistrationModel;
 import com.social.server.http.model.UserDetailsModel;
+import com.social.server.service.ImageService;
 import com.social.server.service.UserService;
-import com.social.server.util.FileUtil;
 import com.social.server.util.ImageUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,12 +23,15 @@ import java.util.List;
 public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepository> implements UserService {
 
     private final PasswordEncoder passwordEncoder;
+    private final ImageService imageService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder,
+                           ImageService imageService) {
         super(userRepository);
         this.passwordEncoder = passwordEncoder;
+        this.imageService = imageService;
     }
 
     @Override
@@ -86,26 +88,40 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
     }
 
     @Override
-    public String savePhoto(long userId, MultipartFile file) {
-        User user = getById(userId);
-        Path filePath = FileUtil.writeFile(file);
-        if (filePath != null) {
-            user.getDetails().setImage(Image.of(file.getOriginalFilename(), filePath));
-            user = repository.save(user);
-            return ImageUtil.convertImageTo64encode(user.getImage());
-        }
-        return null;
-    }
-
-    @Override
     public UserDto save(User user) {
         return UserDto.of(repository.save(user));
     }
 
     @Override
     public UserDto findBy(String email, String password) {
-        User user = repository.findByEmailAndPassword(email, passwordEncoder.encode(password));
+        //User user = repository.findByEmailAndPassword(email, passwordEncoder.encode(password));
+        User user = repository.findByEmailAndPassword(email, password);
         return user == null ? null : UserDto.of(user);
+    }
+
+    @Override
+    public String savePhoto(long userId, MultipartFile file, boolean isMini) {
+        User user = getById(userId);
+
+        if (!isMini) {
+            imageService.deleteImage(user.getMiniImage(), user.getDetails().getImage());
+        }
+
+        Image image = ImageUtil.saveImage(file, user.getId(), isMini);
+
+        if (image == null) {
+            return null;
+        }
+
+        if (isMini) {
+            user.getDetails().setMiniImage(image);
+            user = repository.save(user);
+            return ImageUtil.convertImageTo64encode(user.getMiniImage());
+        }
+
+        user.getDetails().setImage(image);
+        user = repository.save(user);
+        return ImageUtil.convertImageTo64encode(user.getDetails().getImage());
     }
 
     private String formatName(String word) {

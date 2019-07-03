@@ -6,10 +6,11 @@ import '../../css/friendsBlock.css';
 
 interface FriendsBlockProps {
     friends: any
-    count: number;
+    count: number
+    title: string
 }
 
-class FriendsBlock extends Component<FriendsBlockProps, any> {
+class UserBlock extends Component<FriendsBlockProps, any> {
 
 
     constructor(props: FriendsBlockProps, context: any) {
@@ -19,7 +20,8 @@ class FriendsBlock extends Component<FriendsBlockProps, any> {
 
     props: FriendsBlockProps = {
         friends: [],
-        count: 0
+        count: 0,
+        title:""
     };
 
     Friend = (value:any) => {
@@ -39,7 +41,7 @@ class FriendsBlock extends Component<FriendsBlockProps, any> {
         return (
             <div className="blocks">
                 <div className="blocksTitle">
-                    <FormattedMessage id='common.friends' /> ({this.props.count})
+                    <FormattedMessage id={this.props.title} /> ({this.props.count})
                 </div>
                 <div className="left">
                     {friendsBlocks}
@@ -49,4 +51,4 @@ class FriendsBlock extends Component<FriendsBlockProps, any> {
     }
 }
 
-export default FriendsBlock;
+export default UserBlock;
