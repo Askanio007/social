@@ -3,6 +3,7 @@ package com.social.server.service;
 import com.social.server.dto.PublicMessageDto;
 import com.social.server.entity.PublicMessage;
 import com.social.server.entity.PublicMessageRecipientType;
+import com.social.server.http.model.PublicMessageModel;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface PublicMessageService {
      * Создать публичное сообщение
      * @param messageDto - модель публичного сообщения
      */
-    PublicMessageDto create(PublicMessageDto messageDto);
+    PublicMessageDto create(PublicMessageModel messageDto);
 
     /**
      * Найти все публичные сообщения, отправленные получателю

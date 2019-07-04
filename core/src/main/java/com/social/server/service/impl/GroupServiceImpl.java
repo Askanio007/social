@@ -2,13 +2,16 @@ package com.social.server.service.impl;
 
 import com.social.server.dao.GroupRepository;
 import com.social.server.dto.GroupDto;
-import com.social.server.entity.*;
+import com.social.server.entity.EventType;
+import com.social.server.entity.Group;
+import com.social.server.entity.GroupRelation;
+import com.social.server.entity.User;
 import com.social.server.http.model.GroupModel;
 import com.social.server.service.EventService;
 import com.social.server.service.GroupService;
 import com.social.server.service.ImageService;
 import com.social.server.service.UserService;
-import com.social.server.util.ImageUtil;
+import com.social.server.service.transactional.WriteTransactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +25,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
 
     private final UserService userService;
     private final EventService eventService;
-    private final ImageService imageService;
+    private final PhotoSaver<Group, Long> photoSaver;
 
     @Autowired
     public GroupServiceImpl(GroupRepository groupRepository,
@@ -32,7 +35,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
         super(groupRepository);
         this.userService = userService;
         this.eventService = eventService;
-        this.imageService = imageService;
+        this.photoSaver = new PhotoSaver<>(groupRepository, imageService);
     }
 
     @Override
@@ -51,6 +54,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     }
 
     @Override
+    @WriteTransactional
     public GroupDto create(long adminId, GroupModel groupModel) {
         User admin = userService.getById(adminId);
         Group group = new Group();
@@ -69,6 +73,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     }
 
     @Override
+    @WriteTransactional
     public void join(long userId, long groupId) {
         Group group = getById(groupId);
         User user = userService.getById(userId);
@@ -88,32 +93,13 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     }
 
     @Override
+    @WriteTransactional
     public String savePhoto(long groupId, MultipartFile file, boolean isMini) {
-
-        Group group = getById(groupId);
-
-        if (!isMini) {
-            imageService.deleteImage(group.getMiniImage(), group.getImage());
-        }
-
-        Image image = ImageUtil.saveImage(file, group.getId(), isMini);
-
-        if (image == null) {
-            return null;
-        }
-
-        if (isMini) {
-            group.setMiniImage(image);
-            group = repository.save(group);
-            return ImageUtil.convertImageTo64encode(group.getMiniImage());
-        }
-
-        group.setImage(image);
-        group = repository.save(group);
-        return ImageUtil.convertImageTo64encode(group.getImage());
+        return photoSaver.savePhoto(groupId, file, isMini);
     }
 
     @Override
+    @WriteTransactional
     public void exit(long userId, long groupId) {
         Group group = getById(groupId);
         User user = userService.getById(userId);

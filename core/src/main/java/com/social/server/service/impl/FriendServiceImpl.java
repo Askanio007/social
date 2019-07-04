@@ -6,6 +6,7 @@ import com.social.server.entity.EventType;
 import com.social.server.entity.User;
 import com.social.server.service.EventService;
 import com.social.server.service.FriendService;
+import com.social.server.service.transactional.WriteTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
     }
 
     @Override
+    @WriteTransactional
     public void addFriend(long rootUserId, long friendId) {
         User user = getById(rootUserId);
         User friend = getById(friendId);

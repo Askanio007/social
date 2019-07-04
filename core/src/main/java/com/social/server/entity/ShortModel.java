@@ -8,7 +8,7 @@ public interface ShortModel {
     /**
      * Идентификатор
      */
-    Long getId();
+    long getId();
 
     /**
      * Полное имя / название
@@ -16,8 +16,23 @@ public interface ShortModel {
     String getFullName();
 
     /**
-     * Фотография
+     * Мини-фотография
      */
     Image getMiniImage();
+
+    /**
+     * Фотография
+     */
+    Image getImage();
+
+    /**
+     * Задать фотографию
+     */
+    void setImage(Image image);
+
+    /**
+     * Задать мини фотографию
+     */
+    void setMiniImage(Image image);
 
 }

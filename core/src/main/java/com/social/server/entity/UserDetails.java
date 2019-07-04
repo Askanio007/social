@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 @Table(name = "user_details_social")
 @Entity
 @Data
-@EqualsAndHashCode(exclude = "user")
-@ToString(exclude = "user")
+@EqualsAndHashCode
+@ToString
 public class UserDetails implements Serializable {
     /**
      * Идентификатор

@@ -1,7 +1,7 @@
 package com.social.server.controller;
 
-import com.social.server.dto.FriendshipRequestDto;
 import com.social.server.http.Response;
+import com.social.server.http.model.FriendshipRequestModel;
 import com.social.server.service.FriendshipRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +28,8 @@ public class FriendRequestController {
     }
 
     @PostMapping("/add")
-    public Response addFriendRequest(@RequestBody FriendshipRequestDto friendshipRequestDto) {
-        friendshipRequestService.create(friendshipRequestDto);
+    public Response addFriendRequest(@RequestBody FriendshipRequestModel friendshipRequestModel) {
+        friendshipRequestService.create(friendshipRequestModel);
         return Response.ok();
     }
 

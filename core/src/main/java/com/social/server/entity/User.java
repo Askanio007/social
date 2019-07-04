@@ -1,6 +1,7 @@
 package com.social.server.entity;
 
 import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -24,7 +25,7 @@ public class User implements ShortModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     @Column(unique = true, nullable = false)
-    private Long id;
+    private long id;
 
     /**
      * Электронная почта
@@ -94,13 +95,31 @@ public class User implements ShortModel {
     /**
      * Получить имя и фамилию одной строкой
      */
+    @Override
     public String getFullName() {
-        return this.name + " " + this.surname;
+        String name = StringUtils.isBlank(this.name) ? "" : this.name;
+        String surname = StringUtils.isBlank(this.surname) ? "" : this.surname;
+        return (name + " " + surname).trim();
     }
 
     @Override
     public Image getMiniImage() {
         return this.details.getMiniImage();
+    }
+
+    @Override
+    public Image getImage() {
+        return this.details.getImage();
+    }
+
+    @Override
+    public void setImage(Image image) {
+        this.details.setImage(image);
+    }
+
+    @Override
+    public void setMiniImage(Image image) {
+        this.details.setMiniImage(image);
     }
 
     public static Builder builder() {

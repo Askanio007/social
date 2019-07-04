@@ -26,6 +26,30 @@ class Registration extends React.Component<{}, RegistrationState> {
         isLogged: false
     };
 
+    validate = (registrationModel:any):boolean => {
+        let errors = [];
+        if (registrationModel.email == null || registrationModel.email.length < 4) {
+            errors.push("registration.email.error.incorrect");
+        }
+        if (registrationModel.password == null || registrationModel.password.length < 5) {
+            errors.push("registration.password.error.incorrect");
+        }
+        if (registrationModel.name == null || registrationModel.name.length < 3) {
+            errors.push("registration.name.error.incorrect");
+        }
+        if (registrationModel.surname == null || registrationModel.surname.length < 3) {
+            errors.push("registration.surname.error.incorrect");
+        }
+        if (registrationModel.sex == null) {
+            errors.push("registration.sex.error.empty");
+        }
+        if (errors.length > 0) {
+            this.setState({errors: errors});
+            return false;
+        }
+        return true;
+    };
+
     registration = () => {
         var registrationModel = {
             name: this.state.name,
@@ -34,7 +58,9 @@ class Registration extends React.Component<{}, RegistrationState> {
             email: this.state.email,
             password: this.state.password,
         };
-        UserService.registration(registrationModel, this.handleRegistrationResponse);
+        if (this.validate(registrationModel)) {
+            UserService.registration(registrationModel, this.handleRegistrationResponse)
+        }
     };
 
     handleRegistrationResponse = (res:any) => {

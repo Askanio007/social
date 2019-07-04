@@ -6,8 +6,10 @@ import com.social.server.dto.PublicMessageDto;
 import com.social.server.entity.EventType;
 import com.social.server.entity.PublicMessage;
 import com.social.server.entity.PublicMessageRecipientType;
+import com.social.server.http.model.PublicMessageModel;
 import com.social.server.service.EventService;
 import com.social.server.service.PublicMessageService;
+import com.social.server.service.transactional.WriteTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +32,8 @@ public class PublicMessageServiceImpl implements PublicMessageService {
     }
 
     @Override
-    public PublicMessageDto create(PublicMessageDto messageDto) {
+    @WriteTransactional
+    public PublicMessageDto create(PublicMessageModel messageDto) {
         PublicMessage publicMessage = new PublicMessage();
         publicMessage.setMessage(messageDto.getMessage());
         publicMessage.setSender(userRepository.getOne(messageDto.getSenderId()));

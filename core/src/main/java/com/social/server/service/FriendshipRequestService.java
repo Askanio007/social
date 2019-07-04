@@ -3,6 +3,7 @@ package com.social.server.service;
 import com.social.server.dto.FriendshipRequestDto;
 import com.social.server.entity.FriendshipRequest;
 import com.social.server.entity.UserRelation;
+import com.social.server.http.model.FriendshipRequestModel;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface FriendshipRequestService extends CommonService<FriendshipReques
      * Создать запрос
      * @param dto - модель запроса
      */
-    void create(FriendshipRequestDto dto);
+    void create(FriendshipRequestModel dto);
 
     /**
      * Принять запрос

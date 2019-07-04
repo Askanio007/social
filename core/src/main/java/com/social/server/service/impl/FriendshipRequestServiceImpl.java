@@ -5,14 +5,15 @@ import com.social.server.dao.UserRepository;
 import com.social.server.dto.FriendshipRequestDto;
 import com.social.server.entity.FriendshipRequest;
 import com.social.server.entity.UserRelation;
+import com.social.server.http.model.FriendshipRequestModel;
 import com.social.server.service.DialogService;
 import com.social.server.service.FriendService;
 import com.social.server.service.FriendshipRequestService;
+import com.social.server.service.transactional.WriteTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Slf4j
@@ -35,15 +36,15 @@ public class FriendshipRequestServiceImpl extends CommonServiceImpl<FriendshipRe
     }
 
     @Override
-    public void create(FriendshipRequestDto dto) {
+    public void create(FriendshipRequestModel model) {
         FriendshipRequest request = new FriendshipRequest();
-        request.setRequestTo(userRepository.getOne(dto.getToUserId()));
-        request.setRequestFrom(userRepository.getOne(dto.getFromUserId()));
+        request.setRequestTo(userRepository.getOne(model.getToUserId()));
+        request.setRequestFrom(userRepository.getOne(model.getFromUserId()));
         repository.save(request);
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public void accept(long friendshipRequestId) {
         FriendshipRequest friendshipRequest = getById(friendshipRequestId);
         friendshipRequest.setAccept(true);

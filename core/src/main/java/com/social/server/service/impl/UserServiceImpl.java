@@ -2,14 +2,12 @@ package com.social.server.service.impl;
 
 import com.social.server.dao.UserRepository;
 import com.social.server.dto.UserDto;
-import com.social.server.entity.Image;
 import com.social.server.entity.User;
 import com.social.server.entity.UserDetails;
 import com.social.server.http.model.RegistrationModel;
 import com.social.server.http.model.UserDetailsModel;
 import com.social.server.service.ImageService;
 import com.social.server.service.UserService;
-import com.social.server.util.ImageUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,15 +21,15 @@ import java.util.List;
 public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepository> implements UserService {
 
     private final PasswordEncoder passwordEncoder;
-    private final ImageService imageService;
+    private final PhotoSaver<User, Long> photoSaver;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            PasswordEncoder passwordEncoder,
                            ImageService imageService) {
         super(userRepository);
+        this.photoSaver = new PhotoSaver<>(userRepository, imageService);
         this.passwordEncoder = passwordEncoder;
-        this.imageService = imageService;
     }
 
     @Override
@@ -101,27 +99,7 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
 
     @Override
     public String savePhoto(long userId, MultipartFile file, boolean isMini) {
-        User user = getById(userId);
-
-        if (!isMini) {
-            imageService.deleteImage(user.getMiniImage(), user.getDetails().getImage());
-        }
-
-        Image image = ImageUtil.saveImage(file, user.getId(), isMini);
-
-        if (image == null) {
-            return null;
-        }
-
-        if (isMini) {
-            user.getDetails().setMiniImage(image);
-            user = repository.save(user);
-            return ImageUtil.convertImageTo64encode(user.getMiniImage());
-        }
-
-        user.getDetails().setImage(image);
-        user = repository.save(user);
-        return ImageUtil.convertImageTo64encode(user.getDetails().getImage());
+        return photoSaver.savePhoto(userId, file, isMini);
     }
 
     private String formatName(String word) {

@@ -41,7 +41,9 @@ public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRep
     }
 
     private boolean dialogExist(Set<User> users) {
-        return repository.existsByUsersIdIn(users.stream().map(User::getId).collect(Collectors.toSet()));
+        return repository.existsByUsersIdIn(users.stream()
+                .map(User::getId)
+                .collect(Collectors.toSet()));
     }
 
     @Override

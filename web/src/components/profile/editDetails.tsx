@@ -64,6 +64,36 @@ class EditDetails extends Component<any, EditDetailsState> {
         this.updateState(event.currentTarget.name, event.currentTarget.value)
     };
 
+    validate = (profile:Profile):boolean => {
+        let errors= [];
+        if (profile.name == null || profile.name.length < 3) {
+            errors.push("registration.name.error.incorrect");
+        }
+        if (profile.birthday == null) {
+            errors.push("profile.birthday.error.incorrect");
+        }
+        if (profile.surname == null || profile.surname.length < 3) {
+            errors.push("registration.surname.error.incorrect");
+        }
+        if (profile.city == null || profile.city.length < 3) {
+            errors.push("profile.city.error.incorrect");
+        }
+        if (profile.country == null || profile.country.length < 3) {
+            errors.push("profile.country.error.incorrect");
+        }
+        if (profile.phone == null || profile.phone.length < 5) {
+            errors.push("profile.phone.error.incorrect");
+        }
+        if (profile.sex == null) {
+            errors.push("registration.sex.error.empty");
+        }
+        if (errors.length > 0) {
+            this.setState({errors: errors});
+            return false;
+        }
+        return true;
+    };
+
     editProfile = () => {
         let profile:Profile = {
             id: UserService.getRootUserId(),
@@ -76,9 +106,15 @@ class EditDetails extends Component<any, EditDetailsState> {
             phone: this.state.phone,
             about: this.state.about,
         };
-        UserService.saveProfile(profile, (res:any) => {
-            this.props.history.push('/me');
-        })
+        if (this.validate(profile)) {
+            UserService.saveProfile(profile, (res:any) => {
+                if (res.data.success === true) {
+                    this.props.history.push('/me');
+                } else {
+                    this.setState({errors: res.data.errors})
+                }
+            })
+        }
     };
 
     render() {

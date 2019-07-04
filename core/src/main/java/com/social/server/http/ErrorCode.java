@@ -23,10 +23,13 @@ public class ErrorCode {
     public final static String DETAILS_CITY_INCORRECT="profile.city.error.incorrect";
     public final static String DETAILS_COUNTRY_INCORRECT="profile.country.error.incorrect";
     public final static String DETAILS_PHONE_INCORRECT="profile.phone.error.incorrect";
-    public final static String DETAILS_ABOUT_INCORRECT="profile.about.error.incorrect";
     public final static String DETAILS_BIRTHDAY_INCORRECT="profile.birthday.error.incorrect";
 
     public final static String TOKEN_NOT_FOUND = "login.token.empty";
     public final static String USER_NOT_ACTIVE = "login.user.not.active";
+
+    public final static String ID_IS_EMPTY = "common.error.id.empty";
+    public final static String RECIPIENT_TYPE_IS_EMPTY = "public.message.error.type.empty";
+    public final static String MESSAGE_IS_EMPTY = "public.message.error.message.empty";
 
 }

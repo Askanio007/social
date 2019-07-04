@@ -24,7 +24,7 @@ public class Group implements ShortModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     @Column(unique = true, nullable = false)
-    private Long id;
+    private long id;
 
     /**
      * Название группы

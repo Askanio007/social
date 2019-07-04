@@ -33,7 +33,6 @@ public class UserDetailsModel {
     @Length(min = 3, message = DETAILS_COUNTRY_INCORRECT)
     private String country;
 
-    @Length(min = 3, message = DETAILS_ABOUT_INCORRECT)
     private String about;
 
     @BirthdayValid(message = DETAILS_BIRTHDAY_INCORRECT)
