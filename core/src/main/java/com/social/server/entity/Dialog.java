@@ -25,7 +25,7 @@ public class Dialog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     @Column(unique = true, nullable = false)
-    private Long id;
+    private long id;
 
     /**
      * Пользователи, участвующие в диалоге {@link User}

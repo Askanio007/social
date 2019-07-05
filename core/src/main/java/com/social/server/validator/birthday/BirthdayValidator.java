@@ -11,6 +11,7 @@ public class BirthdayValidator implements ConstraintValidator<BirthdayValid, Loc
         if (s == null) {
             return false;
         }
+
         return s.isBefore(LocalDateTime.now());
     }
 }

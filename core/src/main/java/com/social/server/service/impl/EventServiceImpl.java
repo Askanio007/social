@@ -8,6 +8,8 @@ import com.social.server.entity.EventType;
 import com.social.server.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void createEvent(long userId, long targetId, String targetActionName, EventType type) {
         Event event = new Event();
         event.setType(type);

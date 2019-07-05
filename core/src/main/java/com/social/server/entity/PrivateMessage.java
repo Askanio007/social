@@ -23,7 +23,7 @@ public class PrivateMessage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     @Column(unique = true, nullable = false)
-    private Long id;
+    private long id;
 
     /**
      * Время создания

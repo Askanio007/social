@@ -43,7 +43,7 @@ public class PublicMessageServiceImpl implements PublicMessageService {
         publicMessage = publicMessageRepository.save(publicMessage);
 
         eventService.createEvent(messageDto.getSenderId(), publicMessage.getId(), null, EventType.ADD_PUBLIC_MESSAGE);
-        return PublicMessageDto.of(publicMessageRepository.save(publicMessage));
+        return PublicMessageDto.of(publicMessage);
     }
 
     @Override

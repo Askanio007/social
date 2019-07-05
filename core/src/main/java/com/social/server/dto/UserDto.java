@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Data
 public class UserDto {
-    private Long id;
+    private long id;
     private String email;
     private boolean enable;
     private String name;
