@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import Photo from '../templates/photo';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {AddFriendBtn, SendMessageBtn} from '../templates/buttons';
 import FriendService, {FriendshipRequest} from '../../service/FriendService';
 import UserService from '../../service/UserService';
@@ -41,7 +41,7 @@ class FriendsSearch extends Component<any, FriendsSearchState> {
                     <div className="wall-record-name">
                         <h4><Link to={'/user/' + user.id} className="custom-link">{user.fullName}</Link></h4>
                     </div>
-                    <SendMessageBtn />
+                    <SendMessageBtn friendId={user.id} history={this.props.history} />
                     <AddFriendBtn request={request} callback={this.updateRelation}/>
                 </td>
             </tr>
@@ -90,4 +90,4 @@ class FriendsSearch extends Component<any, FriendsSearchState> {
     }
 }
 
-export default FriendsSearch;
+export default withRouter(FriendsSearch);

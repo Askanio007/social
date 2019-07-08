@@ -3,14 +3,14 @@ import FriendService from '../../service/FriendService';
 import Photo from '../templates/photo';
 import '../../css/friends.css';
 import '../../css/wall.css';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {RemoveFriendBtn, SendMessageBtn} from '../templates/buttons';
 import UserService from '../../service/UserService';
 
 interface FriendsListState {
     friends: any[]
 }
-class FriendsList extends Component<{}, FriendsListState> {
+class FriendsList extends Component<any, FriendsListState> {
 
     state: FriendsListState = {
         friends: []
@@ -46,7 +46,7 @@ class FriendsList extends Component<{}, FriendsListState> {
                     <div className="wall-record-name">
                         <h4><Link to={'/user/' + friend.id} className="custom-link">{friend.fullName}</Link></h4>
                     </div>
-                    <SendMessageBtn />
+                    <SendMessageBtn friendId={friend.id} history={this.props.history} />
                     <RemoveFriendBtn id={friend.id} callback={this.updateState} />
                 </td>
             </tr>
@@ -65,4 +65,4 @@ class FriendsList extends Component<{}, FriendsListState> {
     }
 }
 
-export default FriendsList;
+export default withRouter(FriendsList);

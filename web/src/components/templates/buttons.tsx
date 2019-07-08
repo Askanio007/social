@@ -3,6 +3,7 @@ import {FormattedMessage} from 'react-intl';
 import GroupService from '../../service/GroupService';
 import FriendService, {FriendshipRequest} from '../../service/FriendService';
 import {UserRelation} from '../user';
+import DialogService from '../../service/DialogService';
 
 interface GeneralBtnProps {
     id:number
@@ -35,9 +36,22 @@ class RemoveFriendBtn extends Component<GeneralBtnProps, any> {
     }
 }
 
-class SendMessageBtn extends Component<any, any> {
+interface SendMessageProps {
+    friendId:number
+    history:any
+}
+class SendMessageBtn extends Component<SendMessageProps, any> {
+
+    sendMessage = () => {
+        DialogService.findDialogIdBy(this.props.friendId, (res:any) => {
+            if (res.data.success === true) {
+                this.props.history.push('/dialog/' + res.data.data.id);
+            }
+        });
+    };
+
     render() {
-        return (<button type="button" className="btn btn-secondary btn-custom" onClick={() => {this.props.history.push('/dialog')}} ><FormattedMessage id='user.message.send' /></button>);
+        return (<button type="button" className="btn btn-secondary btn-custom" onClick={this.sendMessage} ><FormattedMessage id='user.message.send' /></button>);
     }
 }
 

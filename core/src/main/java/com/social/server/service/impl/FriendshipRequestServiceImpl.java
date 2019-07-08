@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -50,7 +51,7 @@ public class FriendshipRequestServiceImpl extends CommonServiceImpl<FriendshipRe
         friendshipRequest.setAccept(true);
         repository.save(friendshipRequest);
         friendService.addFriend(friendshipRequest.getRequestTo().getId(), friendshipRequest.getRequestFrom().getId());
-        dialogService.create(friendshipRequest.getRequestFrom(), friendshipRequest.getRequestTo());
+        dialogService.create(Arrays.asList(friendshipRequest.getRequestFrom(), friendshipRequest.getRequestTo()));
     }
 
     @Override

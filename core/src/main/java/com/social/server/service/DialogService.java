@@ -20,6 +20,11 @@ public interface DialogService extends CommonService<Dialog, Long> {
     /**
      * Создать диалог между пользователями
      */
-    void create(List<User> users);
-    void create(User... users);
+    DialogDto create(List<User> users);
+
+    /**
+     * Получить диалог пользователей. Если такого нет, то создать
+     */
+    DialogDto getDialogBy(List<Long> usersId);
+
 }

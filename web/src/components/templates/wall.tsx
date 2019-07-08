@@ -72,7 +72,7 @@ class Wall extends Component<WallProps, WallInterface> {
         return (
             <tr className="wall-record">
                 <td>
-                    <Photo stylePhoto="wall-photo-block" link={"/user" + record.senderId} photoHashCode={record.avatarSender} />
+                    <Photo stylePhoto="wall-photo-block" link={"/user/" + record.senderId} photoHashCode={record.avatarSender} />
                 </td>
                 <td className="wall-user-info">
                     <div className="wall-record-name">

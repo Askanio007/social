@@ -20,5 +20,9 @@ class DialogService {
         };
         ApiClient.post(api + '/dialog/message/save', params, {}, callback);
     }
+
+    public findDialogIdBy(friendId:number, callback:any): void {
+        ApiClient.get(api + '/' + UserService.getRootUserId() + '/dialog/' + friendId, callback);
+    }
 }
 export default new DialogService();

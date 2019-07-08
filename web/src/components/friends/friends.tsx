@@ -6,7 +6,7 @@ import FriendsList from './friendsList';
 import FriendsRequest from './friendsRequest';
 import FriendsSearch from './friendsSearch';
 
-class Friends extends Component {
+class Friends extends Component<any, any> {
 
     render() {
         return (

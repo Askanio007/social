@@ -5,10 +5,10 @@ import com.social.server.dto.DialogDto;
 import com.social.server.entity.Dialog;
 import com.social.server.entity.User;
 import com.social.server.service.DialogService;
+import com.social.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,9 +17,12 @@ import java.util.stream.Collectors;
 @Service
 public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRepository> implements DialogService {
 
+    private final UserService userService;
+
     @Autowired
-    public DialogServiceImpl(DialogRepository repository) {
+    public DialogServiceImpl(DialogRepository repository, UserService userService) {
         super(repository);
+        this.userService = userService;
     }
 
     @Override
@@ -27,27 +30,34 @@ public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRep
         return DialogDto.of(repository.findByUsersIdInOrderByDateLastMessageDesc(rootUserId));
     }
 
-    private void create(Set<User> users) {
-        if (!dialogExist(users)) {
-            Dialog dialog = new Dialog();
-            dialog.setUsers(users);
-            repository.save(dialog);
-        }
+    @Override
+    public DialogDto create(List<User> users) {
+        return create(new HashSet<>(users));
     }
 
     @Override
-    public void create(User... user) {
-        create(new HashSet<>(Arrays.asList(user)));
+    public DialogDto getDialogBy(List<Long> usersId) {
+        Set<Long> userList = new HashSet<>(usersId);
+        DialogDto dialogDto = DialogDto.of(repository.findOneByUsersId(userList));
+        if (dialogDto == null) {
+            return create(userList.stream().map(userService::getById).collect(Collectors.toList()));
+        }
+        return dialogDto;
+    }
+
+    private DialogDto create(Set<User> users) {
+        if (dialogExist(users)) {
+            return getDialogBy(users.stream().map(User::getId).collect(Collectors.toList()));
+        }
+
+        Dialog dialog = new Dialog();
+        dialog.setUsers(users);
+        return DialogDto.of(repository.save(dialog));
     }
 
     private boolean dialogExist(Set<User> users) {
         return repository.existsByUsersIdIn(users.stream()
                 .map(User::getId)
                 .collect(Collectors.toSet()));
-    }
-
-    @Override
-    public void create(List<User> users) {
-        create(new HashSet<>(users));
     }
 }

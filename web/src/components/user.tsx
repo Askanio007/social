@@ -10,6 +10,7 @@ import '../css/user.css';
 import {FriendshipRequest} from '../service/FriendService';
 import {withRouter} from 'react-router';
 import {RecipientType} from '../service/WallService';
+import DialogService from '../service/DialogService';
 
 export enum UserRelation {
     ME = "ME",
@@ -19,6 +20,7 @@ export enum UserRelation {
 }
 interface UserState {
     loading?: boolean,
+    userId: number,
     user?: any
     friendCount: number,
     groupCount: number,
@@ -27,8 +29,7 @@ interface UserState {
 
 class User extends Component<any, UserState> {
 
-    rootUserId:number = UserService.getRootUserId();
-    userId:number = this.props.match.params.userId ? this.props.match.params.userId : this.rootUserId;
+    //userId:number = this.props.match.params.userId ? this.props.match.params.userId : this.rootUserId;
     user:any;
     friendCount:number = 0;
     groupCount:number = 0;
@@ -36,6 +37,7 @@ class User extends Component<any, UserState> {
 
     state: UserState = {
         loading: true,
+        userId: this.props.match.params.userId ? this.props.match.params.userId : UserService.getRootUserId(),
         user: null,
         friendCount: 0,
         groupCount: 0,
@@ -46,21 +48,21 @@ class User extends Component<any, UserState> {
         if (res.data.success === true) {
             this.user = res.data.data;
         }
-        return UserService.countFriends(this.userId, this.setFriendsCount)
+        return UserService.countFriends(this.state.userId, this.setFriendsCount)
     };
 
     setFriendsCount = (res:any) => {
         if (res.data.success === true) {
             this.friendCount = res.data.data;
         }
-        return UserService.countGroups(this.userId, this.setGroupCount)
+        return UserService.countGroups(this.state.userId, this.setGroupCount)
     };
 
     setGroupCount = (res:any) => {
         if (res.data.success === true) {
             this.groupCount = res.data.data;
         }
-        return UserService.getRelation(this.userId, this.setRelation)
+        return UserService.getRelation(this.state.userId, this.setRelation)
     };
 
     setRelation = (res:any) => {
@@ -69,9 +71,20 @@ class User extends Component<any, UserState> {
         }
     };
 
-    componentDidMount() {
-        UserService.find(this.userId, this.setUser).then(() => {
+    componentWillReceiveProps(nextProps: Readonly<any>, nextContext: any): void {
+        if (nextProps.match.params.userId !== this.props.match.params.userId) {
             this.setState({
+                userId: nextProps.match.params.userId ? nextProps.match.params.userId : UserService.getRootUserId(),
+                loading: true
+            });
+            this.forceUpdate(() => this.componentDidMount());
+        }
+    }
+
+    componentDidMount() {
+        UserService.find(this.state.userId, this.setUser).then(() => {
+            this.setState({
+                userId: this.state.userId,
                 user: this.user,
                 groupCount: this.groupCount,
                 friendCount: this.friendCount,
@@ -101,10 +114,18 @@ class User extends Component<any, UserState> {
         return (<div><button type="button" className="btn btn-secondary btn-custom btn-margin" onClick={this.redirectToEditProfile} ><FormattedMessage id='common.edit' /></button></div>);
     };
 
+    sendMessage = (friendId:number) => {
+        DialogService.findDialogIdBy(friendId, (res:any) => {
+            if (res.data.success === true) {
+                this.props.history.push('/dialog/' + res.data.data);
+            }
+        })
+    };
+
     FriendPageButton = () => {
         return (
             <div>
-                <SendMessageBtn />
+                <SendMessageBtn friendId={this.state.userId} history={this.props.history} />
                 <RemoveFriendBtn id={this.state.user.id} callback={this.updateRelation} />
             </div>
         )
@@ -113,7 +134,7 @@ class User extends Component<any, UserState> {
     RequestFriendPageButton = () => {
         return (
             <div>
-                <SendMessageBtn />
+                <SendMessageBtn friendId={this.state.userId} history={this.props.history} />
                 <RequestFriendBtn />
             </div>
         )
@@ -126,7 +147,7 @@ class User extends Component<any, UserState> {
         };
         return (
             <div>
-                <SendMessageBtn />
+                <SendMessageBtn friendId={this.state.userId} history={this.props.history} />
                 <AddFriendBtn request={request} callback={this.updateRelation} />
             </div>
         )

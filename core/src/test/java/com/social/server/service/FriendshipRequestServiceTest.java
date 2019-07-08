@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -72,7 +73,7 @@ public class FriendshipRequestServiceTest {
         verify(friendshipRequestRepository).save(request.capture());
         FriendshipRequest friendshipRequest = request.getValue();
         verify(friendService).addFriend(eq(0L), eq(0L));
-        verify(dialogService).create(friendshipRequest.getRequestFrom(), friendshipRequest.getRequestTo());
+        verify(dialogService).create(Arrays.asList(friendshipRequest.getRequestFrom(), friendshipRequest.getRequestTo()));
         Assert.assertTrue(friendshipRequest.isAccept());
     }
 

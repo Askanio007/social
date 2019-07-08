@@ -10,7 +10,7 @@ import UserService from '../../service/UserService';
 interface FriendsRequestState {
     requests: any[]
 }
-class FriendsRequest extends Component<{}, FriendsRequestState> {
+class FriendsRequest extends Component<any, FriendsRequestState> {
 
     state: FriendsRequestState = {
         requests: []

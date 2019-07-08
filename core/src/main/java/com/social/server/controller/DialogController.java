@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
+
 @RestController
 @RequestMapping("/api/v1/{rootUserId}/dialog")
 public class DialogController {
@@ -17,7 +19,8 @@ public class DialogController {
     private final PrivateMessageService privateMessageService;
 
     @Autowired
-    public DialogController(DialogService dialogService, PrivateMessageService privateMessageService) {
+    public DialogController(DialogService dialogService,
+                            PrivateMessageService privateMessageService) {
         this.dialogService = dialogService;
         this.privateMessageService = privateMessageService;
     }
@@ -30,5 +33,10 @@ public class DialogController {
     @GetMapping("/{dialogId}/message")
     public Response list(@PathVariable long dialogId) {
         return Response.ok(privateMessageService.findLastBy(dialogId));
+    }
+
+    @GetMapping("/{friendId}")
+    public Response getDialog(@PathVariable long rootUserId, @PathVariable long friendId) {
+        return Response.ok(dialogService.getDialogBy(Arrays.asList(friendId,rootUserId)));
     }
 }

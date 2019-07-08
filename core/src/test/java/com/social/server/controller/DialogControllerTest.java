@@ -33,6 +33,22 @@ public class DialogControllerTest extends CommonControllerTest {
     }
 
     @Test
+    public void successFindDialogMessages() throws Exception {
+        PrivateMessageDto d = new PrivateMessageDto();
+        d.setMessage("test");
+        d.setDialogId(ID);
+        Mockito.when(privateMessageService.findLastBy(ID)).thenReturn(Arrays.asList(d));
+        checkGetRequest("/api/v1/1/dialog/" + ID + "/message", Response.ok(Arrays.asList(d)));
+    }
+
+    @Test
+    public void successGettingDialog() throws Exception {
+        DialogDto dto = new DialogDto();
+        Mockito.when(dialogService.getDialogBy(Arrays.asList(ID2, ID))).thenReturn(dto);
+        checkGetRequest("/api/v1/" + ID + "/dialog/" + ID2, Response.ok(dto));
+    }
+
+    @Test
     public void failedAccessToFindDialogList() throws Exception {
         failedAccessToEndpoint("/api/v1/1/dialog");
     }
@@ -43,11 +59,7 @@ public class DialogControllerTest extends CommonControllerTest {
     }
 
     @Test
-    public void successFindDialogMessages() throws Exception {
-        PrivateMessageDto d = new PrivateMessageDto();
-        d.setMessage("test");
-        d.setDialogId(ID);
-        Mockito.when(privateMessageService.findLastBy(ID)).thenReturn(Arrays.asList(d));
-        checkGetRequest("/api/v1/1/dialog/" + ID + "/message", Response.ok(Arrays.asList(d)));
+    public void failedAccessToFindDialog() throws Exception {
+        failedAccessToEndpoint("/api/v1/1/dialog/3");
     }
 }
