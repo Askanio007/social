@@ -5,7 +5,10 @@ import com.social.server.http.Response;
 import com.social.server.http.model.PublicMessageModel;
 import com.social.server.service.PublicMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/message/public")
@@ -24,7 +27,7 @@ public class PublicMessageController {
     }
 
     @PostMapping("/save")
-    public Response saveMessage(@RequestBody PublicMessageModel publicMessageModel) {
-        return Response.ok(publicMessageService.create(publicMessageModel));
+    public Response saveMessage(@RequestBody @Valid PublicMessageModel publicMessageModel, BindingResult result) {
+        return result.hasErrors() ? Response.error(result.getAllErrors()) : Response.ok(publicMessageService.create(publicMessageModel));
     }
 }
