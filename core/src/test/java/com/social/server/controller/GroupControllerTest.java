@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -47,8 +48,8 @@ public class GroupControllerTest extends CommonControllerTest {
 
     @Test
     public void successFindUserGroup() throws Exception {
-        when(groupService.findBy(ID)).thenReturn(getListGroups());
-        checkGetRequest(API + "/" + ID + "/groups", Response.ok(getListGroups()));
+        when(groupService.findBy(ID, 1)).thenReturn(new PageImpl<>(getListGroups()));
+        checkGetRequest(API + "/" + ID + "/groups", Response.ok(new PageImpl<>(getListGroups())));
     }
 
     @Test

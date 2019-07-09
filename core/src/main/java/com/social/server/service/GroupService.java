@@ -4,6 +4,7 @@ import com.social.server.dto.GroupDto;
 import com.social.server.entity.Group;
 import com.social.server.entity.GroupRelation;
 import com.social.server.http.model.GroupModel;
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface GroupService extends CommonService<Group, Long> {
      * Найти группы, в которых состоит пользователь
      * @param userId - идентификатор пользователя
      */
-    List<GroupDto> findBy(long userId);
+    Page<GroupDto> findBy(long userId, int page);
 
     /**
      * Найти группу по идентификатору

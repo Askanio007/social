@@ -4,8 +4,8 @@ import ApiClient from './ApiClient';
 
 class DialogService {
 
-    public find(callback:any): void {
-        ApiClient.get(api + '/' + UserService.getRootUserId() + '/dialog', callback);
+    public find(page:number, callback:any): void {
+        ApiClient.get(api + '/' + UserService.getRootUserId() + '/dialog?page=' + page, callback);
     }
 
     public findMessages(dialogId:number, callback:any): void {
@@ -23,6 +23,10 @@ class DialogService {
 
     public findDialogIdBy(friendId:number, callback:any): void {
         ApiClient.get(api + '/' + UserService.getRootUserId() + '/dialog/' + friendId, callback);
+    }
+
+    public findCountNotReadMessage(userId:number, callback:any): Promise<any> {
+        return ApiClient.get(api + '/' + userId + '/dialog/messages/unread/count', callback)
     }
 }
 export default new DialogService();

@@ -29,7 +29,6 @@ interface UserState {
 
 class User extends Component<any, UserState> {
 
-    //userId:number = this.props.match.params.userId ? this.props.match.params.userId : this.rootUserId;
     user:any;
     friendCount:number = 0;
     groupCount:number = 0;
@@ -162,8 +161,6 @@ class User extends Component<any, UserState> {
         }
     };
 
-
-
     render() {
         if (this.state.loading === true) {
             return ("")
@@ -216,7 +213,7 @@ class User extends Component<any, UserState> {
                             </tbody>
                         </table>
 
-                        <Wall receiptId={this.state.user.id} recipientType={RecipientType.USER} />
+                        <Wall receiptId={this.state.userId} recipientType={RecipientType.USER} />
                     </div>
                 </div>
             </div>

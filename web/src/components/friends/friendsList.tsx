@@ -6,25 +6,36 @@ import '../../css/wall.css';
 import {Link, withRouter} from 'react-router-dom';
 import {RemoveFriendBtn, SendMessageBtn} from '../templates/buttons';
 import UserService from '../../service/UserService';
+import {Pagination} from '../templates/pagination';
 
 interface FriendsListState {
     friends: any[]
+    countRecord:number
+    currentPage:number
 }
 class FriendsList extends Component<any, FriendsListState> {
 
     state: FriendsListState = {
-        friends: []
+        friends: [],
+        countRecord: 0,
+        currentPage: 0
     };
 
     componentDidMount(): void {
-        FriendService.findToUser(UserService.getRootUserId(),(res:any) => {
+        this.updateList(0);
+    }
+
+    updateList = (page:number) => {
+        FriendService.findToUser(UserService.getRootUserId(), page,(res:any) => {
             if (res.data.success === true) {
                 this.setState({
-                    friends: res.data.data
+                    friends: res.data.data.content,
+                    countRecord: res.data.data.totalElements,
+                    currentPage: page
                 })
             }
         })
-    }
+    };
 
     updateState = (promise:Promise<any>) => {
         promise.then((res:any) => {
@@ -57,9 +68,14 @@ class FriendsList extends Component<any, FriendsListState> {
         const friends = this.state.friends.map((friend:any) =>
             <this.ListFriends key={friend.id} friend={friend} />
         );
+        let pagination;
+        if (this.state.friends.length > 0) {
+            pagination = <Pagination currentPage={this.state.currentPage} countRecord={this.state.countRecord} handlePage={this.updateList} />
+        }
         return (
             <table className="widthMax">
                <tbody>{friends}</tbody>
+                {pagination}
             </table>
         );
     }

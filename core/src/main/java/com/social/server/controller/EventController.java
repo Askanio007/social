@@ -3,10 +3,7 @@ package com.social.server.controller;
 import com.social.server.http.Response;
 import com.social.server.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/{rootUserId}/events")
@@ -20,7 +17,7 @@ public class EventController {
     }
 
     @GetMapping
-    public Response find(@PathVariable long rootUserId) {
-        return Response.ok(eventService.findBy(rootUserId));
+    public Response find(@PathVariable long rootUserId, @RequestParam int page) {
+        return Response.ok(eventService.findBy(rootUserId, page));
     }
 }

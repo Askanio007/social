@@ -53,6 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.OPTIONS);
         web.ignoring().antMatchers("/api/v1/login",
                 "/api/v1/registration",
+                "/api/v1/forgot-password",
+                "/api/v1/change-password",
                 "/api/v1/resources");
     }
 

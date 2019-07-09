@@ -17,13 +17,8 @@ public class FriendController {
     }
 
     @GetMapping
-    public Response find(@PathVariable long rootUserId) {
-        return Response.ok(friendService.find(rootUserId));
-    }
-
-    @GetMapping("/{count}")
-    public Response findFixCount(@PathVariable long rootUserId, @PathVariable long count) {
-        return Response.ok(friendService.find(rootUserId, count));
+    public Response find(@PathVariable long rootUserId, @RequestParam int page) {
+        return Response.ok(friendService.find(rootUserId, page));
     }
 
     @GetMapping("/count")

@@ -4,6 +4,7 @@ import com.social.server.entity.ShortModel;
 import com.social.server.util.ImageUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 public class PhotoAndNameDto {
     private long id;
     private String fullName;
+    private String shortName;
     private String image64code;
 
     public static <T extends ShortModel> PhotoAndNameDto of(T model) {
@@ -25,6 +27,7 @@ public class PhotoAndNameDto {
         PhotoAndNameDto photoAndNameDto = new PhotoAndNameDto();
         photoAndNameDto.setId(model.getId());
         photoAndNameDto.setFullName(model.getFullName());
+        photoAndNameDto.setShortName(cutName(model.getFullName()));
         photoAndNameDto.setImage64code(ImageUtil.convertImageTo64encode(model.getMiniImage()));
         return photoAndNameDto;
     }
@@ -33,5 +36,12 @@ public class PhotoAndNameDto {
         return models.stream()
                 .map(PhotoAndNameDto::of)
                 .collect(Collectors.toList());
+    }
+
+    private static String cutName(String name) {
+        if (StringUtils.isBlank(name) || name.length() < 13) {
+            return name;
+        }
+        return name.substring(0, 13) + "...";
     }
 }

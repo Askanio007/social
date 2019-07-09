@@ -21,8 +21,8 @@ public class GroupController {
     }
 
     @GetMapping("/{rootUserId}/groups")
-    public Response findAll(@PathVariable long rootUserId) {
-        return Response.ok(groupService.findBy(rootUserId));
+    public Response findAll(@PathVariable long rootUserId, @RequestParam int page) {
+        return Response.ok(groupService.findBy(rootUserId, page));
     }
 
     @GetMapping("/{rootUserId}/groups/count")

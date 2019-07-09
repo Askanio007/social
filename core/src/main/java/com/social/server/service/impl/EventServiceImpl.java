@@ -7,11 +7,11 @@ import com.social.server.entity.Event;
 import com.social.server.entity.EventType;
 import com.social.server.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -27,8 +27,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventDto> findBy(long userId) {
-        return EventDto.of(eventRepository.findByUserFriendsIdInOrderByDateDesc(userId));
+    public Page<EventDto> findBy(long userId, int page) {
+        return eventRepository.findByUserFriendsIdInOrderByDateDesc(userId, PageRequest.of(page, 10)).map(EventDto::of);
     }
 
     @Override

@@ -4,12 +4,16 @@ import ApiClient from './ApiClient';
 
 class FriendService {
 
-    public findToUser(userId:any, callback:any): void {
-        ApiClient.get(api + '/' + userId + '/friends', callback);
+    public findToUser(userId:any, page:number, callback:any): void {
+        ApiClient.get(api + '/' + userId + '/friends?page=' + page, callback);
     }
 
-    public findRequestsToUser(userId:any, callback:any): void {
-        ApiClient.get(api + '/' + userId + '/friends/request', callback);
+    public findCountRequestToUser(userId:any, callback:any): Promise<any> {
+        return ApiClient.get(api + '/' + userId + '/friends/request/count', callback);
+    }
+
+    public findRequestsToUser(userId:any, page:number, callback:any): void {
+        ApiClient.get(api + '/' + userId + '/friends/request?page=' + page, callback);
     }
 
     public searchUser(userName:string, callback:any):void {

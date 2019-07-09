@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -28,8 +29,8 @@ public class FriendRequestControllerTest extends CommonControllerTest {
         dto.setAccept(true);
         dto.setFromUserName("test");
         dto.setToUserName("Test");
-        when(friendshipRequestService.find(ID)).thenReturn(Arrays.asList(dto));
-        checkGetRequest(API, Response.ok(Arrays.asList(dto)));
+        when(friendshipRequestService.find(ID, 1)).thenReturn(new PageImpl<>(Arrays.asList(dto)));
+        checkGetRequest(API, Response.ok(new PageImpl<>(Arrays.asList(dto))));
     }
 
     @Test

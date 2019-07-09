@@ -2,8 +2,7 @@ package com.social.server.service;
 
 import com.social.server.dto.UserDto;
 import com.social.server.entity.User;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 /**
  * Сервис работы с друзьями пользователя {@param rootUserId}
@@ -19,13 +18,7 @@ public interface FriendService extends CommonService<User, Long> {
     /**
      * Список друзей пользователя
      */
-    List<UserDto> find(long rootUserId);
-
-    /**
-     * Список друзей пользователя
-     * @param limit - максимальное кол-во друзей, которое нужно вернуть
-     */
-    List<UserDto> find(long rootUserId, long limit);
+    Page<UserDto> find(long rootUserId, int page);
 
     /**
      * Получить количество друзей

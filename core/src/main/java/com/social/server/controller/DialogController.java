@@ -4,10 +4,7 @@ import com.social.server.http.Response;
 import com.social.server.service.DialogService;
 import com.social.server.service.PrivateMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
@@ -26,13 +23,18 @@ public class DialogController {
     }
 
     @GetMapping
-    public Response find(@PathVariable long rootUserId) {
-        return Response.ok(dialogService.findBy(rootUserId));
+    public Response find(@PathVariable long rootUserId, @RequestParam int page) {
+        return Response.ok(dialogService.findBy(rootUserId, page));
     }
 
     @GetMapping("/{dialogId}/message")
     public Response list(@PathVariable long dialogId) {
         return Response.ok(privateMessageService.findLastBy(dialogId));
+    }
+
+    @GetMapping("/messages/unread/count")
+    public Response countUnreadMessages(@PathVariable long rootUserId) {
+        return Response.ok(dialogService.countUnreadMessage(rootUserId));
     }
 
     @GetMapping("/{friendId}")

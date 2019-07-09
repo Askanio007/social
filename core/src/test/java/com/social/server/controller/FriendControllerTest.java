@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -26,17 +27,8 @@ public class FriendControllerTest extends CommonControllerTest {
         UserDto u = new UserDto();
         u.setEmail("test");
         u.setName("desr");
-        when(friendService.find(ID)).thenReturn(Arrays.asList(u));
-        checkGetRequest(api, Response.ok(Arrays.asList(u)));
-    }
-
-    @Test
-    public void successFindFixCountFriends() throws Exception {
-        UserDto u = new UserDto();
-        u.setEmail("test");
-        u.setName("desr");
-        when(friendService.find(ID, 3)).thenReturn(Arrays.asList(u));
-        checkGetRequest(api + "/3", Response.ok(Arrays.asList(u)));
+        when(friendService.find(ID, 1)).thenReturn(new PageImpl<>(Arrays.asList(u)));
+        checkGetRequest(api, Response.ok(new PageImpl<>(Arrays.asList(u))));
     }
 
     @Test

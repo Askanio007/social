@@ -146,5 +146,18 @@
                                  constraintName="image_user"
                                  referencedTableName="image"
                                  referencedColumnNames="id" />
+
+        <createTable tableName="password_reset_token">
+            <column name="id" type="bigserial" />
+            <column name="token" type="varchar(50)" />
+            <column name="user_id" type="integer" />
+            <column name="expired_date" type="timestamp" />
+        </createTable>
+        <addPrimaryKey tableName="password_reset_token" columnNames="id" />
+        <addForeignKeyConstraint baseTableName="password_reset_token"
+                                 baseColumnNames="user_id"
+                                 constraintName="password-reset-token-user"
+                                 referencedTableName="user"
+                                 referencedColumnNames="id" />
     </changeSet>
 </databaseChangeLog>

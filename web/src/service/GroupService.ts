@@ -4,8 +4,8 @@ import UserService from './UserService';
 import ApiClient from './ApiClient';
 
 class GroupService {
-    public findListByUserId(rootUserId:number, callback:any): void {
-        ApiClient.get(api + '/' + rootUserId + '/groups', callback);
+    public findListByUserId(rootUserId:number, page:number, callback:any): void {
+        ApiClient.get(api + '/' + rootUserId + '/groups?page=' + page, callback);
     }
 
     public create(rootUserId:number, newGroup:Group, callback:any): void {

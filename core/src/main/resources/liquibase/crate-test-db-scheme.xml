@@ -316,5 +316,20 @@
                                  referencedColumnNames="id" />
     </changeSet>
 
+    <changeSet author="Artyom Poshvykin" id="add-table-password_reset_token">
+        <createTable tableName="password_reset_token">
+            <column name="id" type="bigserial" />
+            <column name="token" type="varchar(50)" />
+            <column name="user_id" type="integer" />
+            <column name="expired_date" type="timestamp" />
+        </createTable>
+        <addPrimaryKey tableName="password_reset_token" columnNames="id" />
+        <addForeignKeyConstraint baseTableName="password_reset_token"
+                                 baseColumnNames="user_id"
+                                 constraintName="password-reset-token-user"
+                                 referencedTableName="user_social"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
 
 </databaseChangeLog>

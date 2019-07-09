@@ -21,9 +21,11 @@ public class PublicMessageController {
         this.publicMessageService = publicMessageService;
     }
 
-    @GetMapping("/{recipientId}/{type}")
-    public Response findPublicMessage(@PathVariable Long recipientId, @PathVariable PublicMessageRecipientType type) {
-        return Response.ok(publicMessageService.findByRecipientId(recipientId, type));
+    @GetMapping("/{recipientId}/{type}/{page}")
+    public Response findPublicMessage(@PathVariable Long recipientId,
+                                      @PathVariable PublicMessageRecipientType type,
+                                      @PathVariable int page) {
+        return Response.ok(publicMessageService.findByRecipientId(recipientId, type, page));
     }
 
     @PostMapping("/save")

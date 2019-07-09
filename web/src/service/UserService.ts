@@ -16,6 +16,10 @@ class UserService {
         return ApiClient.get( api + '/' + this.getRootUserId() + '/friends/relation/' + userId, callback);
     }
 
+    public getUserByRestoreToken(token:string, callback:any): void {
+        ApiClient.get(api + "/forgot-password?token=" + token, callback);
+    }
+
     public async countGroups(userId:number, callback?:any): Promise<AxiosResponse<any>> {
         return ApiClient.get( api + '/' + userId + '/groups/count', callback);
     }
@@ -58,6 +62,11 @@ class UserService {
 
     public setRootUserId(rootUserId:number) {
         localStorage.setItem("rootUserId", String(rootUserId));
+    }
+
+    public cleanLocalStorage() {
+        localStorage.setItem("rootUserId", "");
+        localStorage.setItem("token", "");
     }
 
     public getRootUserId():number {

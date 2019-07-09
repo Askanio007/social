@@ -26,6 +26,23 @@ class FriendsSearch extends Component<any, FriendsSearchState> {
         })
     };
 
+    handleSearchText = (event: React.ChangeEvent<HTMLInputElement>) => {
+        let state = this.state;
+        state.searchText = event.currentTarget.value;
+        this.setState(state);
+    };
+
+    search = () => {
+        FriendService.searchUser(this.state.searchText,(res:any) => {
+            if (res.data.success === true) {
+                let state = this.state;
+                state.friends = res.data.data;
+                this.setState(state);
+            }
+        })
+
+    };
+
     FoundedUser = (value:any) => {
         const user = value.user;
         const request:FriendshipRequest = {
@@ -46,23 +63,6 @@ class FriendsSearch extends Component<any, FriendsSearchState> {
                 </td>
             </tr>
         );
-    };
-
-    handleSearchText = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let state = this.state;
-        state.searchText = event.currentTarget.value;
-        this.setState(state);
-    };
-
-    search = () => {
-        FriendService.searchUser(this.state.searchText,(res:any) => {
-            if (res.data.success === true) {
-                let state = this.state;
-                state.friends = res.data.data;
-                this.setState(state);
-            }
-        })
-
     };
 
     render() {

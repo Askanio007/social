@@ -32,4 +32,6 @@ public class ErrorCode {
     public final static String RECIPIENT_TYPE_IS_EMPTY = "public.message.error.type.empty";
     public final static String MESSAGE_IS_EMPTY = "public.message.error.message.empty";
 
+    public final static String RESTORE_TOKEN_NOT_CORRECT = "restore.password.expired.token";
+
 }

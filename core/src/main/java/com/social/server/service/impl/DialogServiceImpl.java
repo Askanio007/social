@@ -7,6 +7,8 @@ import com.social.server.entity.User;
 import com.social.server.service.DialogService;
 import com.social.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -26,8 +28,8 @@ public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRep
     }
 
     @Override
-    public List<DialogDto> findBy(long rootUserId) {
-        return DialogDto.of(repository.findByUsersIdInOrderByDateLastMessageDesc(rootUserId));
+    public Page<DialogDto> findBy(long rootUserId, int page) {
+        return repository.findByUsersIdInOrderByDateLastMessageDesc(rootUserId, PageRequest.of(page, 10)).map(DialogDto::of);
     }
 
     @Override
@@ -43,6 +45,11 @@ public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRep
             return create(userList.stream().map(userService::getById).collect(Collectors.toList()));
         }
         return dialogDto;
+    }
+
+    @Override
+    public long countUnreadMessage(long userId) {
+        return repository.countNotReadMessages(userId);
     }
 
     private DialogDto create(Set<User> users) {

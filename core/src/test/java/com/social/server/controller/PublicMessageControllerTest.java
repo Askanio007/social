@@ -11,10 +11,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(PublicMessageController.class)
@@ -35,8 +36,8 @@ public class PublicMessageControllerTest extends CommonControllerTest{
 
     @Test
     public void successFindPublicMessages() throws Exception {
-        List<PublicMessageDto> list = Arrays.asList(new PublicMessageDto(), new PublicMessageDto());
-        Mockito.when(publicMessageService.findByRecipientId(ID, PublicMessageRecipientType.USER)).thenReturn(list);
+        Page<PublicMessageDto> list = new PageImpl<>(Arrays.asList(new PublicMessageDto(), new PublicMessageDto()));
+        Mockito.when(publicMessageService.findByRecipientId(ID, PublicMessageRecipientType.USER, 1)).thenReturn(list);
         checkGetRequest(API + ID + "/" + PublicMessageRecipientType.USER, Response.ok(list));
     }
 

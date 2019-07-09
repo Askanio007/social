@@ -29,7 +29,7 @@ class UserBlock extends Component<FriendsBlockProps, any> {
         return (
             <div className="friends-block">
                 <Photo stylePhoto="mini-image-block" link={"/user/" + friend.id} photoHashCode={friend.image64code} />
-                <Link to={"/user/" + friend.id} className="custom-link"><p className="friends-name">{friend.fullName}</p></Link>
+                <Link to={"/user/" + friend.id} className="custom-link"><p className="friends-name">{friend.shortName}</p></Link>
             </div>
         )
     };

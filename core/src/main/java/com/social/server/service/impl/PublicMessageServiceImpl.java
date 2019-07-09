@@ -11,9 +11,9 @@ import com.social.server.service.EventService;
 import com.social.server.service.PublicMessageService;
 import com.social.server.service.transactional.WriteTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class PublicMessageServiceImpl implements PublicMessageService {
@@ -47,7 +47,8 @@ public class PublicMessageServiceImpl implements PublicMessageService {
     }
 
     @Override
-    public List<PublicMessageDto> findByRecipientId(Long recipientId, PublicMessageRecipientType type) {
-        return PublicMessageDto.of(publicMessageRepository.findByRecipientIdAndRecipientTypeOrderByCreateDateDesc(recipientId, type));
+    public Page<PublicMessageDto> findByRecipientId(Long recipientId, PublicMessageRecipientType type, int page) {
+        Page<PublicMessage> ss = publicMessageRepository.findAllByRecipientIdAndRecipientType(recipientId, type, PageRequest.of(page, 10));
+        return ss.map(PublicMessageDto::of);
     }
 }

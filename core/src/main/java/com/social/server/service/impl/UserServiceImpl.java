@@ -5,6 +5,7 @@ import com.social.server.dto.UserDto;
 import com.social.server.entity.User;
 import com.social.server.entity.UserDetails;
 import com.social.server.http.model.RegistrationModel;
+import com.social.server.http.model.RestorePasswordModel;
 import com.social.server.http.model.UserDetailsModel;
 import com.social.server.service.ImageService;
 import com.social.server.service.UserService;
@@ -92,14 +93,20 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
 
     @Override
     public UserDto findBy(String email, String password) {
-        //User user = repository.findByEmailAndPassword(email, passwordEncoder.encode(password));
-        User user = repository.findByEmailAndPassword(email, password);
-        return user == null ? null : UserDto.of(user);
+        User user = repository.findByEmail(email);
+        return user != null && passwordEncoder.matches(password, user.getPassword()) ? UserDto.of(user) : null;
     }
 
     @Override
     public String savePhoto(long userId, MultipartFile file, boolean isMini) {
         return photoSaver.savePhoto(userId, file, isMini);
+    }
+
+    @Override
+    public void changePassword(RestorePasswordModel model) {
+        User user = getById(model.getId());
+        user.setPassword(passwordEncoder.encode(model.getPassword()));
+        save(user);
     }
 
     private String formatName(String word) {

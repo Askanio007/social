@@ -72,6 +72,9 @@ class Login extends React.Component<any, LoginModel> {
                             <div className="widthMax center">
                                 <Link to={'/registration'} className="custom-link"><FormattedMessage id="common.registration" /></Link>
                             </div>
+                            <div className="widthMax center">
+                                <Link to={'/forgot-password'} className="custom-link"><FormattedMessage id="common.restore.password" /></Link>
+                            </div>
                         </form>
                     </div>
                 </div>

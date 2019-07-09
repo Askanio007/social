@@ -14,6 +14,8 @@ import com.social.server.service.UserService;
 import com.social.server.service.transactional.WriteTransactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,8 +41,8 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     }
 
     @Override
-    public List<GroupDto> findBy(long userId) {
-        return GroupDto.of(repository.findByUsersIdIn(userId));
+    public Page<GroupDto> findBy(long userId, int page) {
+        return repository.findByUsersIdIn(userId, PageRequest.of(page, 10)).map(GroupDto::of);
     }
 
     @Override

@@ -4,8 +4,7 @@ import com.social.server.dto.FriendshipRequestDto;
 import com.social.server.entity.FriendshipRequest;
 import com.social.server.entity.UserRelation;
 import com.social.server.http.model.FriendshipRequestModel;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 /**
  * Сервия запросов на дружбу
@@ -34,7 +33,13 @@ public interface FriendshipRequestService extends CommonService<FriendshipReques
      * Список запросов
      * @param userId - идентификатор пользователя, которому направлены запросы
      */
-    List<FriendshipRequestDto> find(long userId);
+    Page<FriendshipRequestDto> find(long userId, int page);
+
+    /**
+     * Количетсво запросов в друзья
+     * @param userId - идентификатор пользователя
+     */
+    long countRequests(long userId);
 
     /**
      * Проверить, есть ли запрос в друзья от одного пользователя к другому

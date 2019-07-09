@@ -9,10 +9,11 @@ import com.social.server.service.FriendService;
 import com.social.server.service.transactional.WriteTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -38,13 +39,8 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
     }
 
     @Override
-    public List<UserDto> find(long userId) {
-        return UserDto.of(getById(userId).getFriends());
-    }
-
-    @Override
-    public List<UserDto> find(long userId, long limit) {
-        return null;
+    public Page<UserDto> find(long userId, int page) {
+        return repository.findFriendsBy(userId, PageRequest.of(page, 10)).map(UserDto::of);
     }
 
     @Override

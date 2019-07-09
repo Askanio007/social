@@ -4,23 +4,36 @@ import {FormattedMessage} from 'react-intl';
 import DialogService from '../../service/DialogService';
 import {Link} from 'react-router-dom';
 import UserService from '../../service/UserService';
+import {Pagination} from '../templates/pagination';
 
 interface DialogListState {
     dialogs: any[]
+    countRecord: number
+    currentPage: number
 }
 export default class Dialogs extends Component<any, DialogListState> {
 
     state: DialogListState = {
-        dialogs: []
+        dialogs: [],
+        countRecord: 0,
+        currentPage: 0
     };
 
     componentDidMount(): void {
-        DialogService.find((res:any) => {
+        this.updateList(0);
+    }
+
+    updateList = (page:number) => {
+        DialogService.find(page,(res:any) => {
             if (res.data.success === true) {
-                this.setState({dialogs : res.data.data});
+                this.setState({
+                    dialogs : res.data.data.content,
+                    countRecord: res.data.data.totalElements,
+                    currentPage: page
+                });
             }
         })
-    }
+    };
 
     DialogImage = (value:any) => {
         let user = value.user;
@@ -74,6 +87,10 @@ export default class Dialogs extends Component<any, DialogListState> {
     };
 
     render() {
+        let pagination;
+        if (this.state.dialogs.length > 0) {
+            pagination = <Pagination currentPage={this.state.currentPage} countRecord={this.state.countRecord} handlePage={this.updateList} />
+        }
         return (
             <div className="container">
                 <div className="row">
@@ -93,6 +110,7 @@ export default class Dialogs extends Component<any, DialogListState> {
                                     {this.state.dialogs.map((dialog:any) => <this.ListDialogs  key={dialog.id} users={dialog.users} dialog={dialog} />)}
                                 </tbody>
                             </table>
+                            {pagination}
                         </div>
                     </div>
                 </div>

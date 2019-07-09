@@ -3,6 +3,7 @@ package com.social.server.service;
 import com.social.server.dto.UserDto;
 import com.social.server.entity.User;
 import com.social.server.http.model.RegistrationModel;
+import com.social.server.http.model.RestorePasswordModel;
 import com.social.server.http.model.UserDetailsModel;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -66,4 +67,10 @@ public interface UserService extends CommonService<User, Long> {
      * @return фото в формате base64
      */
     String savePhoto(long rootUserId, MultipartFile file, boolean isMini);
+
+    /**
+     * Изменить пароль пользователю
+     * @param model - пароль с подтверждением
+     */
+    void changePassword(RestorePasswordModel model);
 }

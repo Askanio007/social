@@ -3,6 +3,7 @@ package com.social.server.service;
 import com.social.server.dto.DialogDto;
 import com.social.server.entity.Dialog;
 import com.social.server.entity.User;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface DialogService extends CommonService<Dialog, Long> {
      * Получить все диалоги пользователя
      * @param rootUserId - идентификатор пользователя
      */
-    List<DialogDto> findBy(long rootUserId);
+    Page<DialogDto> findBy(long rootUserId, int page);
 
     /**
      * Создать диалог между пользователями
@@ -27,4 +28,9 @@ public interface DialogService extends CommonService<Dialog, Long> {
      */
     DialogDto getDialogBy(List<Long> usersId);
 
+    /**
+     * Получить количетсво непрочитанных сообщений во всех диалогах
+     * @param userId - иденртификатор пользователя
+     */
+    long countUnreadMessage(long userId);
 }

@@ -5,27 +5,37 @@ import MainMenu from './templates/menu';
 import Photo from './templates/photo';
 import EventService from '../service/EventService';
 import '../css/wall.css';
+import {Pagination} from './templates/pagination';
 
 interface EventsState {
     events: any[]
+    countRecord: number
+    currentPage: number
 }
 
 class Events extends Component<{}, EventsState> {
 
     state: EventsState = {
-        events: []
-    };
-
-    setListEvents = (res:any) => {
-        if (res.data.success === true) {
-            this.setState({events: res.data.data})
-        }
+        events: [],
+        countRecord: 0,
+        currentPage: 0
     };
 
     componentDidMount() {
-        let rootUserId = localStorage.getItem("rootUserId");
-        EventService.find(rootUserId, this.setListEvents)
+        this.updateList(0);
     }
+
+    updateList = (page:number) => {
+        EventService.find(page, (res:any) => {
+            if (res.data.success === true) {
+                this.setState({
+                    events: res.data.data.content,
+                    countRecord: res.data.data.totalElements,
+                    currentPage: page
+                })
+            }
+        })
+    };
 
     Event = (value:any) => {
         let event = value.event;
@@ -52,6 +62,10 @@ class Events extends Component<{}, EventsState> {
                 <this.Event key={event.id} event={event}/>
             );
         }
+        let pagination;
+        if (this.state.events.length > 0) {
+            pagination = <Pagination currentPage={this.state.currentPage} countRecord={this.state.countRecord} handlePage={this.updateList} />
+        }
         return (
             <div className="container">
                 <div className="row">
@@ -69,6 +83,7 @@ class Events extends Component<{}, EventsState> {
                             </tbody>
 
                         </table>
+                        {pagination}
                     </div>
                 </div>
 

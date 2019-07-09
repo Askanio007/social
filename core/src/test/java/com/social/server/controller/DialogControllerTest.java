@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -28,8 +29,8 @@ public class DialogControllerTest extends CommonControllerTest {
         DialogDto d = new DialogDto();
         d.setLastMessage("test");
         d.setDateLastMessage("20.10.2013");
-        Mockito.when(dialogService.findBy(ID)).thenReturn(Arrays.asList(d));
-        checkGetRequest("/api/v1/" + ID + "/dialog", Response.ok(Arrays.asList(d)));
+        Mockito.when(dialogService.findBy(ID, 1)).thenReturn(new PageImpl<>(Arrays.asList(d)));
+        checkGetRequest("/api/v1/" + ID + "/dialog", Response.ok(new PageImpl<>(Arrays.asList(d))));
     }
 
     @Test

@@ -5,9 +5,12 @@ import WallService, {PublicMessage, RecipientType} from '../../service/WallServi
 import Photo from './photo';
 import {Link} from 'react-router-dom';
 import UserService from '../../service/UserService';
+import {Pagination} from './pagination';
 
 interface WallInterface {
-    wall?: any
+    wall: any[]
+    countRecord: number
+    currentPage: number
     publicMessage: PublicMessage
 }
 
@@ -18,35 +21,34 @@ interface WallProps {
 
 class Wall extends Component<WallProps, WallInterface> {
 
-    constructor(props: WallProps, context: WallInterface) {
-        super(props, context);
-        this.props = props;
-        this.state = context;
-    }
-
-    props: WallProps = {
-        receiptId: 0,
-        recipientType: RecipientType.USER
+    state: WallInterface = {
+        wall: [],
+        countRecord: 0,
+        currentPage: 0,
+        publicMessage: {
+            message: "",
+            recipientId: this.props.receiptId,
+            recipientType: this.props.recipientType,
+            senderId: UserService.getRootUserId()
+        }
     };
 
     componentDidMount() {
-        WallService.find(this.props.receiptId, this.props.recipientType, this.handleWallResponse);
+        this.updateWall(0);
     }
 
-    handleWallResponse = (res: any) => {
-        let responseData = res.data;
-        if (responseData.success) {
-            this.setState({
-                wall: responseData.data,
-                publicMessage: {
-                    message: "",
-                    recipientId: this.props.receiptId,
-                    recipientType: this.props.recipientType,
-                    senderId: UserService.getRootUserId()
-                }
-            });
-        }
-    }
+    updateWall = (page:number) => {
+        WallService.find(this.props.receiptId, this.props.recipientType, page, (res:any) => {
+            let resp = res.data;
+            if (resp.success === true) {
+                this.setState({
+                    wall: resp.data.content,
+                    countRecord: resp.data.totalElements,
+                    currentPage: page
+                });
+            }
+        });
+    };
 
     sendMessage = () => {
         if (this.state.publicMessage.message !== "") {
@@ -55,10 +57,12 @@ class Wall extends Component<WallProps, WallInterface> {
     };
 
     handleResponseAfterMessage = (res:any) => {
-        let state = this.state;
-        state.wall.unshift(res.data.data);
-        state.publicMessage.message = "";
-        this.setState(state);
+        if (res.data.success === true) {
+            let state = this.state;
+            state.wall.unshift(res.data.data);
+            state.publicMessage.message = "";
+            this.setState(state);
+        }
     };
 
     handleMessage = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -85,17 +89,18 @@ class Wall extends Component<WallProps, WallInterface> {
         );
     };
 
-
     render() {
         let message = "";
         if (this.state.publicMessage) {
             message = this.state.publicMessage.message;
         }
         let records;
+        let pagination;
         if (this.state.wall) {
             records = this.state.wall.map((record:any) =>
                 <this.WallRecord key={record.id} record={record}/>
             );
+            pagination = <Pagination currentPage={this.state.currentPage} countRecord={this.state.countRecord} handlePage={this.updateWall} />
         }
         return (
             <div>
@@ -108,6 +113,7 @@ class Wall extends Component<WallProps, WallInterface> {
                 <table className="widthMax">
                     <tbody>{records}</tbody>
                 </table>
+                {pagination}
             </div>
 
         )

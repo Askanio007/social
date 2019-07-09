@@ -3,8 +3,12 @@ import ApiClient from './ApiClient';
 
 class WallService {
 
-    public find(receiptId:number, recipientType:RecipientType, callback:any):void {
-        ApiClient.get(api + '/message/public/' + receiptId + '/' + recipientType, callback);
+    public find(receiptId:number, recipientType:RecipientType, page:number, callback:any):Promise<any> {
+        return ApiClient.get(api + '/message/public/' + receiptId + '/' + recipientType + '/' + page, callback);
+    }
+
+    public findCount(receiptId:number, recipientType:RecipientType, callback:any):void {
+        ApiClient.get(api + '/message/public/' + receiptId + '/' + recipientType + '/count', callback);
     }
 
     public sendMessage(message:PublicMessage, callback:any):void {

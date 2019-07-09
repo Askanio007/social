@@ -16,5 +16,15 @@ spring:
   liquibase:
     change-log: classpath:/liquibase/crate-test-db-scheme.xml
     enabled: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: workman.askanio@gmail.com
+    password: 12332166zZ
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.debug: true
+    protocol: smtp
   main:
     allow-bean-definition-overriding: true

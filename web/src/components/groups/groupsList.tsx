@@ -5,25 +5,36 @@ import GroupService from '../../service/GroupService';
 import UserService from '../../service/UserService';
 import Photo from '../templates/photo';
 import {ExitGroupBtn} from '../templates/buttons';
+import {Pagination} from '../templates/pagination';
 
 interface GroupsListState {
     groups: any[]
+    countRecord:number
+    currentPage:number
 }
 class GroupsList extends Component<any, GroupsListState> {
 
     state: GroupsListState = {
-        groups: []
+        groups: [],
+        countRecord:0,
+        currentPage:0
     };
 
     componentDidMount(): void {
-        GroupService.findListByUserId(UserService.getRootUserId(), (res:any) => {
+        this.updateList(0);
+    }
+
+    updateList = (page:number) => {
+        GroupService.findListByUserId(UserService.getRootUserId(), page, (res:any) => {
             if (res.data.success === true) {
                 this.setState({
-                    groups: res.data.data
+                    groups: res.data.data.content,
+                    countRecord: res.data.data.totalElements,
+                    currentPage: page
                 })
             }
         })
-    }
+    };
 
     updateState = (promise:Promise<any>) => {
         promise.then((res:any) => {
@@ -58,6 +69,10 @@ class GroupsList extends Component<any, GroupsListState> {
 
     render() {
         const groups = this.state.groups.map((group:any) => <this.ListGroups key={group.id} group={group}/>);
+        let pagination;
+        if (this.state.groups.length > 0) {
+            pagination = <Pagination currentPage={this.state.currentPage} countRecord={this.state.countRecord} handlePage={this.updateList} />
+        }
         return (
             <div>
                 <button type="button" className="btn btn-secondary btn-custom" onClick={this.createGroupRedirect}><FormattedMessage id="groups.create" /></button>
@@ -66,6 +81,7 @@ class GroupsList extends Component<any, GroupsListState> {
                         {groups}
                     </tbody>
                 </table>
+                {pagination}
             </div>
         );
     }

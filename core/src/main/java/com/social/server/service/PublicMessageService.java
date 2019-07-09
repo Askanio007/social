@@ -4,8 +4,7 @@ import com.social.server.dto.PublicMessageDto;
 import com.social.server.entity.PublicMessage;
 import com.social.server.entity.PublicMessageRecipientType;
 import com.social.server.http.model.PublicMessageModel;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 /**
  * Сервис публичных сообщений
@@ -19,9 +18,10 @@ public interface PublicMessageService {
     PublicMessageDto create(PublicMessageModel messageDto);
 
     /**
-     * Найти все публичные сообщения, отправленные получателю
+     * Найти все публичные сообщения по странично, отправленные получателю
      * @param recipientId - идентификатор получателя
      * @param type - тип получателя {@link PublicMessageRecipientType}
+     * @param page - номер страницы
      */
-    List<PublicMessageDto> findByRecipientId(Long recipientId, PublicMessageRecipientType type);
+    Page<PublicMessageDto> findByRecipientId(Long recipientId, PublicMessageRecipientType type, int page);
 }

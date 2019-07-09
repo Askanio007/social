@@ -1,6 +1,8 @@
 package com.social.server.dao;
 
 import com.social.server.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,8 +13,12 @@ import java.util.Set;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(String email);
-    User findByEmailAndPassword(String email, String password);
+    User findByEmail(String email);
     long countAllByFriendsIdIn(long userId);
+
+    @Query("select f from User u join u.friends f where u.id = :rootUserId")
+    Page<User> findFriendsBy(@Param("rootUserId") long rootUserId, Pageable pageable);
+
     boolean existsByIdAndFriends(long id, User friend);
     @Query("select u from User u where u.id <> :rootUserId and ( " +
             "(u.name like concat('%',:name,'%') and u.surname like concat('%',:surname,'%')) " +
