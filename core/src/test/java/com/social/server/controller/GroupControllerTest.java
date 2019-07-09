@@ -49,7 +49,7 @@ public class GroupControllerTest extends CommonControllerTest {
     @Test
     public void successFindUserGroup() throws Exception {
         when(groupService.findBy(ID, 1)).thenReturn(new PageImpl<>(getListGroups()));
-        checkGetRequest(API + "/" + ID + "/groups", Response.ok(new PageImpl<>(getListGroups())));
+        checkGetRequest(API + "/" + ID + "/groups"  + "?page=1", Response.ok(new PageImpl<>(getListGroups())));
     }
 
     @Test

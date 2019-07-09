@@ -30,7 +30,7 @@ public class DialogControllerTest extends CommonControllerTest {
         d.setLastMessage("test");
         d.setDateLastMessage("20.10.2013");
         Mockito.when(dialogService.findBy(ID, 1)).thenReturn(new PageImpl<>(Arrays.asList(d)));
-        checkGetRequest("/api/v1/" + ID + "/dialog", Response.ok(new PageImpl<>(Arrays.asList(d))));
+        checkGetRequest("/api/v1/" + ID + "/dialog" + "?page=1", Response.ok(new PageImpl<>(Arrays.asList(d))));
     }
 
     @Test

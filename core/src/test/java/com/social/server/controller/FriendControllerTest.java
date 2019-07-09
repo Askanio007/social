@@ -28,7 +28,7 @@ public class FriendControllerTest extends CommonControllerTest {
         u.setEmail("test");
         u.setName("desr");
         when(friendService.find(ID, 1)).thenReturn(new PageImpl<>(Arrays.asList(u)));
-        checkGetRequest(api, Response.ok(new PageImpl<>(Arrays.asList(u))));
+        checkGetRequest(api + "?page=1", Response.ok(new PageImpl<>(Arrays.asList(u))));
     }
 
     @Test

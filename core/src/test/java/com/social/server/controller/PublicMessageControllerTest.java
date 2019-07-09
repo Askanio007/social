@@ -38,7 +38,7 @@ public class PublicMessageControllerTest extends CommonControllerTest{
     public void successFindPublicMessages() throws Exception {
         Page<PublicMessageDto> list = new PageImpl<>(Arrays.asList(new PublicMessageDto(), new PublicMessageDto()));
         Mockito.when(publicMessageService.findByRecipientId(ID, PublicMessageRecipientType.USER, 1)).thenReturn(list);
-        checkGetRequest(API + ID + "/" + PublicMessageRecipientType.USER, Response.ok(list));
+        checkGetRequest(API + ID + "/" + PublicMessageRecipientType.USER + "?page=1", Response.ok(list));
     }
 
     @Test

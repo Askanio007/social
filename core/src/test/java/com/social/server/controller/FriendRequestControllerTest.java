@@ -30,7 +30,7 @@ public class FriendRequestControllerTest extends CommonControllerTest {
         dto.setFromUserName("test");
         dto.setToUserName("Test");
         when(friendshipRequestService.find(ID, 1)).thenReturn(new PageImpl<>(Arrays.asList(dto)));
-        checkGetRequest(API, Response.ok(new PageImpl<>(Arrays.asList(dto))));
+        checkGetRequest(API + "?page=1", Response.ok(new PageImpl<>(Arrays.asList(dto))));
     }
 
     @Test

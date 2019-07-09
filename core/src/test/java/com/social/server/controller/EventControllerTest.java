@@ -32,6 +32,6 @@ public class EventControllerTest extends CommonControllerTest {
         eventDto.setDescription("test");
         eventDto.setTargetActionName("test");
         when(eventService.findBy(ID, 1)).thenReturn(new PageImpl<>(Arrays.asList(eventDto)));
-        checkGetRequest("/api/v1/" + ID + "/events", Response.ok(Arrays.asList(eventDto)));
+        checkGetRequest("/api/v1/" + ID + "/events" + "?page=1", Response.ok(new PageImpl<>(Arrays.asList(eventDto))));
     }
 }

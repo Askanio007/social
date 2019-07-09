@@ -21,10 +21,10 @@ public class PublicMessageController {
         this.publicMessageService = publicMessageService;
     }
 
-    @GetMapping("/{recipientId}/{type}/{page}")
+    @GetMapping("/{recipientId}/{type}")
     public Response findPublicMessage(@PathVariable Long recipientId,
                                       @PathVariable PublicMessageRecipientType type,
-                                      @PathVariable int page) {
+                                      @RequestParam int page) {
         return Response.ok(publicMessageService.findByRecipientId(recipientId, type, page));
     }
 
