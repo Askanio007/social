@@ -46,7 +46,6 @@ class GroupService {
 
     public savePhoto(groupId:number, file:File, callback:any):void {
         let url = api + '/image/group/' + groupId + '/upload';
-        console.log(url);
         var fileFormData = new FormData();
         fileFormData.append('file', file);
         var options = {

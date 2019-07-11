@@ -38,13 +38,10 @@ let i18nConfig = {
 };
 
 function isLogged() {
-    console.log(ApiClient.getToken())
-    console.log(UserService.getRootUserId())
     return ApiClient.getToken() != null && ApiClient.getToken() !== "" && UserService.getRootUserId() !== 0;
 }
 
 function authCheck(element:React.ReactNode) {
-    console.log(isLogged());
     return isLogged() ? element : <Redirect to="/" />
 }
 
