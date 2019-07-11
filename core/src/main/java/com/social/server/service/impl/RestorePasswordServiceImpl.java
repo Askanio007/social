@@ -7,15 +7,17 @@ import com.social.server.entity.PasswordResetToken;
 import com.social.server.entity.User;
 import com.social.server.service.EmailService;
 import com.social.server.service.RestorePasswordService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class RestorePasswordServiceImpl implements RestorePasswordService {
-    private final static int PASSWORD_RESTORE_TOKEN_LIVE_TIME = 30; //days
+    private final static int PASSWORD_RESTORE_TOKEN_LIVE_TIME = 10; //days
     private final UserRepository userRepository;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
     private final EmailService emailService;
@@ -31,20 +33,27 @@ public class RestorePasswordServiceImpl implements RestorePasswordService {
 
     @Override
     public boolean sendRestoreLinkTo(String email) {
+        log.debug("Send restore password link to email {}", email);
         if (!userRepository.existsByEmail(email)) {
+            log.debug("Email {} not exist in system", email);
             return false;
         }
+
         User user = userRepository.findByEmail(email);
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByUserId(user.getId());
         if (passwordResetToken == null) {
+            log.debug("PasswordResetToken is null, create new");
             passwordResetToken = new PasswordResetToken();
             passwordResetToken.setUser(user);
         }
         LocalDateTime time = LocalDateTime.now();
-        time = time.plusDays(10);
+        time = time.plusDays(PASSWORD_RESTORE_TOKEN_LIVE_TIME);
         passwordResetToken.setExpiredDate(time);
         passwordResetToken.setToken(UUID.randomUUID().toString());
+        log.debug("save PasswordResetToken to db");
         passwordResetToken = passwordResetTokenRepository.save(passwordResetToken);
+
+        log.debug("Send message");
         emailService.sendRestorePasswordMail(email, passwordResetToken.getToken());
         return true;
     }
@@ -53,6 +62,7 @@ public class RestorePasswordServiceImpl implements RestorePasswordService {
     public UserDto checkRestorePasswordToken(String token) {
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
         if (passwordResetToken == null || passwordResetToken.getExpiredDate().isBefore(LocalDateTime.now())) {
+            log.debug("Token is expired; token={}", token);
             return null;
         }
         passwordResetToken.setExpiredDate(LocalDateTime.now());

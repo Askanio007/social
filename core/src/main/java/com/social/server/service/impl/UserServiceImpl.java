@@ -9,6 +9,7 @@ import com.social.server.http.model.RestorePasswordModel;
 import com.social.server.http.model.UserDetailsModel;
 import com.social.server.service.ImageService;
 import com.social.server.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepository> implements UserService {
 
@@ -75,14 +77,17 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
 
     @Override
     public List<UserDto> search(long rootUserId, String userName) {
+        log.debug("Search users by userName={}", userName);
         if (StringUtils.isBlank(userName)) {
             return Collections.emptyList();
         }
 
         String[] nameAndSurname = userName.split(" ");
         if (nameAndSurname.length > 1) {
+            log.debug("Search users by name={} and surname={}", formatName(nameAndSurname[0]), formatName(nameAndSurname[1]));
             return UserDto.of(repository.searchByFullName(rootUserId, formatName(nameAndSurname[0]), formatName(nameAndSurname[1])));
         }
+        log.debug("Search users by name={}", formatName(nameAndSurname[0]));
         return UserDto.of(repository.searchByFullName(rootUserId, formatName(nameAndSurname[0]), ""));
     }
 

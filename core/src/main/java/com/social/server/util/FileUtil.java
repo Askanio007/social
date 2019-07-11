@@ -11,9 +11,6 @@ import java.nio.file.Paths;
 @Slf4j
 public class FileUtil {
 
-    public final static String PHOTO_FILE_PATH = "./photo/big/";
-    public final static String MINI_PHOTO_FILE_PATH = "./photo/mini/";
-
     static byte[] getFileByteBy(Path path) {
         return Files.exists(path) ? readAllBytes(path) : null;
     }
@@ -26,13 +23,13 @@ public class FileUtil {
         }
     }
 
-    public static Path writeFile(MultipartFile file, String fileName) {
+    static Path writeFile(MultipartFile file, String fileName) {
         try {
             return Files.write(Paths.get(fileName), file.getBytes());
         } catch (IOException e) {
             log.error("Write file is failed, file: {}", fileName, e);
+            return null;
         }
-        return null;
     }
 
     private static byte[] readAllBytes(Path path) {

@@ -1,8 +1,11 @@
 package com.social.server.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Slf4j
 public class DateFormatterUtil {
     private final static DateTimeFormatter withoutTimeFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private final static DateTimeFormatter withTimeFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
@@ -21,6 +24,7 @@ public class DateFormatterUtil {
     }
 
     private static String format(LocalDateTime dateTime, DateTimeFormatter formatter) {
+        log.debug("Format date={} by formatter={}", dateTime, formatter);
         return dateTime != null ? dateTime.format(formatter) : null;
     }
 

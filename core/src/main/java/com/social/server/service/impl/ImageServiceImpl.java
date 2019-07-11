@@ -23,8 +23,11 @@ public class ImageServiceImpl implements ImageService {
     public void deleteImage(Image... images) {
         for (Image image : images) {
             if (image != null) {
+                log.debug("Delete image along the path: {}", image.getPath());
                 FileUtil.deleteFile(image.getPath());
+                log.debug("Delete image from db; id={}", image.getId());
                 imageRepository.delete(image);
+                log.debug("Delete image completed successfully");
             }
         }
     }

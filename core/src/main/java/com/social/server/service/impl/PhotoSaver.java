@@ -4,9 +4,11 @@ import com.social.server.entity.Image;
 import com.social.server.entity.ShortModel;
 import com.social.server.service.ImageService;
 import com.social.server.util.ImageUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 public class PhotoSaver<T extends ShortModel, ID> {
 
     private final ImageService imageService;
@@ -28,6 +30,7 @@ public class PhotoSaver<T extends ShortModel, ID> {
         Image image = ImageUtil.saveImage(file, (long) id, isMini);
 
         if (image == null) {
+            log.warn("Save image return null; modelId={} file={}", id, file);
             return null;
         }
 

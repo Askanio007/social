@@ -19,11 +19,13 @@ public class TokenUtil {
 
     public static UserDto parseToken(String token) {
         try {
+            log.debug("Parser token={}", token);
             Claims body = Jwts.parser()
                     .setSigningKey(SECRET_KEY)
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody();
             UserDto u = new UserDto();
+            log.debug("Set user data");
             u.setId(((Integer)body.get("userId")).longValue());
             u.setEmail(body.getSubject());
             return u;
@@ -34,12 +36,8 @@ public class TokenUtil {
     }
 
     public static String generateToken(UserDto u) {
-        return generateToken(u.getId(), u.getEmail());
-    }
-
-    public static String generateToken(long id, String email) {
-        Claims claims = Jwts.claims().setSubject(email);
-        claims.put("userId", id);
+        Claims claims = Jwts.claims().setSubject(u.getEmail());
+        claims.put("userId", u.getId());
         return TOKEN_PREFIX + " " + Jwts.builder()
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)

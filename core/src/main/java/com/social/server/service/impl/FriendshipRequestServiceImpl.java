@@ -48,11 +48,14 @@ public class FriendshipRequestServiceImpl extends CommonServiceImpl<FriendshipRe
     @Override
     @WriteTransactional
     public void accept(long friendshipRequestId) {
+        log.debug("Accepting friend request started");
         FriendshipRequest friendshipRequest = getById(friendshipRequestId);
         friendshipRequest.setAccept(true);
+        log.debug("Save friend request");
         repository.save(friendshipRequest);
         friendService.addFriend(friendshipRequest.getRequestTo().getId(), friendshipRequest.getRequestFrom().getId());
         dialogService.create(Arrays.asList(friendshipRequest.getRequestFrom(), friendshipRequest.getRequestTo()));
+        log.debug("Accepting friend request completed successfully");
     }
 
     @Override

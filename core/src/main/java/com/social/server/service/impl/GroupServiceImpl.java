@@ -12,6 +12,7 @@ import com.social.server.service.GroupService;
 import com.social.server.service.ImageService;
 import com.social.server.service.UserService;
 import com.social.server.service.transactional.WriteTransactional;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 @Service
 public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupRepository> implements GroupService {
 
@@ -58,14 +60,17 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     @Override
     @WriteTransactional
     public GroupDto create(long adminId, GroupModel groupModel) {
+        log.debug("Creating group start. Admin={}", adminId);
         User admin = userService.getById(adminId);
         Group group = new Group();
         group.setName(groupModel.getName());
         group.setDescription(groupModel.getDescription());
         group.setAdmin(admin);
         group.getUsers().add(admin);
+        log.debug("Save new group");
         group = repository.save(group);
         eventService.createEvent(admin.getId(), group.getId(), group.getName(), EventType.ENTER_GROUP);
+        log.debug("Creating group completed successfully");
         return GroupDto.of(group);
     }
 
@@ -77,17 +82,21 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     @Override
     @WriteTransactional
     public void join(long userId, long groupId) {
+        log.debug("Join user to group; userId={}, groupId={}", userId, groupId);
         Group group = getById(groupId);
         User user = userService.getById(userId);
         group.getUsers().add(user);
         user.getGroups().add(group);
+        log.debug("Save group");
         repository.save(group);
+        log.debug("Save user");
         userService.save(user);
         eventService.createEvent(userId, group.getId(), group.getName(), EventType.ENTER_GROUP);
     }
 
     @Override
     public List<GroupDto> search(String name) {
+        log.debug("Search group by name={}", name);
         if (StringUtils.isBlank(name)) {
             return Collections.emptyList();
         }
@@ -103,12 +112,15 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     @Override
     @WriteTransactional
     public void exit(long userId, long groupId) {
+        log.debug("Exit from group; userId={}, groupId={}", userId, groupId);
         Group group = getById(groupId);
         User user = userService.getById(userId);
         group.getUsers().remove(user);
         user.getGroups().remove(group);
-        userService.save(user);
+        log.debug("Save group");
         repository.save(group);
+        log.debug("Save user");
+        userService.save(user);
     }
 
     @Override
@@ -132,6 +144,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
 
     @Override
     public GroupDto edit(GroupModel groupModel) {
+        log.debug("Edit group; groupId={}", groupModel.getId());
         Group group = getById(groupModel.getId());
         group.setDescription(groupModel.getDescription());
         group.setName(groupModel.getName());

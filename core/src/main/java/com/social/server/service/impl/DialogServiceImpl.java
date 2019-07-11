@@ -6,6 +6,7 @@ import com.social.server.entity.Dialog;
 import com.social.server.entity.User;
 import com.social.server.service.DialogService;
 import com.social.server.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRepository> implements DialogService {
 
@@ -42,6 +44,7 @@ public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRep
         Set<Long> userList = new HashSet<>(usersId);
         DialogDto dialogDto = DialogDto.of(repository.findOneByUsersId(userList));
         if (dialogDto == null) {
+            log.debug("Dialog not found. Create dialog between users: {}", usersId);
             return create(userList.stream().map(userService::getById).collect(Collectors.toList()));
         }
         return dialogDto;
@@ -53,10 +56,13 @@ public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRep
     }
 
     private DialogDto create(Set<User> users) {
+        log.debug("Check existing dialog between {}...", users);
         if (dialogExist(users)) {
+            log.debug("Dialog exist. Return it");
             return getDialogBy(users.stream().map(User::getId).collect(Collectors.toList()));
         }
 
+        log.debug("Dialog not exist. Create it");
         Dialog dialog = new Dialog();
         dialog.setUsers(users);
         return DialogDto.of(repository.save(dialog));

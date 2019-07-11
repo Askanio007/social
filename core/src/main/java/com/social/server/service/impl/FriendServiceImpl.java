@@ -30,12 +30,16 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
     @Override
     @WriteTransactional
     public void addFriend(long rootUserId, long friendId) {
+        log.debug("Adding to friends. rootUserId={}; friendId={}", rootUserId, friendId);
         User user = getById(rootUserId);
         User friend = getById(friendId);
         user.getFriends().add(friend);
         friend.getFriends().add(user);
+
+        log.debug("Save users");
         repository.saveAll(Arrays.asList(user, friend));
         eventService.createEvent(rootUserId, friend.getId(), friend.getFullName(), EventType.ADD_FRIEND);
+        log.debug("Adding to friends completed successfully");
     }
 
     @Override
@@ -50,11 +54,14 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
 
     @Override
     public void remove(long rootUserId, long friendId) {
+        log.debug("Deleting from friends. rootUserId={}; friendId={}", rootUserId, friendId);
         User rootUser = getById(rootUserId);
         User friend = getById(friendId);
         rootUser.getFriends().remove(friend);
         friend.getFriends().remove(rootUser);
+        log.debug("Save users");
         repository.saveAll(Arrays.asList(rootUser, friend));
+        log.debug("Deleting from friends completed successfully");
     }
 
     @Override
