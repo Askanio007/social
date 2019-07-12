@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.lang.reflect.ParameterizedType;
-import java.util.Optional;
+import java.util.Arrays;
 
 @Slf4j
 public abstract class CommonServiceImpl<EntityClass, ID, Repository extends JpaRepository<EntityClass, ID>> implements CommonService<EntityClass, ID> {
@@ -22,10 +22,12 @@ public abstract class CommonServiceImpl<EntityClass, ID, Repository extends JpaR
 
     @Override
     public EntityClass getById(ID id) {
-        Optional<EntityClass> optionalClass = repository.findById(id);
-        if (!optionalClass.isPresent()) {
-            throw new EntityNotFoundException("Entity " + persistentClass.getName() + " not found. ID = " + id);
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity " + persistentClass.getName() + " not found. ID = " + id));
+    }
+
+    protected void validateEmptyEntityId(long... id) {
+        if (Arrays.stream(id).anyMatch(el -> el == 0L)) {
+            throw new EntityNotFoundException("Entity ID is 0");
         }
-        return optionalClass.get();
     }
 }

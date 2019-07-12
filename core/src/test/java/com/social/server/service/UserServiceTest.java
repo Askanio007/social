@@ -5,6 +5,8 @@ import com.social.server.dto.UserDto;
 import com.social.server.entity.Sex;
 import com.social.server.entity.User;
 import com.social.server.entity.UserDetails;
+import com.social.server.exception.RegistrationValidationException;
+import com.social.server.exception.UserDetailsValidationException;
 import com.social.server.http.model.RegistrationModel;
 import com.social.server.http.model.UserDetailsModel;
 import com.social.server.service.impl.PhotoSaverImpl;
@@ -36,7 +38,7 @@ public class UserServiceTest {
     private final static String PASSWORD = "123456";
 
     private final static String ABOUT = "ABOUT";
-    private final static String PHONE = "PHONE";
+    private final static String PHONE = "+79536598595";
     private final static String COUNTRY = "COUNTRY";
     private final static String CITY = "CITY";
     private final static LocalDateTime BIRTHDAY = LocalDateTime.now();
@@ -70,12 +72,24 @@ public class UserServiceTest {
         Assert.assertEquals(dto.getDetails().getSex(), SEX);
     }
 
+    @Test(expected = RegistrationValidationException.class)
+    public void failedRegistration() {
+        RegistrationModel model = new RegistrationModel();
+        userService.registerUser(model);
+    }
+
+    @Test(expected = UserDetailsValidationException.class)
+    public void failedUpdateDetails() {
+        UserDetailsModel userDetailsModel = new UserDetailsModel();
+        userService.updateProfile(userDetailsModel);
+    }
+
     @Test
     public void successUpdateDetails() {
         User user = new User();
         UserDetails details = new UserDetails();
         details.setAbout("check");
-        details.setBirthday(LocalDateTime.now().plusDays(10));
+        details.setBirthday(LocalDateTime.now().minusDays(10));
         details.setCity("check");
         details.setCountry("check");
         details.setPhone("check");

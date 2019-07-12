@@ -10,10 +10,14 @@ import javax.validation.ConstraintValidatorContext;
 @Slf4j
 public class PhoneValidator implements ConstraintValidator<PhoneValid, String> {
 
-    private final PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+    private static final PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
 
     @Override
     public boolean isValid(String phone, ConstraintValidatorContext constraintValidatorContext) {
+        return valid(phone);
+    }
+
+    public static boolean valid(String phone) {
         try {
             return phoneUtil.isValidNumber(phoneUtil.parse(phone, null));
         } catch (NumberParseException e) {

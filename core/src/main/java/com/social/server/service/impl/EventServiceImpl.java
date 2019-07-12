@@ -46,4 +46,10 @@ public class EventServiceImpl implements EventService {
         eventRepository.save(event);
         log.debug("Creation completed successfully");
     }
+
+    private void validate(long userId, long targetId, EventType type) {
+        if (userId == 0 || targetId == 0 || type == null) {
+            throw new IllegalArgumentException();
+        }
+    }
 }

@@ -15,6 +15,7 @@ public class ErrorCode {
     public final static String SURNAME_EMPTY = "registration.surname.error.empty";
     public final static String SEX_EMPTY = "registration.sex.error.empty";
 
+    public final static String GROUP_ADMIN_ID_EMPTY = "groups.admin.id.error.empty";
     public final static String GROUP_NAME_EMPTY = "groups.name.error.empty";
     public final static String GROUP_NAME_INCORRECT = "groups.name.error.incorrect";
     public final static String GROUP_DESCRIPTION_EMPTY = "groups.description.error.empty";

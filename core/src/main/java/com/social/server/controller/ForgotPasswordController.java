@@ -19,7 +19,8 @@ public class ForgotPasswordController {
 
     @PostMapping
     public Response sendRestoreLink(@RequestBody RegistrationModel model) {
-        return restorePasswordService.sendRestoreLinkTo(model.getEmail()) ? Response.ok() : Response.error("Error");
+        restorePasswordService.sendRestoreLinkTo(model.getEmail());
+        return Response.ok();
     }
 
     @GetMapping

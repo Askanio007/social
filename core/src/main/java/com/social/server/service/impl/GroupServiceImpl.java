@@ -13,6 +13,7 @@ import com.social.server.service.PhotoSaver;
 import com.social.server.service.UserService;
 import com.social.server.service.transactional.ReadTransactional;
 import com.social.server.service.transactional.WriteTransactional;
+import com.social.server.validator.GroupModelValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     @Override
     @WriteTransactional
     public GroupDto create(long adminId, GroupModel groupModel) {
+        validateEmptyEntityId(adminId);
         log.debug("Creating group start. Admin={}", adminId);
         User admin = userService.getById(adminId);
         Group group = new Group();
@@ -77,6 +79,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
 
     @Override
     public boolean isUserHasGroup(long userId, long groupId) {
+        validateEmptyEntityId(userId, groupId);
         return repository.existsByIdAndUsersIdIn(groupId, userId);
     }
 
@@ -84,6 +87,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     @WriteTransactional
     public void join(long userId, long groupId) {
         log.debug("Join user to group; userId={}, groupId={}", userId, groupId);
+        validateEmptyEntityId(userId, groupId);
         Group group = getById(groupId);
         User user = userService.getById(userId);
         group.getUsers().add(user);
@@ -103,6 +107,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     @Override
     @WriteTransactional
     public String savePhoto(long groupId, MultipartFile file, boolean isMini) {
+        validateEmptyEntityId(groupId);
         return photoSaver.savePhoto(getById(groupId), file, isMini);
     }
 
@@ -110,6 +115,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     @WriteTransactional
     public void exit(long userId, long groupId) {
         log.debug("Exit from group; userId={}, groupId={}", userId, groupId);
+        validateEmptyEntityId(userId, groupId);
         Group group = getById(groupId);
         User user = userService.getById(userId);
         group.getUsers().remove(user);
@@ -124,6 +130,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     @Override
     @ReadTransactional
     public GroupRelation getGroupRelationToUser(long groupId, long rootUserId) {
+        validateEmptyEntityId(rootUserId, groupId);
         if (!isUserHasGroup(rootUserId, groupId)) {
             return GroupRelation.NOT_PARTICIPANT;
         }
@@ -139,6 +146,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     @Override
     @WriteTransactional
     public GroupDto edit(GroupModel groupModel) {
+        GroupModelValidator.validate(groupModel);
         log.debug("Edit group; groupId={}", groupModel.getId());
         Group group = getById(groupModel.getId());
         group.setDescription(groupModel.getDescription());

@@ -25,6 +25,8 @@ public class FriendshipRequestServiceTest {
     private final String FRIEND_NAME = "FRIEND";
     private final String USER_NAME = "MAIN";
     private final long REQUEST_ID = 1;
+    private User user;
+    private User friend;
 
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
     private final FriendService friendService = Mockito.mock(FriendService.class);
@@ -35,9 +37,9 @@ public class FriendshipRequestServiceTest {
 
     @Before
     public void setUp() {
-        User user = new User();
+        user = new User();
         user.setName(USER_NAME);
-        User friend = new User();
+        friend = new User();
         friend.setName(FRIEND_NAME);
 
         FriendshipRequest friendshipRequest = new FriendshipRequest();
@@ -69,12 +71,8 @@ public class FriendshipRequestServiceTest {
     @Test
     public void successAcceptRequest() {
         friendshipRequestService.accept(REQUEST_ID);
-        ArgumentCaptor<FriendshipRequest> request = ArgumentCaptor.forClass(FriendshipRequest.class);
-        verify(friendshipRequestRepository).save(request.capture());
-        FriendshipRequest friendshipRequest = request.getValue();
         verify(friendService).addFriend(eq(0L), eq(0L));
-        verify(dialogService).create(Arrays.asList(friendshipRequest.getRequestFrom(), friendshipRequest.getRequestTo()));
-        Assert.assertTrue(friendshipRequest.isAccept());
+        verify(dialogService).create(Arrays.asList(user, friend));
     }
 
     @Test

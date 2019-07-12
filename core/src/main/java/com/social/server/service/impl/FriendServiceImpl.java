@@ -28,6 +28,7 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
     @Override
     @WriteTransactional
     public void addFriend(long rootUserId, long friendId) {
+        validateEmptyEntityId(rootUserId, friendId);
         log.debug("Adding to friends. rootUserId={}; friendId={}", rootUserId, friendId);
         User user = getById(rootUserId);
         User friend = getById(friendId);
@@ -38,17 +39,20 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
 
     @Override
     public Page<UserDto> find(long userId, int page) {
+        validateEmptyEntityId(userId);
         return repository.findFriendsBy(userId, PageRequest.of(page, 10)).map(UserDto::of);
     }
 
     @Override
     public boolean isFriends(long rootUserId, long friendId) {
+        validateEmptyEntityId(rootUserId, friendId);
         return repository.existsByIdAndFriends(rootUserId, repository.getOne(friendId));
     }
 
     @Override
     @WriteTransactional
     public void remove(long rootUserId, long friendId) {
+        validateEmptyEntityId(rootUserId, friendId);
         log.debug("Deleting from friends. rootUserId={}; friendId={}", rootUserId, friendId);
         User rootUser = getById(rootUserId);
         User friend = getById(friendId);

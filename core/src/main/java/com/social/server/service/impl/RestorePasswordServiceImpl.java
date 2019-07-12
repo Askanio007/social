@@ -5,6 +5,7 @@ import com.social.server.dao.UserRepository;
 import com.social.server.dto.UserDto;
 import com.social.server.entity.PasswordResetToken;
 import com.social.server.entity.User;
+import com.social.server.exception.EmailNotFoundException;
 import com.social.server.service.EmailService;
 import com.social.server.service.RestorePasswordService;
 import com.social.server.service.transactional.ReadTransactional;
@@ -35,11 +36,11 @@ public class RestorePasswordServiceImpl implements RestorePasswordService {
 
     @Override
     @WriteTransactional
-    public boolean sendRestoreLinkTo(String email) {
+    public void sendRestoreLinkTo(String email) {
         log.debug("Send restore password link to email {}", email);
         if (!userRepository.existsByEmail(email)) {
             log.debug("Email {} not exist in system", email);
-            return false;
+            throw new EmailNotFoundException("Email {} not exist in system", email);
         }
 
         User user = userRepository.findByEmail(email);
@@ -58,7 +59,6 @@ public class RestorePasswordServiceImpl implements RestorePasswordService {
 
         log.debug("Send message");
         emailService.sendRestorePasswordMail(email, passwordResetToken.getToken());
-        return true;
     }
 
     @Override

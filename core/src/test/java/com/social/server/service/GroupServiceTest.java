@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -33,8 +34,6 @@ public class GroupServiceTest {
     private final GroupRepository groupRepository = Mockito.mock(GroupRepository.class);
     private final PhotoSaverImpl photoSaver = Mockito.mock(PhotoSaverImpl.class);
     private GroupService groupService = new GroupServiceImpl(groupRepository, userService, eventService, photoSaver);
-    private User user;
-    private Group group;
 
     @Before
     public void setUp() {
@@ -42,22 +41,22 @@ public class GroupServiceTest {
     }
 
     private void prepareData(boolean userHaveGroup) {
-        this.user = new User();
-        this.user.setName(USER_NAME);
+        User user = new User();
+        user.setName(USER_NAME);
 
-        this.group = new Group();
-        this.group.setName(GROUP_NAME);
-        this.group.setDescription(GROUP_DESCR);
+        Group group = new Group();
+        group.setName(GROUP_NAME);
+        group.setDescription(GROUP_DESCR);
 
-        this.group.setAdmin(user);
+        group.setAdmin(user);
 
         if (userHaveGroup) {
-            this.user.getGroups().add(this.group);
-            this.group.getUsers().add(this.user);
+            user.getGroups().add(group);
+            group.getUsers().add(user);
         }
 
-        when(userService.getById(USER_ID)).thenReturn(this.user);
-        when(groupRepository.findById(GROUP_ID)).thenReturn(Optional.of(this.group));
+        when(userService.getById(USER_ID)).thenReturn(user);
+        when(groupRepository.findById(GROUP_ID)).thenReturn(Optional.of(group));
     }
 
     @Test
@@ -106,12 +105,9 @@ public class GroupServiceTest {
         Assert.assertEquals(relation, GroupRelation.PARTICIPANT);
     }
 
-    @Test
-    public void checkGroupRelationAdmin() {
-        prepareData(false);
-        when(groupRepository.existsByIdAndUsersIdIn(GROUP_ID, 0L)).thenReturn(true);
-        GroupRelation relation = groupService.getGroupRelationToUser(GROUP_ID, 0L);
-        Assert.assertEquals(relation, GroupRelation.ADMIN);
+    @Test(expected = EntityNotFoundException.class)
+    public void failedCheckGroupRelationAdmin() {
+        groupService.getGroupRelationToUser(0L, 0L);
     }
 
     @Test

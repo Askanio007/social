@@ -6,7 +6,7 @@ import com.social.server.util.TokenUtil;
 import lombok.Data;
 import org.springframework.validation.ObjectError;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,9 +30,14 @@ public class Response<T> {
         return response;
     }
 
-    public static Response error(List<ObjectError> objectErrors) {
+    public static Response error() {
         Response response = new Response();
         response.setSuccess(false);
+        return response;
+    }
+
+    public static Response error(List<ObjectError> objectErrors) {
+        Response response = error();
         response.setErrors(objectErrors.stream()
                 .map(ObjectError::getDefaultMessage)
                 .collect(Collectors.toList()));
@@ -40,9 +45,8 @@ public class Response<T> {
     }
 
     public static Response error(String errorCode) {
-        Response response = new Response();
-        response.setSuccess(false);
-        response.setErrors(Arrays.asList(errorCode));
+        Response response = error();
+        response.setErrors(Collections.singletonList(errorCode));
         return response;
     }
 

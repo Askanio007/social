@@ -8,6 +8,10 @@ public class BirthdayValidator implements ConstraintValidator<BirthdayValid, Loc
 
     @Override
     public boolean isValid(LocalDateTime s, ConstraintValidatorContext constraintValidatorContext) {
+        return valid(s);
+    }
+
+    public static boolean valid(LocalDateTime s) {
         if (s == null) {
             return false;
         }

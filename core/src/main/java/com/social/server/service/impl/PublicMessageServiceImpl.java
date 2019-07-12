@@ -10,6 +10,7 @@ import com.social.server.http.model.PublicMessageModel;
 import com.social.server.service.EventService;
 import com.social.server.service.PublicMessageService;
 import com.social.server.service.transactional.WriteTransactional;
+import com.social.server.validator.PublicMessageValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +35,7 @@ public class PublicMessageServiceImpl implements PublicMessageService {
     @Override
     @WriteTransactional
     public PublicMessageDto create(PublicMessageModel messageDto) {
+        PublicMessageValidator.validate(messageDto);
         PublicMessage publicMessage = new PublicMessage();
         publicMessage.setMessage(messageDto.getMessage());
         publicMessage.setSender(userRepository.getOne(messageDto.getSenderId()));

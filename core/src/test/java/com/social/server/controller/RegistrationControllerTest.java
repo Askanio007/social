@@ -46,7 +46,7 @@ public class RegistrationControllerTest extends CommonControllerTest {
     public void emptyEmailFailedRegistration() throws Exception {
         RegistrationModel model = getRegistrationModel();
         model.setEmail(null);
-        checkRegistrationModel(model, ErrorCode.EMAIL_EMPTY);
+        checkRegistrationModel(model, ErrorCode.EMAIL_INCORRECT);
     }
 
     @Test

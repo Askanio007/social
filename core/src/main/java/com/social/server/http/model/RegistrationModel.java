@@ -1,6 +1,7 @@
 package com.social.server.http.model;
 
 import com.social.server.entity.Sex;
+import com.social.server.validator.email.EmailValid;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -11,8 +12,7 @@ import static com.social.server.http.ErrorCode.*;
 @Data
 public class RegistrationModel {
 
-    @Length(min = 4, message = EMAIL_INCORRECT)
-    @NotNull(message = EMAIL_EMPTY)
+    @EmailValid(message = EMAIL_INCORRECT)
     private String email;
 
     @Length(min = 5, message = PASSWORD_INCORRECT)

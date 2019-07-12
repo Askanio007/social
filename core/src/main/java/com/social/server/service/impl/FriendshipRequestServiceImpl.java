@@ -5,6 +5,7 @@ import com.social.server.dao.UserRepository;
 import com.social.server.dto.FriendshipRequestDto;
 import com.social.server.entity.FriendshipRequest;
 import com.social.server.entity.UserRelation;
+import com.social.server.exception.FriendshipRequestValidationException;
 import com.social.server.http.model.FriendshipRequestModel;
 import com.social.server.service.DialogService;
 import com.social.server.service.FriendService;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @Slf4j
 @Service
@@ -41,6 +43,11 @@ public class FriendshipRequestServiceImpl extends CommonServiceImpl<FriendshipRe
     @Override
     @WriteTransactional
     public void create(FriendshipRequestModel model) {
+        if (model == null) {
+            throw new FriendshipRequestValidationException("FriendshipRequestModel model incorrect", Collections.singletonList("model is null"));
+        }
+        validateEmptyEntityId(model.getFromUserId());
+        validateEmptyEntityId(model.getToUserId());
         FriendshipRequest request = new FriendshipRequest();
         request.setRequestTo(userRepository.getOne(model.getToUserId()));
         request.setRequestFrom(userRepository.getOne(model.getFromUserId()));
@@ -51,6 +58,7 @@ public class FriendshipRequestServiceImpl extends CommonServiceImpl<FriendshipRe
     @WriteTransactional
     public void accept(long friendshipRequestId) {
         log.debug("Accepting friend request started");
+        validateEmptyEntityId(friendshipRequestId);
         FriendshipRequest friendshipRequest = getById(friendshipRequestId);
         friendshipRequest.setAccept(true);
         log.debug("Save friend request");
@@ -61,27 +69,32 @@ public class FriendshipRequestServiceImpl extends CommonServiceImpl<FriendshipRe
 
     @Override
     public void decline(long friendshipRequestId) {
+        validateEmptyEntityId(friendshipRequestId);
         repository.deleteById(friendshipRequestId);
     }
 
     @Override
     public Page<FriendshipRequestDto> find(long userId, int page) {
+        validateEmptyEntityId(userId);
         return repository.findAllByAcceptIsFalseAndRequestToId(userId, PageRequest.of(page, 10)).map(FriendshipRequestDto::of);
     }
 
     @Override
     public long countRequests(long userId) {
+        validateEmptyEntityId(userId);
         return repository.countByRequestToIdAndAcceptIsFalse(userId);
     }
 
     @Override
     public boolean isFriendRequest(long rootUserId, long userId) {
+        validateEmptyEntityId(rootUserId, userId);
         return repository.existsByRequestFromIdAndRequestToIdAndAcceptIsFalse(rootUserId, userId);
     }
 
     @Override
     @ReadTransactional
     public UserRelation getRelation(long rootUserId, long userId) {
+        validateEmptyEntityId(rootUserId, userId);
         if (rootUserId == userId) {
             return UserRelation.ME;
         }

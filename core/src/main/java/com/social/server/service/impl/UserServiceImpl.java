@@ -11,6 +11,9 @@ import com.social.server.service.PhotoSaver;
 import com.social.server.service.UserService;
 import com.social.server.service.transactional.ReadTransactional;
 import com.social.server.service.transactional.WriteTransactional;
+import com.social.server.validator.PasswordValidator;
+import com.social.server.validator.RegistrationValidator;
+import com.social.server.validator.UserDetailValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +48,7 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
     @Override
     @WriteTransactional
     public UserDto registerUser(RegistrationModel registrationModel) {
+        RegistrationValidator.validate(registrationModel);
         User user = User.builder()
                 .email(registrationModel.getEmail())
                 .password(passwordEncoder.encode(registrationModel.getPassword()))
@@ -63,6 +67,7 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
     @Override
     @WriteTransactional
     public UserDto updateProfile(UserDetailsModel userDetailsModel) {
+        UserDetailValidator.validate(userDetailsModel);
         User user = getById(userDetailsModel.getId());
         UserDetails details = user.getDetails();
 
@@ -81,6 +86,7 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
 
     @Override
     public List<UserDto> search(long rootUserId, String userName) {
+        validateEmptyEntityId(rootUserId);
         log.debug("Search users by userName={}", userName);
         if (StringUtils.isBlank(userName)) {
             return Collections.emptyList();
@@ -105,12 +111,14 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
     @Override
     @WriteTransactional
     public String savePhoto(long userId, MultipartFile file, boolean isMini) {
+        validateEmptyEntityId(userId);
         return photoSaver.savePhoto(getById(userId), file, isMini);
     }
 
     @Override
     @WriteTransactional
     public void changePassword(RestorePasswordModel model) {
+        PasswordValidator.validate(model);
         User user = getById(model.getId());
         user.setPassword(passwordEncoder.encode(model.getPassword()));
     }
