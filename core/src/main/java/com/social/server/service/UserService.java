@@ -47,13 +47,6 @@ public interface UserService extends CommonService<User, Long> {
     List<UserDto> search(long rootUserId, String userName);
 
     /**
-     * Сохранить объект {@link User}
-     * @param user - пользователь
-     * @return модель данных пользователя
-     */
-    UserDto save(User user);
-
-    /**
      * Получить пользователя по email и паролю
      * @return модель данных пользователя
      */

@@ -7,6 +7,7 @@ import com.social.server.entity.User;
 import com.social.server.entity.UserDetails;
 import com.social.server.http.model.RegistrationModel;
 import com.social.server.http.model.UserDetailsModel;
+import com.social.server.service.impl.PhotoSaverImpl;
 import com.social.server.service.impl.UserServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -44,9 +45,9 @@ public class UserServiceTest {
     private final static Sex SEX = Sex.MALE;
 
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
+    private final PhotoSaverImpl photoSaver = Mockito.mock(PhotoSaverImpl.class);
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private final ImageService imageService = Mockito.mock(ImageService.class);
-    private final UserService userService =  new UserServiceImpl(userRepository, passwordEncoder, imageService);
+    private final UserService userService =  new UserServiceImpl(userRepository, passwordEncoder, photoSaver);
 
     @Before
     public void setUp() {

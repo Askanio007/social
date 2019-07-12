@@ -6,6 +6,8 @@ import com.social.server.entity.Dialog;
 import com.social.server.entity.User;
 import com.social.server.service.DialogService;
 import com.social.server.service.UserService;
+import com.social.server.service.transactional.ReadTransactional;
+import com.social.server.service.transactional.WriteTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,11 +37,13 @@ public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRep
     }
 
     @Override
+    @WriteTransactional
     public DialogDto create(List<User> users) {
         return create(new HashSet<>(users));
     }
 
     @Override
+    @ReadTransactional
     public DialogDto getDialogBy(List<Long> usersId) {
         Set<Long> userList = new HashSet<>(usersId);
         DialogDto dialogDto = DialogDto.of(repository.findOneByUsersId(userList));

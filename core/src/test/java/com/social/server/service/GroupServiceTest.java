@@ -8,10 +8,10 @@ import com.social.server.entity.GroupRelation;
 import com.social.server.entity.User;
 import com.social.server.http.model.GroupModel;
 import com.social.server.service.impl.GroupServiceImpl;
+import com.social.server.service.impl.PhotoSaverImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.util.Optional;
@@ -30,9 +30,11 @@ public class GroupServiceTest {
 
     private final UserService userService = Mockito.mock(UserService.class);
     private final EventService eventService = Mockito.mock(EventService.class);
-    private final ImageService imageService = Mockito.mock(ImageService.class);
     private final GroupRepository groupRepository = Mockito.mock(GroupRepository.class);
-    private GroupService groupService = new GroupServiceImpl(groupRepository, userService, eventService, imageService);
+    private final PhotoSaverImpl photoSaver = Mockito.mock(PhotoSaverImpl.class);
+    private GroupService groupService = new GroupServiceImpl(groupRepository, userService, eventService, photoSaver);
+    private User user;
+    private Group group;
 
     @Before
     public void setUp() {
@@ -40,22 +42,22 @@ public class GroupServiceTest {
     }
 
     private void prepareData(boolean userHaveGroup) {
-        User user = new User();
-        user.setName(USER_NAME);
+        this.user = new User();
+        this.user.setName(USER_NAME);
 
-        Group group = new Group();
-        group.setName(GROUP_NAME);
-        group.setDescription(GROUP_DESCR);
+        this.group = new Group();
+        this.group.setName(GROUP_NAME);
+        this.group.setDescription(GROUP_DESCR);
 
-        group.setAdmin(user);
+        this.group.setAdmin(user);
 
         if (userHaveGroup) {
-            user.getGroups().add(group);
-            group.getUsers().add(user);
+            this.user.getGroups().add(this.group);
+            this.group.getUsers().add(this.user);
         }
 
-        when(userService.getById(USER_ID)).thenReturn(user);
-        when(groupRepository.findById(GROUP_ID)).thenReturn(Optional.of(group));
+        when(userService.getById(USER_ID)).thenReturn(this.user);
+        when(groupRepository.findById(GROUP_ID)).thenReturn(Optional.of(this.group));
     }
 
     @Test
@@ -82,14 +84,9 @@ public class GroupServiceTest {
         prepareData(false);
 
         groupService.join(USER_ID, GROUP_ID);
-        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-        ArgumentCaptor<Group> groupCaptor = ArgumentCaptor.forClass(Group.class);
-
         verify(eventService).createEvent(eq(USER_ID), eq(0L), eq(GROUP_NAME), eq(EventType.ENTER_GROUP));
-        verify(groupRepository).save(groupCaptor.capture());
-        verify(userService).save(userCaptor.capture());
-        Assert.assertEquals(userCaptor.getValue().getGroups().size(), 1);
-        Assert.assertEquals(groupCaptor.getValue().getUsers().size(), 1);
+        verify(userService).getById(eq(USER_ID));
+        verify(groupRepository).findById(eq(GROUP_ID));
     }
 
     @Test
@@ -97,13 +94,8 @@ public class GroupServiceTest {
         prepareData(true);
 
         groupService.exit(USER_ID, GROUP_ID);
-        ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
-        ArgumentCaptor<Group> groupCaptor = ArgumentCaptor.forClass(Group.class);
-
-        verify(groupRepository).save(groupCaptor.capture());
-        verify(userService).save(userCaptor.capture());
-        Assert.assertEquals(userCaptor.getValue().getGroups().size(), 0);
-        Assert.assertEquals(groupCaptor.getValue().getUsers().size(), 0);
+        verify(userService).getById(eq(USER_ID));
+        verify(groupRepository).findById(eq(GROUP_ID));
     }
 
     @Test

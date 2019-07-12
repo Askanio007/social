@@ -9,8 +9,9 @@ import com.social.server.entity.User;
 import com.social.server.http.model.GroupModel;
 import com.social.server.service.EventService;
 import com.social.server.service.GroupService;
-import com.social.server.service.ImageService;
+import com.social.server.service.PhotoSaver;
 import com.social.server.service.UserService;
+import com.social.server.service.transactional.ReadTransactional;
 import com.social.server.service.transactional.WriteTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -29,17 +30,17 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
 
     private final UserService userService;
     private final EventService eventService;
-    private final PhotoSaver<Group, Long> photoSaver;
+    private final PhotoSaver<Group> photoSaver;
 
     @Autowired
     public GroupServiceImpl(GroupRepository groupRepository,
                             UserService userService,
                             EventService eventService,
-                            ImageService imageService) {
+                            PhotoSaver<Group> photoSaver) {
         super(groupRepository);
         this.userService = userService;
         this.eventService = eventService;
-        this.photoSaver = new PhotoSaver<>(groupRepository, imageService);
+        this.photoSaver = photoSaver;
     }
 
     @Override
@@ -86,12 +87,8 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
         Group group = getById(groupId);
         User user = userService.getById(userId);
         group.getUsers().add(user);
-        user.getGroups().add(group);
-        log.debug("Save group");
-        repository.save(group);
-        log.debug("Save user");
-        userService.save(user);
         eventService.createEvent(userId, group.getId(), group.getName(), EventType.ENTER_GROUP);
+        log.debug("Join user to group completed successfully");
     }
 
     @Override
@@ -106,7 +103,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     @Override
     @WriteTransactional
     public String savePhoto(long groupId, MultipartFile file, boolean isMini) {
-        return photoSaver.savePhoto(groupId, file, isMini);
+        return photoSaver.savePhoto(getById(groupId), file, isMini);
     }
 
     @Override
@@ -116,11 +113,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
         Group group = getById(groupId);
         User user = userService.getById(userId);
         group.getUsers().remove(user);
-        user.getGroups().remove(group);
-        log.debug("Save group");
-        repository.save(group);
-        log.debug("Save user");
-        userService.save(user);
+        log.debug("Exit from group completed successfully");
     }
 
     @Override
@@ -129,6 +122,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     }
 
     @Override
+    @ReadTransactional
     public GroupRelation getGroupRelationToUser(long groupId, long rootUserId) {
         if (!isUserHasGroup(rootUserId, groupId)) {
             return GroupRelation.NOT_PARTICIPANT;
@@ -143,11 +137,12 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
     }
 
     @Override
+    @WriteTransactional
     public GroupDto edit(GroupModel groupModel) {
         log.debug("Edit group; groupId={}", groupModel.getId());
         Group group = getById(groupModel.getId());
         group.setDescription(groupModel.getDescription());
         group.setName(groupModel.getName());
-        return GroupDto.of(repository.save(group));
+        return GroupDto.of(group);
     }
 }

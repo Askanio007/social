@@ -5,6 +5,7 @@ import {FormattedMessage} from 'react-intl';
 import GroupService from '../../../service/GroupService';
 import EditData from './editData';
 import EditPhoto from '../../templates/editPhoto';
+import {withRouter} from 'react-router';
 
 interface EditGroupState {
     groupId: number
@@ -12,7 +13,7 @@ interface EditGroupState {
     isLoading:boolean
 
 }
-export default class EditGroup extends Component<any, EditGroupState> {
+class EditGroup extends Component<any, EditGroupState> {
 
     state: EditGroupState = {
         groupId: this.props.match.params.groupId,
@@ -53,5 +54,6 @@ export default class EditGroup extends Component<any, EditGroupState> {
             </div>
         );
     }
-
 }
+
+export default withRouter(EditGroup);

@@ -7,6 +7,8 @@ import com.social.server.entity.PasswordResetToken;
 import com.social.server.entity.User;
 import com.social.server.service.EmailService;
 import com.social.server.service.RestorePasswordService;
+import com.social.server.service.transactional.ReadTransactional;
+import com.social.server.service.transactional.WriteTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,7 @@ public class RestorePasswordServiceImpl implements RestorePasswordService {
     }
 
     @Override
+    @WriteTransactional
     public boolean sendRestoreLinkTo(String email) {
         log.debug("Send restore password link to email {}", email);
         if (!userRepository.existsByEmail(email)) {
@@ -45,13 +48,13 @@ public class RestorePasswordServiceImpl implements RestorePasswordService {
             log.debug("PasswordResetToken is null, create new");
             passwordResetToken = new PasswordResetToken();
             passwordResetToken.setUser(user);
+            log.debug("save PasswordResetToken to db");
+            passwordResetToken = passwordResetTokenRepository.save(passwordResetToken);
         }
         LocalDateTime time = LocalDateTime.now();
         time = time.plusDays(PASSWORD_RESTORE_TOKEN_LIVE_TIME);
         passwordResetToken.setExpiredDate(time);
         passwordResetToken.setToken(UUID.randomUUID().toString());
-        log.debug("save PasswordResetToken to db");
-        passwordResetToken = passwordResetTokenRepository.save(passwordResetToken);
 
         log.debug("Send message");
         emailService.sendRestorePasswordMail(email, passwordResetToken.getToken());
@@ -59,6 +62,7 @@ public class RestorePasswordServiceImpl implements RestorePasswordService {
     }
 
     @Override
+    @ReadTransactional
     public UserDto checkRestorePasswordToken(String token) {
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
         if (passwordResetToken == null || passwordResetToken.getExpiredDate().isBefore(LocalDateTime.now())) {

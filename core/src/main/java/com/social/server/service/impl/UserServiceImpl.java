@@ -7,8 +7,10 @@ import com.social.server.entity.UserDetails;
 import com.social.server.http.model.RegistrationModel;
 import com.social.server.http.model.RestorePasswordModel;
 import com.social.server.http.model.UserDetailsModel;
-import com.social.server.service.ImageService;
+import com.social.server.service.PhotoSaver;
 import com.social.server.service.UserService;
+import com.social.server.service.transactional.ReadTransactional;
+import com.social.server.service.transactional.WriteTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +26,14 @@ import java.util.List;
 public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepository> implements UserService {
 
     private final PasswordEncoder passwordEncoder;
-    private final PhotoSaver<User, Long> photoSaver;
+    private final PhotoSaver<User> photoSaver;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            PasswordEncoder passwordEncoder,
-                           ImageService imageService) {
+                           PhotoSaver<User> photoSaver) {
         super(userRepository);
-        this.photoSaver = new PhotoSaver<>(userRepository, imageService);
+        this.photoSaver = photoSaver;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -41,6 +43,7 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
     }
 
     @Override
+    @WriteTransactional
     public UserDto registerUser(RegistrationModel registrationModel) {
         User user = User.builder()
                 .email(registrationModel.getEmail())
@@ -49,7 +52,7 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
                 .surname(formatName(registrationModel.getSurname()))
                 .sex(registrationModel.getSex())
                 .create();
-        return save(user);
+        return UserDto.of(repository.save(user));
     }
 
     @Override
@@ -58,6 +61,7 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
     }
 
     @Override
+    @WriteTransactional
     public UserDto updateProfile(UserDetailsModel userDetailsModel) {
         User user = getById(userDetailsModel.getId());
         UserDetails details = user.getDetails();
@@ -72,7 +76,7 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
         user.setName(userDetailsModel.getName());
         user.setSurname(userDetailsModel.getSurname());
 
-        return save(user);
+        return UserDto.of(user);
     }
 
     @Override
@@ -92,26 +96,23 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
     }
 
     @Override
-    public UserDto save(User user) {
-        return UserDto.of(repository.save(user));
-    }
-
-    @Override
+    @ReadTransactional
     public UserDto findBy(String email, String password) {
         User user = repository.findByEmail(email);
         return user != null && passwordEncoder.matches(password, user.getPassword()) ? UserDto.of(user) : null;
     }
 
     @Override
+    @WriteTransactional
     public String savePhoto(long userId, MultipartFile file, boolean isMini) {
-        return photoSaver.savePhoto(userId, file, isMini);
+        return photoSaver.savePhoto(getById(userId), file, isMini);
     }
 
     @Override
+    @WriteTransactional
     public void changePassword(RestorePasswordModel model) {
         User user = getById(model.getId());
         user.setPassword(passwordEncoder.encode(model.getPassword()));
-        save(user);
     }
 
     private String formatName(String word) {

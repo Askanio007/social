@@ -3,34 +3,34 @@ package com.social.server.service.impl;
 import com.social.server.entity.Image;
 import com.social.server.entity.ShortModel;
 import com.social.server.service.ImageService;
+import com.social.server.service.PhotoSaver;
 import com.social.server.util.ImageUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
-public class PhotoSaver<T extends ShortModel, ID> {
+@Service("photoSaver")
+public class PhotoSaverImpl<T extends ShortModel> implements PhotoSaver<T> {
 
     private final ImageService imageService;
-    private final JpaRepository<T, ID> repository;
 
-    public PhotoSaver(JpaRepository<T, ID> repository,
-                      ImageService imageService) {
-        this.repository = repository;
+    @Autowired
+    public PhotoSaverImpl(ImageService imageService) {
         this.imageService = imageService;
     }
 
-    public String savePhoto(ID id, MultipartFile file, boolean isMini) {
-        T shortModel = repository.getOne(id);
-
+    @Override
+    public String savePhoto(T shortModel, MultipartFile file, boolean isMini) {
         if (!isMini) {
             imageService.deleteImage(shortModel.getMiniImage(), shortModel.getImage());
         }
 
-        Image image = ImageUtil.saveImage(file, (long) id, isMini);
+        Image image = ImageUtil.saveImage(file, shortModel.getId(), isMini);
 
         if (image == null) {
-            log.warn("Save image return null; modelId={} file={}", id, file);
+            log.warn("Save image return null; modelId={} file={}", shortModel.getId(), file);
             return null;
         }
 
@@ -40,7 +40,6 @@ public class PhotoSaver<T extends ShortModel, ID> {
             shortModel.setImage(image);
         }
 
-        shortModel = repository.save(shortModel);
         return ImageUtil.convertImageTo64encode(isMini ? shortModel.getMiniImage() : shortModel.getImage());
     }
 }

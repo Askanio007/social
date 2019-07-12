@@ -6,6 +6,7 @@ import UserBlock from '../templates/userBlock';
 import GroupService, {GroupRelation} from '../../service/GroupService';
 import {EnterGroupBtn, ExitGroupBtn} from '../templates/buttons';
 import {RecipientType} from '../../service/WallService';
+import {withRouter} from 'react-router';
 
 interface GroupState {
     group:any
@@ -13,7 +14,7 @@ interface GroupState {
     relation:GroupRelation
     isLoading: boolean
 }
-export default class Group extends Component<any, GroupState> {
+class Group extends Component<any, GroupState> {
 
     state: GroupState = {
         group: null,
@@ -98,3 +99,5 @@ export default class Group extends Component<any, GroupState> {
     }
 
 }
+
+export default withRouter(Group);

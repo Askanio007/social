@@ -9,6 +9,7 @@ import com.social.server.http.model.FriendshipRequestModel;
 import com.social.server.service.DialogService;
 import com.social.server.service.FriendService;
 import com.social.server.service.FriendshipRequestService;
+import com.social.server.service.transactional.ReadTransactional;
 import com.social.server.service.transactional.WriteTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class FriendshipRequestServiceImpl extends CommonServiceImpl<FriendshipRe
     }
 
     @Override
+    @WriteTransactional
     public void create(FriendshipRequestModel model) {
         FriendshipRequest request = new FriendshipRequest();
         request.setRequestTo(userRepository.getOne(model.getToUserId()));
@@ -52,7 +54,6 @@ public class FriendshipRequestServiceImpl extends CommonServiceImpl<FriendshipRe
         FriendshipRequest friendshipRequest = getById(friendshipRequestId);
         friendshipRequest.setAccept(true);
         log.debug("Save friend request");
-        repository.save(friendshipRequest);
         friendService.addFriend(friendshipRequest.getRequestTo().getId(), friendshipRequest.getRequestFrom().getId());
         dialogService.create(Arrays.asList(friendshipRequest.getRequestFrom(), friendshipRequest.getRequestTo()));
         log.debug("Accepting friend request completed successfully");
@@ -79,6 +80,7 @@ public class FriendshipRequestServiceImpl extends CommonServiceImpl<FriendshipRe
     }
 
     @Override
+    @ReadTransactional
     public UserRelation getRelation(long rootUserId, long userId) {
         if (rootUserId == userId) {
             return UserRelation.ME;

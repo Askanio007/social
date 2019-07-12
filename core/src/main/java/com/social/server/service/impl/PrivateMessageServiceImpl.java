@@ -7,6 +7,7 @@ import com.social.server.entity.PrivateMessage;
 import com.social.server.service.DialogService;
 import com.social.server.service.PrivateMessageService;
 import com.social.server.service.UserService;
+import com.social.server.service.transactional.WriteTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class PrivateMessageServiceImpl extends CommonServiceImpl<PrivateMessage,
     }
 
     @Override
+    @WriteTransactional
     public PrivateMessageDto save(PrivateMessageDto message) {
         PrivateMessage privateMessage = new PrivateMessage();
         privateMessage.setSender(userService.getById(message.getSenderId()));
