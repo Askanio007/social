@@ -99,7 +99,7 @@ class RestorePassword extends React.Component<any, RestorePasswordState> {
                         <input name="confirmPassword" value={this.state.confirmPassword} type="password" className="form-control" id="inputPassword" onChange={this.handleChange}/>
                     </div>
                     {errors}
-                    <button type="button" onClick={this.restorePassword} className="btn btn-primary btn-custom"><FormattedMessage id="common.restore.password" /></button>
+                    <button type="button" onClick={this.restorePassword} className="btn btn-secondary btn-custom btn-margin"><FormattedMessage id="common.restore.password" /></button>
                 </form>
         } else {
             restoreBlock = errors;

@@ -1,5 +1,5 @@
 package com.social.server.service;
 
 public interface EmailService {
-    void sendRestorePasswordMail(String email, String token);
+    void sendRestorePasswordMail(String email, String token, String mirror);
 }

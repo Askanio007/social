@@ -7,6 +7,8 @@ import com.social.server.http.model.RegistrationModel;
 import com.social.server.service.RestorePasswordService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api/v1/forgot-password")
 public class ForgotPasswordController {
@@ -18,8 +20,8 @@ public class ForgotPasswordController {
     }
 
     @PostMapping
-    public Response sendRestoreLink(@RequestBody RegistrationModel model) {
-        restorePasswordService.sendRestoreLinkTo(model.getEmail());
+    public Response sendRestoreLink(@RequestBody RegistrationModel model, HttpServletRequest request) {
+        restorePasswordService.sendRestoreLinkTo(model.getEmail(), request.getRemoteHost());
         return Response.ok();
     }
 

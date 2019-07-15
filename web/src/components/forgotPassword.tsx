@@ -57,7 +57,7 @@ class ForgotPassword extends React.Component<{}, ForgotPasswordState> {
                     </div>
                     {errors}
                     {success}
-                    <button type="button" onClick={this.restorePassword} className="btn btn-primary btn-custom"><FormattedMessage id="common.restore.password" /></button>
+                    <button type="button" onClick={this.restorePassword} className="btn btn-secondary btn-custom btn-margin"><FormattedMessage id="common.restore.password" /></button>
                     <div className="widthMax center">
                         <Link to={'/login'} className="custom-link center"><FormattedMessage id="common.login" /></Link>
                     </div>

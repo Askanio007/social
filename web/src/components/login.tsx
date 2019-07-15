@@ -68,7 +68,7 @@ class Login extends React.Component<any, LoginModel> {
                                 <input name="password" value={this.state.password} type="password" className="form-control" id="inputPassword" onChange={this.handleChange}/>
                             </div>
                             {errors}
-                            <button type="button" onClick={this.login} className="btn btn-primary btn-custom"><FormattedMessage id="common.login" /></button>
+                            <button type="button" onClick={this.login} className="btn btn-secondary btn-custom btn-margin"><FormattedMessage id="common.login" /></button>
                             <div className="widthMax center">
                                 <Link to={'/registration'} className="custom-link"><FormattedMessage id="common.registration" /></Link>
                             </div>

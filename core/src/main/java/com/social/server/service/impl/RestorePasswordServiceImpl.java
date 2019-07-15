@@ -36,7 +36,7 @@ public class RestorePasswordServiceImpl implements RestorePasswordService {
 
     @Override
     @WriteTransactional
-    public void sendRestoreLinkTo(String email) {
+    public void sendRestoreLinkTo(String email, String mirror) {
         log.debug("Send restore password link to email {}", email);
         if (!userRepository.existsByEmail(email)) {
             log.debug("Email {} not exist in system", email);
@@ -58,7 +58,7 @@ public class RestorePasswordServiceImpl implements RestorePasswordService {
         passwordResetToken.setToken(UUID.randomUUID().toString());
 
         log.debug("Send message");
-        emailService.sendRestorePasswordMail(email, passwordResetToken.getToken());
+        emailService.sendRestorePasswordMail(email, passwordResetToken.getToken(), mirror);
     }
 
     @Override

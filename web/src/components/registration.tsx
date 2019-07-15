@@ -133,7 +133,7 @@ class Registration extends React.Component<{}, RegistrationState> {
                         <input name="password" value={this.state.password} type="password" className="form-control" id="inputPassword" onChange={this.handleChange}/>
                     </div>
                     {viewErrors}
-                    <button type="button" onClick={this.registration} className="btn btn-primary btn-custom"><FormattedMessage id="common.registration" /></button>
+                    <button type="button" onClick={this.registration} className="btn btn-secondary btn-custom btn-margin"><FormattedMessage id="common.registration" /></button>
                     <div className="widthMax center">
                         <Link to={'/login'} className="custom-link center"><FormattedMessage id="common.login" /></Link>
                     </div>
