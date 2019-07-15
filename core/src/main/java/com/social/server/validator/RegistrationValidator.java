@@ -18,7 +18,7 @@ public class RegistrationValidator {
         List<String> errors = new ArrayList<>();
 
         if (model == null) {
-            throw new RegistrationValidationException("Incorrect GroupModel", Collections.singletonList("model is null"));
+            throw new RegistrationValidationException("common.validation.model.incorrect", Collections.singletonList("common.validation.model.null"));
         }
 
         if (StringUtils.isBlank(model.getEmail())) {
@@ -41,7 +41,7 @@ public class RegistrationValidator {
         validateSex(errors, model.getSex());
 
         if (!errors.isEmpty()) {
-            throw new RegistrationValidationException("RegistrationModel is incorrect",errors);
+            throw new RegistrationValidationException("common.validation.model.incorrect",errors);
         }
     }
 }

@@ -14,7 +14,7 @@ public class PasswordValidator {
         List<String> errors = new ArrayList<>();
 
         if (model == null) {
-            throw new RestorePasswordValidationException("RestorePasswordModel is incorrect", Collections.singletonList("model is null"));
+            throw new RestorePasswordValidationException("common.validation.model.incorrect", Collections.singletonList("common.validation.model.null"));
         }
 
         if (model.getId() == 0) {
@@ -24,7 +24,7 @@ public class PasswordValidator {
         UserDetailValidator.validatePassword(errors, model.getPassword());
 
         if (!errors.isEmpty()) {
-            throw new RestorePasswordValidationException("RestorePasswordModel is incorrect", errors);
+            throw new RestorePasswordValidationException("common.validation.model.incorrect", errors);
         }
     }
 }

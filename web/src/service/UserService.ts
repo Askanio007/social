@@ -5,11 +5,11 @@ import ApiClient from './ApiClient';
 class UserService {
 
     public async find(userId:number, callback:any): Promise<any> {
-       return ApiClient.get( api + '/user/' + userId, callback);
+       return ApiClient.get( api + '/users/' + userId, callback);
     }
 
     public getRootUser(callback:any):void {
-        ApiClient.get( api + '/user/' + this.getRootUserId(), callback);
+        ApiClient.get( api + '/users/' + this.getRootUserId(), callback);
     }
 
     public async getRelation(userId:number, callback?:any): Promise<AxiosResponse<any>> {
@@ -33,30 +33,30 @@ class UserService {
     }
 
     public async registration(registrationModel:any, callback:any) {
-        ApiClient.post(api + "/registration", registrationModel, callback);
+        ApiClient.put(api + "/registration", registrationModel, callback);
     }
     public async login(email:any, password:any, callback:any) {
         ApiClient.get(api + "/login?email=" + email + "&password=" + password, callback);
     }
 
     public savePhoto(userId:number, file:File, callback:any):void {
-        let url = api + '/image/user/' + userId + '/upload';
+        let url = api + '/image/user/' + userId;
         var fileFormData = new FormData();
         fileFormData.append('file', file);
         var options = {
             headers: {'Content-Type': undefined}
         };
-        ApiClient.post(url, fileFormData, options, callback)
+        ApiClient.put(url, fileFormData, options, callback)
     }
 
     public saveMiniPhoto(userId:number, blob:Blob, callback:any):void {
-        let url = api + '/image/user/' + userId + '/mini/upload';
+        let url = api + '/image/user/' + userId + '/mini';
         var fileFormData = new FormData();
         fileFormData.append('file', new File([blob], ""));
         var options = {
             headers: {'Content-Type': undefined}
         };
-        ApiClient.post(url, fileFormData, options, callback)
+        ApiClient.put(url, fileFormData, options, callback)
 
     }
 

@@ -25,15 +25,15 @@ class FriendService {
     }
 
     async declineRequest(friendshipRequestId:number) {
-        return ApiClient.post(api + '/' +  UserService.getRootUserId() + '/friends/request/decline/' + friendshipRequestId);
+        return ApiClient.delete(api + '/' +  UserService.getRootUserId() + '/friends/request/' + friendshipRequestId);
     }
 
     async remove(userId:number) {
-        return ApiClient.post(api + '/' + UserService.getRootUserId() + '/friends/remove/' + userId);
+        return ApiClient.delete(api + '/' + UserService.getRootUserId() + '/friends/' + userId);
     }
 
     async sendFriendRequest(friendshipRequest:FriendshipRequest) {
-        return ApiClient.post(api + '/' +  friendshipRequest.fromUserId + '/friends/request/add', friendshipRequest);
+        return ApiClient.put(api + '/' +  friendshipRequest.fromUserId + '/friends/request', friendshipRequest);
     }
 }
 

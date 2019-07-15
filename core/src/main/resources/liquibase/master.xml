@@ -52,8 +52,8 @@
             <column name="name" type="varchar(100)"/>
             <column name="description" type="varchar(500)"/>
             <column name="admin_id" type="integer"/>
-            <column name="avatar_path" type="varchar(100)"/>
             <column name="image_id" type="integer" />
+            <column name="mini_image_id" type="integer"/>
         </createTable>
         <addPrimaryKey tableName="group_social" columnNames="id"/>
         <addNotNullConstraint tableName="group_social" columnName="name"/>
@@ -62,6 +62,16 @@
                                  baseColumnNames="admin_id"
                                  constraintName="group_admin_key"
                                  referencedTableName="user_social"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="group_social"
+                                 baseColumnNames="image_id"
+                                 constraintName="image_group"
+                                 referencedTableName="image"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="group_social"
+                                 baseColumnNames="mini_image_id"
+                                 constraintName="mini_image_group"
+                                 referencedTableName="image"
                                  referencedColumnNames="id" />
 
 

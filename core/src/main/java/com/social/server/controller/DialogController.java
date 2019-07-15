@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 @RestController
-@RequestMapping("/api/v1/{rootUserId}/dialog")
+@RequestMapping("/api/v1/{rootUserId}/dialogs")
 public class DialogController {
 
     private final DialogService dialogService;

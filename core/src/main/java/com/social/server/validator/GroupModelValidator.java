@@ -15,7 +15,7 @@ public class GroupModelValidator {
         List<String> errors = new ArrayList<>();
 
         if (model == null) {
-            throw new GroupValidationException("Incorrect GroupModel", Collections.singletonList("model is null"));
+            throw new GroupValidationException("common.validation.model.incorrect", Collections.singletonList("common.validation.model.null"));
         }
 
         if (StringUtils.isBlank(model.getDescription())) {
@@ -33,7 +33,7 @@ public class GroupModelValidator {
         }
 
         if (!errors.isEmpty()) {
-            throw new GroupValidationException("Incorrect GroupModel", errors);
+            throw new GroupValidationException("common.validation.model.incorrect", errors);
         }
     }
 }

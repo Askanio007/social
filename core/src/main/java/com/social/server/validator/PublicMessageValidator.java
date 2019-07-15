@@ -15,7 +15,7 @@ public class PublicMessageValidator {
         List<String> errors = new ArrayList<>();
 
         if (model == null) {
-            throw new PublicMessageValidationException("Incorrect PublicMessageModel", Collections.singletonList("model is null"));
+            throw new PublicMessageValidationException("common.validation.model.incorrect", Collections.singletonList("common.validation.model.null"));
         }
 
         if (model.getSenderId() == 0 || model.getRecipientId() == 0) {
@@ -31,7 +31,7 @@ public class PublicMessageValidator {
         }
 
         if (!errors.isEmpty()) {
-            throw new PublicMessageValidationException("PublicMessageModel is incorrect", errors);
+            throw new PublicMessageValidationException("common.validation.model.incorrect", errors);
         }
 
     }

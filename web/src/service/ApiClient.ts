@@ -9,14 +9,34 @@ class ApiClient {
         return this.ax.get(url)
             .then(callback)
             .catch((err:any) => {
-            console.log("failed api response:" + err);
+                console.log("failed api response:" + err);
         })
     }
 
     public static async post(url:string, data?:any, config?:AxiosRequestConfig, callback?:any): Promise<any> {
         this.addHeaders();
-        return this.ax.post(url, data, config).then(callback,(res:any) => {
+        return this.ax.post(url, data, config)
+            .then(callback)
+            .catch((err:any) => {
+                console.log("failed api response:" + err);
+        });
+    }
 
+    public static async put(url:string, data?:any, config?:AxiosRequestConfig, callback?:any): Promise<any> {
+        this.addHeaders();
+        return this.ax.put(url, data, config)
+            .then(callback)
+            .catch((err:any) => {
+                console.log("failed api response:" + err);
+            });
+    }
+
+    public static async delete(url:string, config?:AxiosRequestConfig, callback?:any): Promise<any> {
+        this.addHeaders();
+        return this.ax.delete(url)
+            .then(callback)
+            .catch((err:any) => {
+                console.log("failed api response:" + err);
         });
     }
 

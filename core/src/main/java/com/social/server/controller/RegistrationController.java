@@ -6,7 +6,7 @@ import com.social.server.http.model.RegistrationModel;
 import com.social.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +24,7 @@ public class RegistrationController {
         this.userService = userService;
     }
 
-    @PostMapping("/registration")
+    @PutMapping("/registration")
     public Response registration(@RequestBody @Valid RegistrationModel registrationModel, BindingResult result) {
         if (result.hasErrors()) {
             return Response.error(result.getAllErrors());

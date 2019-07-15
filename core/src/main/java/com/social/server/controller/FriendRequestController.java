@@ -32,19 +32,19 @@ public class FriendRequestController {
         return Response.ok(friendshipRequestService.isFriendRequest(rootUserId, userId));
     }
 
-    @PostMapping("/add")
+    @PutMapping
     public Response addFriendRequest(@RequestBody FriendshipRequestModel friendshipRequestModel) {
         friendshipRequestService.create(friendshipRequestModel);
         return Response.ok();
     }
 
-    @PostMapping("/accept/{friendshipRequestId}")
+    @PostMapping("/{friendshipRequestId}/accept")
     public Response acceptRequest(@PathVariable long friendshipRequestId) {
         friendshipRequestService.accept(friendshipRequestId);
         return Response.ok();
     }
 
-    @PostMapping("/decline/{friendshipRequestId}")
+    @DeleteMapping("/{friendshipRequestId}")
     public Response declineRequest(@PathVariable long friendshipRequestId) {
         friendshipRequestService.decline(friendshipRequestId);
         return Response.ok();

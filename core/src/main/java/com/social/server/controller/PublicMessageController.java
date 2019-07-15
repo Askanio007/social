@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/message/public")
+@RequestMapping("/api/v1/messages/public")
 public class PublicMessageController {
 
     private final PublicMessageService publicMessageService;
@@ -28,7 +28,7 @@ public class PublicMessageController {
         return Response.ok(publicMessageService.findByRecipientId(recipientId, type, page));
     }
 
-    @PostMapping("/save")
+    @PutMapping
     public Response saveMessage(@RequestBody @Valid PublicMessageModel publicMessageModel, BindingResult result) {
         return result.hasErrors() ? Response.error(result.getAllErrors()) : Response.ok(publicMessageService.create(publicMessageModel));
     }

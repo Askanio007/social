@@ -18,7 +18,7 @@ public class UserDetailValidator {
         List<String> errors = new ArrayList<>();
 
         if (model == null) {
-            throw new UserDetailsValidationException("Incorrect GroupModel", Collections.singletonList("model is null"));
+            throw new UserDetailsValidationException("common.validation.model.incorrect", Collections.singletonList("common.validation.model.null"));
         }
 
         if (model.getId() == 0) {
@@ -45,7 +45,7 @@ public class UserDetailValidator {
         }
 
         if (!errors.isEmpty()) {
-            throw new UserDetailsValidationException("UserDetailsModel is incorrect", errors);
+            throw new UserDetailsValidationException("common.validation.model.incorrect", errors);
         }
     }
 

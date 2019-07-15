@@ -30,27 +30,27 @@ public class GroupController {
         return Response.ok(groupService.countBy(rootUserId));
     }
 
-    @GetMapping("/group/{groupId}")
+    @GetMapping("/groups/{groupId}")
     public Response findOne(@PathVariable long groupId) {
         return Response.ok(groupService.find(groupId));
     }
 
-    @GetMapping("/group/{groupId}/count")
+    @GetMapping("/groups/{groupId}/count")
     public Response countParticipant(@PathVariable long groupId) {
         return Response.ok(groupService.countParticipant(groupId));
     }
 
-    @GetMapping("/group/{groupId}/relation/{rootUserId}")
+    @GetMapping("/groups/{groupId}/relation/{rootUserId}")
     public Response relation(@PathVariable long groupId, @PathVariable long rootUserId) {
         return Response.ok(groupService.getGroupRelationToUser(groupId, rootUserId));
     }
 
-    @PostMapping("/{rootUserId}/groups/create")
+    @PutMapping("/{rootUserId}/groups")
     public Response create(@PathVariable long rootUserId, @RequestBody @Valid GroupModel groupModel, BindingResult result) {
         return result.hasErrors() ? Response.error(result.getAllErrors()) : Response.ok(groupService.create(rootUserId, groupModel));
     }
 
-    @PostMapping("/group/{groupId}/edit")
+    @PostMapping("/groups/{groupId}/edit")
     public Response create(@RequestBody @Valid GroupModel groupModel, BindingResult result) {
         return result.hasErrors() ? Response.error(result.getAllErrors()) : Response.ok(groupService.edit(groupModel));
     }

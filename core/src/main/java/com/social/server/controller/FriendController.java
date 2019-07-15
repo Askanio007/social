@@ -31,7 +31,7 @@ public class FriendController {
         return Response.ok(friendService.isFriends(rootUserId, friendId));
     }
 
-    @PostMapping("/remove/{friendId}")
+    @DeleteMapping("/{friendId}")
     public Response removeFromFriends(@PathVariable long rootUserId, @PathVariable long friendId) {
         friendService.remove(rootUserId, friendId);
         return Response.ok();

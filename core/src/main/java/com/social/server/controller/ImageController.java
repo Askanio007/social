@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/v1/image")
+@RequestMapping("/api/v1/images")
 public class ImageController {
 
     private final UserService userService;
@@ -18,22 +18,22 @@ public class ImageController {
         this.groupService = groupService;
     }
 
-    @PostMapping("/user/{rootUserId}/upload")
+    @PutMapping("/users/{rootUserId}/")
     public Response uploadUserImage(@PathVariable long rootUserId, @RequestBody MultipartFile file) {
         return Response.ok(userService.savePhoto(rootUserId, file, false));
     }
 
-    @PostMapping("/user/{rootUserId}/mini/upload")
+    @PutMapping("/users/{rootUserId}/mini/")
     public Response uploadUserMiniImage(@PathVariable long rootUserId, @RequestBody MultipartFile file) {
         return Response.ok(userService.savePhoto(rootUserId, file, true));
     }
 
-    @PostMapping("/group/{groupId}/upload")
+    @PutMapping("/groups/{groupId}/")
     public Response uploadGroupImage(@PathVariable long groupId, @RequestBody MultipartFile file) {
         return Response.ok(groupService.savePhoto(groupId, file, false));
     }
 
-    @PostMapping("/group/{groupId}/mini/upload")
+    @PutMapping("/groups/{groupId}/mini/")
     public Response uploadGroupMiniImage(@PathVariable long groupId, @RequestBody MultipartFile file) {
         return Response.ok(groupService.savePhoto(groupId, file, true));
     }

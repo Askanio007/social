@@ -9,19 +9,19 @@ class GroupService {
     }
 
     public create(rootUserId:number, newGroup:Group, callback:any): void {
-        ApiClient.post(api + '/' + rootUserId + '/groups/create', newGroup, {}, callback);
+        ApiClient.put(api + '/' + rootUserId + '/groups', newGroup, {}, callback);
     }
 
     public async find(groupId:number, callback:any): Promise<any> {
-        return ApiClient.get(api + '/group/' + groupId, callback);
+        return ApiClient.get(api + '/groups/' + groupId, callback);
     }
 
     public async countParticipant(groupId:number, callback:any): Promise<any> {
-        return ApiClient.get( api + '/group/' + groupId + '/count', callback);
+        return ApiClient.get( api + '/groups/' + groupId + '/count', callback);
     }
 
     public async groupRelation(groupId:number, callback:any): Promise<any> {
-        return ApiClient.get( api + '/group/' + groupId + '/relation/' + UserService.getRootUserId(), callback);
+        return ApiClient.get( api + '/groups/' + groupId + '/relation/' + UserService.getRootUserId(), callback);
     }
 
     async isUserInGroup(userId:number, groupId:number): Promise<AxiosResponse<any>> {
@@ -33,7 +33,7 @@ class GroupService {
     }
 
     public search(groupName:string, callback:any): void {
-        ApiClient.get(api + '/group/search?groupName=' + groupName, callback);
+        ApiClient.get(api + '/groups/search?groupName=' + groupName, callback);
     }
 
     async exit(groupId:number): Promise<AxiosResponse<any>> {
@@ -41,27 +41,27 @@ class GroupService {
     }
 
     public edit(group:Group, callback:any):void {
-        ApiClient.post(api + "/group/" + group.id + "/edit", group, {}, callback);
+        ApiClient.post(api + "/groups/" + group.id + "/edit", group, {}, callback);
     }
 
     public savePhoto(groupId:number, file:File, callback:any):void {
-        let url = api + '/image/group/' + groupId + '/upload';
+        let url = api + '/images/groups/' + groupId;
         var fileFormData = new FormData();
         fileFormData.append('file', file);
         var options = {
             headers: {'Content-Type': undefined}
         };
-        ApiClient.post(url, fileFormData, options, callback)
+        ApiClient.put(url, fileFormData, options, callback)
     }
 
     public saveMiniPhoto(groupId:number, blob:Blob, callback:any):void {
-        let url = api + '/image/group/' + groupId + '/mini/upload';
+        let url = api + '/images/groups/' + groupId + '/mini';
         var fileFormData = new FormData();
         fileFormData.append('file', new File([blob], ""));
         var options = {
             headers: {'Content-Type': undefined}
         };
-        ApiClient.post(url, fileFormData, options, callback)
+        ApiClient.put(url, fileFormData, options, callback)
 
     }
 }

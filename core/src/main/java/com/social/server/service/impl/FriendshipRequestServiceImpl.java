@@ -44,7 +44,7 @@ public class FriendshipRequestServiceImpl extends CommonServiceImpl<FriendshipRe
     @WriteTransactional
     public void create(FriendshipRequestModel model) {
         if (model == null) {
-            throw new FriendshipRequestValidationException("FriendshipRequestModel model incorrect", Collections.singletonList("model is null"));
+            throw new FriendshipRequestValidationException("common.validation.model.incorrect", Collections.singletonList("common.validation.model.null"));
         }
         validateEmptyEntityId(model.getFromUserId());
         validateEmptyEntityId(model.getToUserId());
