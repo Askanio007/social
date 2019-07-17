@@ -169,5 +169,55 @@
                                  constraintName="password-reset-token-user"
                                  referencedTableName="user"
                                  referencedColumnNames="id" />
+
+        <createTable tableName="dialog">
+            <column name="id" type="bigserial"/>
+            <column name="last_message" type="varchar(2000)" />
+            <column name="date_last_message" type="timestamp"/>
+        </createTable>
+        <addPrimaryKey tableName="dialog" columnNames="id" />
+
+        <createTable tableName="private_message">
+            <column name="id" type="bigserial"/>
+            <column name="message" type="varchar(2000)" />
+            <column name="create_date" type="timestamp"/>
+            <column name="sender_id" type="integer"/>
+            <column name="dialog_id" type="integer"/>
+            <column name="read" type="boolean"/>
+            <column name="delivered" type="boolean"/>
+        </createTable>
+        <addPrimaryKey tableName="private_message" columnNames="id" />
+        <addNotNullConstraint tableName="private_message" columnName="message" />
+        <addNotNullConstraint tableName="private_message" columnName="create_date" />
+        <addNotNullConstraint tableName="private_message" columnName="sender_id" />
+        <addNotNullConstraint tableName="private_message" columnName="dialog_id" />
+        <addNotNullConstraint tableName="private_message" columnName="read" />
+        <addNotNullConstraint tableName="private_message" columnName="delivered" />
+        <addForeignKeyConstraint baseTableName="private_message"
+                                 baseColumnNames="sender_id"
+                                 constraintName="private_message_sender_user"
+                                 referencedTableName="user_social"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="private_message"
+                                 baseColumnNames="dialog_id"
+                                 constraintName="private_message_dialog"
+                                 referencedTableName="dialog"
+                                 referencedColumnNames="id" />
+
+        <createTable tableName="user_dialog">
+            <column name="dialog_id" type="integer"/>
+            <column name="user_id" type="integer"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="user_dialog"
+                                 baseColumnNames="dialog_id"
+                                 constraintName="dialog_user_fk"
+                                 referencedTableName="dialog"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="user_dialog"
+                                 baseColumnNames="user_id"
+                                 constraintName="user_dialog_fk"
+                                 referencedTableName="user_social"
+                                 referencedColumnNames="id" />
     </changeSet>
 </databaseChangeLog>
