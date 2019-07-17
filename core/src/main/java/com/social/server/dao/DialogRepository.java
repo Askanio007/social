@@ -13,7 +13,6 @@ import java.util.Set;
 @Repository
 public interface DialogRepository extends JpaRepository<Dialog, Long> {
     Page<Dialog> findByUsersIdInOrderByDateLastMessageDesc(long rootUserId, Pageable page);
-    boolean existsByUsersIdIn(Set<Long> usersId);
 
     @Query("select count(m) from Dialog d join d.messages m where m.read = false and m.sender.id <> :userId")
     long countNotReadMessages(@Param(value = "userId") long userId);

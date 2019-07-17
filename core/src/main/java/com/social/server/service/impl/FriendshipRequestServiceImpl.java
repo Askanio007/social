@@ -7,7 +7,6 @@ import com.social.server.entity.FriendshipRequest;
 import com.social.server.entity.UserRelation;
 import com.social.server.exception.FriendshipRequestValidationException;
 import com.social.server.http.model.FriendshipRequestModel;
-import com.social.server.service.DialogService;
 import com.social.server.service.FriendService;
 import com.social.server.service.FriendshipRequestService;
 import com.social.server.service.transactional.ReadTransactional;
@@ -18,7 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 @Slf4j
@@ -27,17 +25,14 @@ public class FriendshipRequestServiceImpl extends CommonServiceImpl<FriendshipRe
 
     private final UserRepository userRepository;
     private final FriendService friendService;
-    private final DialogService dialogService;
 
     @Autowired
     public FriendshipRequestServiceImpl(FriendshipRequestRepository friendshipRequestRepository,
                                         UserRepository userRepository,
-                                        FriendService friendService,
-                                        DialogService dialogService) {
+                                        FriendService friendService) {
         super(friendshipRequestRepository);
         this.userRepository = userRepository;
         this.friendService = friendService;
-        this.dialogService = dialogService;
     }
 
     @Override
@@ -63,7 +58,6 @@ public class FriendshipRequestServiceImpl extends CommonServiceImpl<FriendshipRe
         friendshipRequest.setAccept(true);
         log.debug("Save friend request");
         friendService.addFriend(friendshipRequest.getRequestTo().getId(), friendshipRequest.getRequestFrom().getId());
-        dialogService.create(Arrays.asList(friendshipRequest.getRequestFrom(), friendshipRequest.getRequestTo()));
         log.debug("Accepting friend request completed successfully");
     }
 

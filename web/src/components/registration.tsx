@@ -1,6 +1,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link, Redirect} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import UserService from '../service/UserService';
 import ApiClient from '../service/ApiClient';
 
@@ -11,10 +11,9 @@ interface RegistrationState {
     email?: string;
     password?: string;
     errors?: string[];
-    isLogged?: boolean
 }
 
-class Registration extends React.Component<{}, RegistrationState> {
+class Registration extends React.Component<any, RegistrationState> {
 
     state: RegistrationState = {
         name: "",
@@ -22,8 +21,7 @@ class Registration extends React.Component<{}, RegistrationState> {
         sex: "MALE",
         email: "",
         password: "",
-        errors: [],
-        isLogged: false
+        errors: []
     };
 
     validate = (registrationModel:any):boolean => {
@@ -67,6 +65,7 @@ class Registration extends React.Component<{}, RegistrationState> {
         if (res.data.success === true) {
             UserService.setRootUserId(res.data.data.id);
             ApiClient.setToken(res.data.token);
+            this.props.history.push('/me');
         } else {
             this.setState({
                 errors: res.data.errors
@@ -81,9 +80,6 @@ class Registration extends React.Component<{}, RegistrationState> {
     };
 
     render() {
-        if (this.state.isLogged === true) {
-            return <Redirect to={'/me'} />
-        }
         let errors;
         let viewErrors;
         if (this.state.errors && this.state.errors.length !== 0) {
@@ -145,4 +141,4 @@ class Registration extends React.Component<{}, RegistrationState> {
 
 }
 
-export default Registration;
+export default withRouter(Registration);

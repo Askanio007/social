@@ -22,4 +22,16 @@ public interface PrivateMessageService extends CommonService<PrivateMessage, Lon
      * @param dialogId - идентификатор диалога
      */
     List<PrivateMessageDto> findLastBy(long dialogId);
+
+    /**
+     * Прочитать сообщение в диалоге
+     * @param messageId - идентификатор сообщения
+     */
+    void readMessage(long rootUserId, long messageId);
+
+    /**
+     * Прочитать все сообщения в диалоге
+     * @param dialogId - идентификатор диалога
+     */
+    void readMessagesByDialogId(long rootUserId, long dialogId);
 }

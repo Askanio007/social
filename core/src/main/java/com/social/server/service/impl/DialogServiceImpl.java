@@ -45,13 +45,7 @@ public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRep
     @Override
     @ReadTransactional
     public DialogDto getDialogBy(List<Long> usersId) {
-        Set<Long> userList = new HashSet<>(usersId);
-        DialogDto dialogDto = DialogDto.of(repository.findOneByUsersId(userList));
-        if (dialogDto == null) {
-            log.debug("Dialog not found. Create dialog between users: {}", usersId);
-            return create(userList.stream().map(userService::getById).collect(Collectors.toList()));
-        }
-        return dialogDto;
+        return DialogDto.of(repository.findOneByUsersId(new HashSet<>(usersId)));
     }
 
     @Override
@@ -61,20 +55,15 @@ public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRep
 
     private DialogDto create(Set<User> users) {
         log.debug("Check existing dialog between {}...", users);
-        if (dialogExist(users)) {
+        DialogDto dialogDto = getDialogBy(users.stream().map(User::getId).collect(Collectors.toList()));
+        if (dialogDto != null) {
             log.debug("Dialog exist. Return it");
-            return getDialogBy(users.stream().map(User::getId).collect(Collectors.toList()));
+            return dialogDto;
         }
 
         log.debug("Dialog not exist. Create it");
         Dialog dialog = new Dialog();
         dialog.setUsers(users);
         return DialogDto.of(repository.save(dialog));
-    }
-
-    private boolean dialogExist(Set<User> users) {
-        return repository.existsByUsersIdIn(users.stream()
-                .map(User::getId)
-                .collect(Collectors.toSet()));
     }
 }

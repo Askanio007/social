@@ -22,7 +22,8 @@ public class FriendServiceTest {
 
     private final EventService eventService = Mockito.mock(EventService.class);
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
-    private FriendServiceImpl friendService = new FriendServiceImpl(userRepository, eventService);
+    private final DialogService dialogService = Mockito.mock(DialogService.class);
+    private FriendServiceImpl friendService = new FriendServiceImpl(userRepository, eventService, dialogService);
 
     @Test
     public void successAddFriend() {

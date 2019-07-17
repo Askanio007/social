@@ -26,22 +26,23 @@ class Dialog extends Component<any, DialogState> {
     stompClient:any;
 
     componentDidMount(): void {
+        let dialogId = this.props.match.params.dialogId;
         let socket = new WebSocket('ws://localhost:8080/dialog/websocket');
         this.stompClient = Stomp.over(socket);
         this.stompClient.connect({}, (frame:any) => {
-            this.stompClient.subscribe('/dialog/message',  (response:any) => {
+            this.stompClient.subscribe('/dialog/message/' + dialogId,  (response:any) => {
                 let res = JSON.parse(response.body);
                 if (res.success === true) {
                     let state = this.state;
                     state.messages.push(res.data);
                     state.message = "";
                     this.setState(state);
+                    DialogService.readMessage(res.data.id, () => {});
                     this.scrollToBottom();
                 }
-                console.log("Hello " + JSON.parse(response.body).data.message);
             });
         });
-        let dialogId = this.props.match.params.dialogId;
+        DialogService.readMessagesByDialog(dialogId, () => {});
         DialogService.findMessages(dialogId, (res:any) => {
             if (res.data.success === true) {
                 this.setState({
@@ -84,11 +85,13 @@ class Dialog extends Component<any, DialogState> {
             message: this.state.message,
             dialogId: this.state.dialogId
         };
-        this.stompClient.send("/app/send", {}, JSON.stringify(params));
+        this.stompClient.send("/app/send/" + this.state.dialogId, {}, JSON.stringify(params));
     };
 
     scrollToBottom() {
-        this.chat.scrollTop = this.chat.scrollHeight;
+        if (this.chat) {
+            this.chat.scrollTop = this.chat.scrollHeight;
+        }
     }
 
 

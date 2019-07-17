@@ -19,6 +19,20 @@
         <addNotNullConstraint tableName="user_social" columnName="email" />
         <addNotNullConstraint tableName="user_social" columnName="password" />
 
+        <createTable tableName="user_friend">
+            <column name="user_id" type="integer"/>
+            <column name="friend_id" type="integer"/>
+        </createTable>
+
+        <createTable tableName="image">
+            <column name="id" type="bigserial"/>
+            <column name="path" type="varchar(255)" />
+            <column name="filename" type="varchar(255)"/>
+        </createTable>
+        <addPrimaryKey tableName="image" columnNames="id" />
+        <addNotNullConstraint tableName="image" columnName="path" />
+        <addNotNullConstraint tableName="image" columnName="filename" />
+
         <createTable tableName="user_details_social">
             <column name="id" type="bigserial"/>
             <column name="birthday" type="timestamp"/>
@@ -138,25 +152,6 @@
                                  referencedTableName="user_social"
                                  referencedColumnNames="id" />
 
-        <createTable tableName="image">
-            <column name="id" type="bigserial"/>
-            <column name="path" type="varchar(255)" />
-            <column name="filename" type="varchar(255)"/>
-        </createTable>
-        <addPrimaryKey tableName="image" columnNames="id" />
-        <addNotNullConstraint tableName="image" columnName="path" />
-        <addNotNullConstraint tableName="image" columnName="filename" />
-        <addForeignKeyConstraint baseTableName="user_details_social"
-                                 baseColumnNames="image_id"
-                                 constraintName="image_user"
-                                 referencedTableName="image"
-                                 referencedColumnNames="id" />
-        <addForeignKeyConstraint baseTableName="group_social"
-                                 baseColumnNames="image_id"
-                                 constraintName="image_user"
-                                 referencedTableName="image"
-                                 referencedColumnNames="id" />
-
         <createTable tableName="password_reset_token">
             <column name="id" type="bigserial" />
             <column name="token" type="varchar(50)" />
@@ -167,7 +162,7 @@
         <addForeignKeyConstraint baseTableName="password_reset_token"
                                  baseColumnNames="user_id"
                                  constraintName="password-reset-token-user"
-                                 referencedTableName="user"
+                                 referencedTableName="user_social"
                                  referencedColumnNames="id" />
 
         <createTable tableName="dialog">

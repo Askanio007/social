@@ -49,4 +49,16 @@ public class PrivateMessageServiceImpl extends CommonServiceImpl<PrivateMessage,
         Collections.reverse(list);
         return list;
     }
+
+    @Override
+    @WriteTransactional
+    public void readMessage(long rootUserId, long messageId) {
+        repository.readMessage(rootUserId, messageId);
+    }
+
+    @Override
+    @WriteTransactional
+    public void readMessagesByDialogId(long rootUserId, long dialogId) {
+        repository.readMessageByDialogId(rootUserId, dialogId);
+    }
 }

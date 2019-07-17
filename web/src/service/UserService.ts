@@ -40,7 +40,7 @@ class UserService {
     }
 
     public savePhoto(userId:number, file:File, callback:any):void {
-        let url = api + '/image/user/' + userId;
+        let url = api + '/images/users/' + userId;
         var fileFormData = new FormData();
         fileFormData.append('file', file);
         var options = {
@@ -50,7 +50,7 @@ class UserService {
     }
 
     public saveMiniPhoto(userId:number, blob:Blob, callback:any):void {
-        let url = api + '/image/user/' + userId + '/mini';
+        let url = api + '/images/users/' + userId + '/mini';
         var fileFormData = new FormData();
         fileFormData.append('file', new File([blob], ""));
         var options = {

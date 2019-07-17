@@ -27,7 +27,7 @@ public class DialogController {
         return Response.ok(dialogService.findBy(rootUserId, page));
     }
 
-    @GetMapping("/{dialogId}/message")
+    @GetMapping("/{dialogId}/messages")
     public Response list(@PathVariable long dialogId) {
         return Response.ok(privateMessageService.findLastBy(dialogId));
     }
@@ -40,5 +40,11 @@ public class DialogController {
     @GetMapping("/{friendId}")
     public Response getDialog(@PathVariable long rootUserId, @PathVariable long friendId) {
         return Response.ok(dialogService.getDialogBy(Arrays.asList(friendId,rootUserId)));
+    }
+
+    @PostMapping("/{dialogId}/messages/read")
+    public Response readMessages(@PathVariable long dialogId, @PathVariable long rootUserId) {
+        privateMessageService.readMessagesByDialogId(rootUserId, dialogId);
+        return Response.ok();
     }
 }

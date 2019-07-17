@@ -9,7 +9,15 @@ class DialogService {
     }
 
     public findMessages(dialogId:number, callback:any): void {
-        ApiClient.get(api + '/' + UserService.getRootUserId() + '/dialogs/' + dialogId + '/message', callback);
+        ApiClient.get(api + '/' + UserService.getRootUserId() + '/dialogs/' + dialogId + '/messages', callback);
+    }
+
+    public readMessagesByDialog(dialogId:number, callback:any): void {
+        ApiClient.post(api + '/' + UserService.getRootUserId() + '/dialogs/' + dialogId + '/messages/read', callback);
+    }
+
+    public readMessage(messageId:number, callback:any): void {
+        ApiClient.post(api + '/' + UserService.getRootUserId() + '/messages/' + messageId + '/read', callback);
     }
 
     public saveMessage(message:string, dialogId:number, callback:any): void {

@@ -56,6 +56,7 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
                 .surname(formatName(registrationModel.getSurname()))
                 .sex(registrationModel.getSex())
                 .create();
+        user.getDetails().setUser(user);
         return UserDto.of(repository.save(user));
     }
 

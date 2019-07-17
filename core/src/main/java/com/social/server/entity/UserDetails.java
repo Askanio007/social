@@ -29,7 +29,7 @@ public class UserDetails implements Serializable {
             parameters = @Parameter(name = "property", value = "user"))
     @GeneratedValue(generator = "generator")
     @Column(name = "id", unique = true, nullable = false)
-    private Long id;
+    private long id;
 
     /**
      * День рождения
@@ -81,4 +81,11 @@ public class UserDetails implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "mini_image_id")
     private Image miniImage;
+
+    /**
+     * Пользователь
+     */
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "details")
+    private User user;
+
 }

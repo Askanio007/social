@@ -22,7 +22,6 @@ public class DialogServiceTest {
 
     @Test
     public void successCreateDialog() {
-        when(repository.existsByUsersIdIn(any())).thenReturn(false);
         dialogService.create(Arrays.asList(new User()));
         verify(repository, times(1)).save(any());
     }
@@ -31,7 +30,6 @@ public class DialogServiceTest {
     public void successGettingDialog() {
         List<Long> usersId = Arrays.asList(0L);
         when(repository.findOneByUsersId(new HashSet<>(usersId))).thenReturn(new Dialog());
-        when(repository.existsByUsersIdIn(any())).thenReturn(true);
         dialogService.create(Arrays.asList(new User()));
         verify(repository, times(0)).save(any());
         verify(repository, times(1)).findOneByUsersId(any(HashSet.class));
@@ -42,10 +40,8 @@ public class DialogServiceTest {
         List<Long> usersId = Arrays.asList(1L, 2L);
         when(userService.getById(1L)).thenReturn(new User());
         when(userService.getById(2L)).thenReturn(new User());
-        when(repository.existsByUsersIdIn(any())).thenReturn(false);
         when(repository.findOneByUsersId(new HashSet<>(usersId))).thenReturn(null);
         dialogService.getDialogBy(usersId);
-        verify(repository, times(1)).existsByUsersIdIn(any(HashSet.class));
         verify(repository, times(1)).findOneByUsersId(any(HashSet.class));
     }
 
@@ -54,7 +50,6 @@ public class DialogServiceTest {
         List<Long> usersId = Arrays.asList(1L, 2L);
         when(repository.findOneByUsersId(new HashSet<>(usersId))).thenReturn(new Dialog());
         dialogService.getDialogBy(usersId);
-        verify(repository, times(0)).existsByUsersIdIn(any(HashSet.class));
         verify(repository, times(1)).findOneByUsersId(any(HashSet.class));
     }
 }

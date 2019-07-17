@@ -4,6 +4,7 @@ import com.social.server.dao.UserRepository;
 import com.social.server.dto.UserDto;
 import com.social.server.entity.EventType;
 import com.social.server.entity.User;
+import com.social.server.service.DialogService;
 import com.social.server.service.EventService;
 import com.social.server.service.FriendService;
 import com.social.server.service.transactional.WriteTransactional;
@@ -13,16 +14,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+
 @Slf4j
 @Service
 public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserRepository> implements FriendService {
 
     private final EventService eventService;
+    private final DialogService dialogService;
 
     @Autowired
-    public FriendServiceImpl(UserRepository repository, EventService eventService) {
+    public FriendServiceImpl(UserRepository repository, EventService eventService, DialogService dialogService) {
         super(repository);
         this.eventService = eventService;
+        this.dialogService = dialogService;
     }
 
     @Override
@@ -33,6 +38,8 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
         User user = getById(rootUserId);
         User friend = getById(friendId);
         user.getFriends().add(friend);
+        friend.getFriends().add(user);
+        dialogService.create(Arrays.asList(user, friend));
         eventService.createEvent(rootUserId, friend.getId(), friend.getFullName(), EventType.ADD_FRIEND);
         log.debug("Adding to friends completed successfully");
     }

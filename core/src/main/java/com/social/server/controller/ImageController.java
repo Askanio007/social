@@ -18,22 +18,22 @@ public class ImageController {
         this.groupService = groupService;
     }
 
-    @PutMapping("/users/{rootUserId}/")
+    @PutMapping("/users/{rootUserId}")
     public Response uploadUserImage(@PathVariable long rootUserId, @RequestBody MultipartFile file) {
         return Response.ok(userService.savePhoto(rootUserId, file, false));
     }
 
-    @PutMapping("/users/{rootUserId}/mini/")
+    @PutMapping("/users/{rootUserId}/mini")
     public Response uploadUserMiniImage(@PathVariable long rootUserId, @RequestBody MultipartFile file) {
         return Response.ok(userService.savePhoto(rootUserId, file, true));
     }
 
-    @PutMapping("/groups/{groupId}/")
+    @PutMapping("/groups/{groupId}")
     public Response uploadGroupImage(@PathVariable long groupId, @RequestBody MultipartFile file) {
         return Response.ok(groupService.savePhoto(groupId, file, false));
     }
 
-    @PutMapping("/groups/{groupId}/mini/")
+    @PutMapping("/groups/{groupId}/mini")
     public Response uploadGroupMiniImage(@PathVariable long groupId, @RequestBody MultipartFile file) {
         return Response.ok(groupService.savePhoto(groupId, file, true));
     }

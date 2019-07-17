@@ -13,7 +13,6 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -30,9 +29,8 @@ public class FriendshipRequestServiceTest {
 
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
     private final FriendService friendService = Mockito.mock(FriendService.class);
-    private final DialogService dialogService = Mockito.mock(DialogService.class);
     private final FriendshipRequestRepository friendshipRequestRepository = Mockito.mock(FriendshipRequestRepository.class);
-    private FriendshipRequestServiceImpl friendshipRequestService = new FriendshipRequestServiceImpl(friendshipRequestRepository, userRepository, friendService, dialogService);
+    private FriendshipRequestServiceImpl friendshipRequestService = new FriendshipRequestServiceImpl(friendshipRequestRepository, userRepository, friendService);
 
 
     @Before
@@ -72,7 +70,6 @@ public class FriendshipRequestServiceTest {
     public void successAcceptRequest() {
         friendshipRequestService.accept(REQUEST_ID);
         verify(friendService).addFriend(eq(0L), eq(0L));
-        verify(dialogService).create(Arrays.asList(user, friend));
     }
 
     @Test

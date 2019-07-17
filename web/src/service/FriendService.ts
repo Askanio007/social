@@ -21,7 +21,7 @@ class FriendService {
     }
 
     async acceptRequest(friendshipRequestId:number) {
-        return ApiClient.post(api + '/' +  UserService.getRootUserId() + '/friends/request/accept/' + friendshipRequestId);
+        return ApiClient.post(api + '/' +  UserService.getRootUserId() + '/friends/request/' + friendshipRequestId + '/accept/');
     }
 
     async declineRequest(friendshipRequestId:number) {
