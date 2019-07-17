@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import MainMenu from '../templates/menu';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 import DialogService from '../../service/DialogService';
 import Photo from '../templates/photo';
 import '../../css/dialog.css';
+import {Stomp} from '@stomp/stompjs';
+import UserService from '../../service/UserService';
 
 interface DialogState {
     messages: any[],
@@ -12,7 +14,7 @@ interface DialogState {
     dialogId: number
 
 }
-export default class Dialog extends Component<any, DialogState> {
+class Dialog extends Component<any, DialogState> {
 
     state: DialogState = {
         messages: [],
@@ -21,8 +23,24 @@ export default class Dialog extends Component<any, DialogState> {
     };
 
     chat:any;
+    stompClient:any;
 
     componentDidMount(): void {
+        let socket = new WebSocket('ws://localhost:8080/dialog/websocket');
+        this.stompClient = Stomp.over(socket);
+        this.stompClient.connect({}, (frame:any) => {
+            this.stompClient.subscribe('/dialog/message',  (response:any) => {
+                let res = JSON.parse(response.body);
+                if (res.success === true) {
+                    let state = this.state;
+                    state.messages.push(res.data);
+                    state.message = "";
+                    this.setState(state);
+                    this.scrollToBottom();
+                }
+                console.log("Hello " + JSON.parse(response.body).data.message);
+            });
+        });
         let dialogId = this.props.match.params.dialogId;
         DialogService.findMessages(dialogId, (res:any) => {
             if (res.data.success === true) {
@@ -60,16 +78,13 @@ export default class Dialog extends Component<any, DialogState> {
         this.setState(state);
     };
 
-    sendMessage = () => {
-        DialogService.saveMessage(this.state.message, this.state.dialogId, (res:any) => {
-            if (res.data.success === true) {
-                let state = this.state;
-                state.messages.push(res.data.data);
-                state.message = "";
-                this.setState(state);
-                this.scrollToBottom();
-            }
-        })
+    sendMessageSock = () => {
+        let params = {
+            senderId: UserService.getRootUserId(),
+            message: this.state.message,
+            dialogId: this.state.dialogId
+        };
+        this.stompClient.send("/app/send", {}, JSON.stringify(params));
     };
 
     scrollToBottom() {
@@ -102,12 +117,13 @@ export default class Dialog extends Component<any, DialogState> {
                             <div className="form-group">
                                 <textarea name="textMessage" value={this.state.message} className="form-control rounded-0" id="formControlTextarea" rows={3} onChange={this.handleMessage} />
                             </div>
-                            <button onClick={this.sendMessage} type="button" className="btn btn-secondary btn-custom"><FormattedMessage id='wall.message.send' /></button>
+                            <button onClick={this.sendMessageSock} type="button" className="btn btn-secondary btn-custom"><FormattedMessage id='wall.message.send' /></button>
                         </div>
                     </div>
                 </div>
             </div>
         );
     }
-
 }
+
+export default withRouter(Dialog);

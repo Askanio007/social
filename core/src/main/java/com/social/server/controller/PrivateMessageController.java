@@ -4,13 +4,11 @@ import com.social.server.dto.PrivateMessageDto;
 import com.social.server.http.Response;
 import com.social.server.service.PrivateMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
 
-@RestController
-@RequestMapping("/api/v1/dialogs/message")
+@Controller
 public class PrivateMessageController {
 
     private final PrivateMessageService privateMessageService;
@@ -20,9 +18,9 @@ public class PrivateMessageController {
         this.privateMessageService = privateMessageService;
     }
 
-    @PutMapping
-    public Response saveMessage(@RequestBody PrivateMessageDto privateMessageDto) {
+    @MessageMapping("/send")
+    @SendTo("/dialog/message")
+    public Response saveSockMessage(PrivateMessageDto privateMessageDto) {
         return Response.ok(privateMessageService.save(privateMessageDto));
     }
-
 }
