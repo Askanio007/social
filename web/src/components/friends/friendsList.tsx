@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import FriendService from '../../service/FriendService';
-import Photo from '../templates/photo';
 import '../../css/friends.css';
 import '../../css/wall.css';
-import {Link, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {RemoveFriendBtn, SendMessageBtn} from '../templates/buttons';
 import UserService from '../../service/UserService';
 import {Pagination} from '../templates/pagination';
+import FriendBlockList from './components/friendListBlock';
 
 interface FriendsListState {
     friends: any[]
@@ -46,21 +46,19 @@ class FriendsList extends Component<any, FriendsListState> {
     };
 
     ListFriends = (value:any) => {
-
         const friend = value.friend;
         return (
-            <tr>
-                <td className="vertical-top">
-                    <Photo link={"/user/" + friend.id} photoHashCode={friend.details.miniImage64code} stylePhoto="photo-friend"/>
-                </td>
-                <td className="vertical-top">
-                    <div className="wall-record-name">
-                        <h4><Link to={'/user/' + friend.id} className="custom-link">{friend.fullName}</Link></h4>
+            <FriendBlockList
+                fullName={friend.fullName}
+                avatar={friend.details.miniImage64code}
+                id={friend.id}
+                buttons={(
+                    <div>
+                        <SendMessageBtn friendId={friend.id} history={this.props.history} />
+                        <RemoveFriendBtn id={friend.id} callback={this.updateState} />
                     </div>
-                    <SendMessageBtn friendId={friend.id} history={this.props.history} />
-                    <RemoveFriendBtn id={friend.id} callback={this.updateState} />
-                </td>
-            </tr>
+                )}
+            />
         );
     };
 

@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import FriendService from '../../service/FriendService';
-import Photo from '../templates/photo';
 import '../../css/friends.css';
 import '../../css/wall.css';
-import {Link} from 'react-router-dom';
 import {AcceptRequestBtn, DeclineRequestBtn} from '../templates/buttons';
 import UserService from '../../service/UserService';
 import {Pagination} from '../templates/pagination';
+import FriendBlockList from './components/friendListBlock';
 
 interface FriendsRequestState {
     requests: any[]
@@ -46,23 +45,19 @@ class FriendsRequest extends Component<any, FriendsRequestState> {
     };
 
     RequestsFriends = (value:any) => {
-
         const request = value.request;
         return (
-            <tr>
-                <td className="vertical-top">
-                    <Photo link={"/user/" + request.fromUserId} photoHashCode={request.fromUserAvatar64code} stylePhoto="photo-friend"/>
-                </td>
-                <td className="vertical-top">
-                    <div className="wall-record-name">
-                        <h4>
-                            <Link to={'/user/' + request.fromUserId} className="custom-link">{request.fromUserName}</Link>
-                        </h4>
+            <FriendBlockList
+                fullName={request.fromUserName}
+                avatar={request.fromUserAvatar64code}
+                id={request.fromUserId}
+                buttons={(
+                    <div>
+                        <AcceptRequestBtn id={request.id} callback={this.updateState} />
+                        <DeclineRequestBtn id={request.id} callback={this.updateState} />
                     </div>
-                    <AcceptRequestBtn id={request.id} callback={this.updateState} />
-                    <DeclineRequestBtn id={request.id} callback={this.updateState} />
-                </td>
-            </tr>
+                )}
+            />
         );
     };
 

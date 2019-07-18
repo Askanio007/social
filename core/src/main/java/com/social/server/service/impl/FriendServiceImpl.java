@@ -64,6 +64,7 @@ public class FriendServiceImpl extends CommonServiceImpl<User, Long, UserReposit
         User rootUser = getById(rootUserId);
         User friend = getById(friendId);
         rootUser.getFriends().remove(friend);
+        friend.getFriends().remove(rootUser);
         log.debug("Deleting from friends completed successfully");
     }
 

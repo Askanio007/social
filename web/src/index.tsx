@@ -26,7 +26,8 @@ let tempApi = process.env.REACT_APP_LOCAL_API_URL;
 if (process.env.REACT_APP_PRODUCTION_API_URL) {
     tempApi = process.env.REACT_APP_PRODUCTION_API_URL
 }
-export const api = tempApi;
+export const api ='http://' + tempApi + '/api/v1';
+export const websocket = 'ws://' + tempApi + '/dialog/websocket';
 
 
 let elLocaleData = require('react-intl/locale-data/ru');

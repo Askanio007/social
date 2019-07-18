@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
-import Photo from '../templates/photo';
-import {Link, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {AddFriendBtn, SendMessageBtn} from '../templates/buttons';
 import FriendService, {FriendshipRequest} from '../../service/FriendService';
 import UserService from '../../service/UserService';
+import FriendBlockList from './components/friendListBlock';
 
 interface FriendsSearchState {
     friends: any[]
@@ -50,18 +50,17 @@ class FriendsSearch extends Component<any, FriendsSearchState> {
             toUserId: user.id
         };
         return (
-            <tr>
-                <td className="vertical-top">
-                    <Photo link={'/user/' + user.id} photoHashCode={user.details.miniImage64code} stylePhoto="photo-friend"/>
-                </td>
-                <td className="vertical-top">
-                    <div className="wall-record-name">
-                        <h4><Link to={'/user/' + user.id} className="custom-link">{user.fullName}</Link></h4>
+            <FriendBlockList
+                fullName={user.fullName}
+                avatar={user.details.miniImage64code}
+                id={user.id}
+                buttons={(
+                    <div>
+                        <SendMessageBtn friendId={user.id} history={this.props.history} />
+                        <AddFriendBtn request={request} callback={this.updateRelation}/>
                     </div>
-                    <SendMessageBtn friendId={user.id} history={this.props.history} />
-                    <AddFriendBtn request={request} callback={this.updateRelation}/>
-                </td>
-            </tr>
+                )}
+            />
         );
     };
 

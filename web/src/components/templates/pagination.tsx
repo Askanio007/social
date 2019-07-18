@@ -15,6 +15,10 @@ export class Pagination extends Component<PaginationProps, any> {
 
     render() {
         let countPage = this.getCountPage();
+
+        if (countPage < 2) {
+            return null;
+        }
         let records = [];
         let currentPage = this.props.currentPage + 1;
 

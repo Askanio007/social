@@ -7,6 +7,7 @@ import Photo from '../templates/photo';
 import '../../css/dialog.css';
 import {Stomp} from '@stomp/stompjs';
 import UserService from '../../service/UserService';
+import {websocket} from '../../index';
 
 interface DialogState {
     messages: any[],
@@ -27,21 +28,7 @@ class Dialog extends Component<any, DialogState> {
 
     componentDidMount(): void {
         let dialogId = this.props.match.params.dialogId;
-        let socket = new WebSocket('ws://localhost:8080/dialog/websocket');
-        this.stompClient = Stomp.over(socket);
-        this.stompClient.connect({}, (frame:any) => {
-            this.stompClient.subscribe('/dialog/message/' + dialogId,  (response:any) => {
-                let res = JSON.parse(response.body);
-                if (res.success === true) {
-                    let state = this.state;
-                    state.messages.push(res.data);
-                    state.message = "";
-                    this.setState(state);
-                    DialogService.readMessage(res.data.id, () => {});
-                    this.scrollToBottom();
-                }
-            });
-        });
+        this.createStompClient(dialogId);
         DialogService.readMessagesByDialog(dialogId, () => {});
         DialogService.findMessages(dialogId, (res:any) => {
             if (res.data.success === true) {
@@ -52,6 +39,28 @@ class Dialog extends Component<any, DialogState> {
                 });
                 this.scrollToBottom();
             }
+        });
+    }
+
+    componentWillUnmount(): void {
+        this.stompClient.disconnect();
+    }
+
+    createStompClient = (dialogId:any) => {
+        let socket = new WebSocket(websocket);
+        this.stompClient = Stomp.over(socket);
+        this.stompClient.connect({}, (frame:any) => {
+            this.stompClient.subscribe('/dialog/message/' + dialogId,  (response:any) => {
+                let res = JSON.parse(response.body);
+                if (res.success === true) {
+                    let state = this.state;
+                    state.messages.push(res.data);
+                    DialogService.readMessage(res.data.id, () => {});
+                    state.message = "";
+                    this.setState(state);
+                    this.scrollToBottom();
+                }
+            });
         });
     }
 
