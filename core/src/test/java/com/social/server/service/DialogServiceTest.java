@@ -18,7 +18,7 @@ public class DialogServiceTest {
 
     private DialogRepository repository = Mockito.mock(DialogRepository.class);
     private UserService userService = Mockito.mock(UserService.class);
-    private DialogServiceImpl dialogService = new DialogServiceImpl(repository, userService);
+    private DialogServiceImpl dialogService = new DialogServiceImpl(repository);
 
     @Test
     public void successCreateDialog() {

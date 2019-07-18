@@ -61,4 +61,9 @@ public class PrivateMessageServiceImpl extends CommonServiceImpl<PrivateMessage,
     public void readMessagesByDialogId(long rootUserId, long dialogId) {
         repository.readMessageByDialogId(rootUserId, dialogId);
     }
+
+    @Override
+    public long countUnreadMessage(long userId) {
+        return repository.countNotReadMessages(userId);
+    }
 }

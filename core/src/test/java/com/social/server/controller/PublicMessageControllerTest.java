@@ -20,7 +20,7 @@ import java.util.Arrays;
 @RunWith(SpringRunner.class)
 @WebMvcTest(PublicMessageController.class)
 public class PublicMessageControllerTest extends CommonControllerTest{
-    private static final String API = "/api/v1/message/public/";
+    private static final String API = "/api/v1/messages/public";
 
     @MockBean
     private PublicMessageService publicMessageService;
@@ -38,7 +38,7 @@ public class PublicMessageControllerTest extends CommonControllerTest{
     public void successFindPublicMessages() throws Exception {
         Page<PublicMessageDto> list = new PageImpl<>(Arrays.asList(new PublicMessageDto(), new PublicMessageDto()));
         Mockito.when(publicMessageService.findByRecipientId(ID, PublicMessageRecipientType.USER, 1)).thenReturn(list);
-        checkGetRequest(API + ID + "/" + PublicMessageRecipientType.USER + "?page=1", Response.ok(list));
+        checkGetRequest(API + "/" + ID + "/" + PublicMessageRecipientType.USER + "?page=1", Response.ok(list));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class PublicMessageControllerTest extends CommonControllerTest{
         PublicMessageModel model = getCorrectPublicMessageModel();
         PublicMessageDto dto = new PublicMessageDto();
         Mockito.when(publicMessageService.create(model)).thenReturn(dto);
-        checkPostRequest(API + "/save", model, Response.ok(dto));
+        checkPutRequest(API, model, Response.ok(dto));
     }
 
     @Test
@@ -87,17 +87,17 @@ public class PublicMessageControllerTest extends CommonControllerTest{
 
     @Test
     public void failedAccessToFindPublicMessages() throws Exception {
-        failedAccessToEndpoint(API + ID + "/" + PublicMessageRecipientType.USER);
+        failedAccessToEndpoint(API + "/" + ID + "/" + PublicMessageRecipientType.USER);
     }
 
     @Test
     public void failedAccessToSavePublicMessages() throws Exception {
-        failedAccessToEndpoint(API + "/save");
+        failedAccessToEndpoint(API);
     }
 
     private void checkSavePublicMessageModel(PublicMessageModel model, String code) throws Exception {
         PublicMessageDto dto = new PublicMessageDto();
         Mockito.when(publicMessageService.create(model)).thenReturn(dto);
-        checkPostRequest(API + "/save", model, Response.error(code));
+        checkPutRequest(API , model, Response.error(code));
     }
 }

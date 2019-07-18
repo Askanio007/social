@@ -6,7 +6,7 @@
 
     <changeSet author="Artyom Poshvykin" id="crate-db-scheme.xml">
         <createTable tableName="user_social">
-            <column name="id" type="bigserial"/>
+            <column name="id" type="bigserial" autoIncrement="true"/>
             <column name="email" type="varchar(255)"/>
             <column name="password" type="varchar(255)"/>
             <column name="enable" type="boolean" />
@@ -14,10 +14,10 @@
             <column name="surname" type="varchar(50)" />
         </createTable>
         <addPrimaryKey tableName="user_social" columnNames="id" />
-        <addNotNullConstraint tableName="user_social" columnName="name" />
-        <addNotNullConstraint tableName="user_social" columnName="surname" />
-        <addNotNullConstraint tableName="user_social" columnName="email" />
-        <addNotNullConstraint tableName="user_social" columnName="password" />
+        <addNotNullConstraint tableName="user_social" columnName="name" columnDataType="varchar(50)" />
+        <addNotNullConstraint tableName="user_social" columnName="surname" columnDataType="varchar(50)" />
+        <addNotNullConstraint tableName="user_social" columnName="email" columnDataType="varchar(255)" />
+        <addNotNullConstraint tableName="user_social" columnName="password" columnDataType="varchar(255)" />
 
         <createTable tableName="user_friend">
             <column name="user_id" type="integer"/>
@@ -25,16 +25,16 @@
         </createTable>
 
         <createTable tableName="image">
-            <column name="id" type="bigserial"/>
+            <column name="id" type="bigserial" autoIncrement="true"/>
             <column name="path" type="varchar(255)" />
             <column name="filename" type="varchar(255)"/>
         </createTable>
         <addPrimaryKey tableName="image" columnNames="id" />
-        <addNotNullConstraint tableName="image" columnName="path" />
-        <addNotNullConstraint tableName="image" columnName="filename" />
+        <addNotNullConstraint tableName="image" columnName="path" columnDataType="varchar(255)"/>
+        <addNotNullConstraint tableName="image" columnName="filename" columnDataType="varchar(255)"/>
 
         <createTable tableName="user_details_social">
-            <column name="id" type="bigserial"/>
+            <column name="id" type="bigserial" autoIncrement="true"/>
             <column name="birthday" type="timestamp"/>
             <column name="country" type="varchar(255)"/>
             <column name="city" type="varchar(255)"/>
@@ -62,7 +62,7 @@
                                  referencedColumnNames="id" />
 
         <createTable tableName="group_social">
-            <column name="id" type="bigserial"/>
+            <column name="id" type="bigserial" autoIncrement="true"/>
             <column name="name" type="varchar(100)"/>
             <column name="description" type="varchar(500)"/>
             <column name="admin_id" type="integer"/>
@@ -70,8 +70,8 @@
             <column name="mini_image_id" type="integer"/>
         </createTable>
         <addPrimaryKey tableName="group_social" columnNames="id"/>
-        <addNotNullConstraint tableName="group_social" columnName="name"/>
-        <addNotNullConstraint tableName="group_social" columnName="admin_id" />
+        <addNotNullConstraint tableName="group_social" columnName="name" columnDataType="varchar(255)"/>
+        <addNotNullConstraint tableName="group_social" columnName="admin_id" columnDataType="integer"/>
         <addForeignKeyConstraint baseTableName="group_social"
                                  baseColumnNames="admin_id"
                                  constraintName="group_admin_key"
@@ -90,7 +90,7 @@
 
 
         <createTable tableName="public_message">
-            <column name="id" type="bigserial"/>
+            <column name="id" type="bigserial" autoIncrement="true"/>
             <column name="create_date" type="timestamp"/>
             <column name="message" type="varchar(2000)"/>
             <column name="sender_id" type="integer"/>
@@ -98,11 +98,11 @@
             <column name="recipient_id" type="integer"/>
         </createTable>
         <addPrimaryKey tableName="public_message" columnNames="id"/>
-        <addNotNullConstraint tableName="public_message" columnName="message"/>
-        <addNotNullConstraint tableName="public_message" columnName="create_date"/>
-        <addNotNullConstraint tableName="public_message" columnName="sender_id"/>
-        <addNotNullConstraint tableName="public_message" columnName="recipient_type"/>
-        <addNotNullConstraint tableName="public_message" columnName="recipient_id"/>
+        <addNotNullConstraint tableName="public_message" columnName="message" columnDataType="varchar(2000)"/>
+        <addNotNullConstraint tableName="public_message" columnName="create_date" columnDataType="timestamp"/>
+        <addNotNullConstraint tableName="public_message" columnName="sender_id" columnDataType="integer"/>
+        <addNotNullConstraint tableName="public_message" columnName="recipient_type" columnDataType="varchar(50)"/>
+        <addNotNullConstraint tableName="public_message" columnName="recipient_id" columnDataType="integer"/>
 
         <addForeignKeyConstraint baseTableName="public_message"
                                  baseColumnNames="sender_id"
@@ -116,7 +116,7 @@
         </createTable>
 
         <createTable tableName="friendship_request">
-            <column name="id" type="bigserial"/>
+            <column name="id" type="bigserial" autoIncrement="true"/>
             <column name="user_id_to" type="integer"/>
             <column name="user_id_from" type="integer"/>
             <column name="accept" type="boolean" defaultValue="false"/>
@@ -134,7 +134,7 @@
                                  referencedColumnNames="id" />
 
         <createTable tableName="event">
-            <column name="id" type="bigserial"/>
+            <column name="id" type="bigserial" autoIncrement="true"/>
             <column name="user_id" type="integer" />
             <column name="create_date" type="timestamp" />
             <column name="type" type="varchar(50)"/>
@@ -142,10 +142,10 @@
             <column name="target_action_id" type="integer"/>
         </createTable>
         <addPrimaryKey tableName="event" columnNames="id" />
-        <addNotNullConstraint tableName="event" columnName="user_id" />
-        <addNotNullConstraint tableName="event" columnName="type" />
-        <addNotNullConstraint tableName="event" columnName="target_action_id" />
-        <addNotNullConstraint tableName="event" columnName="create_date" />
+        <addNotNullConstraint tableName="event" columnName="user_id" columnDataType="integer"/>
+        <addNotNullConstraint tableName="event" columnName="type" columnDataType="varchar(50)"/>
+        <addNotNullConstraint tableName="event" columnName="target_action_id" columnDataType="integer"/>
+        <addNotNullConstraint tableName="event" columnName="create_date" columnDataType="timestamp"/>
         <addForeignKeyConstraint baseTableName="event"
                                  baseColumnNames="user_id"
                                  constraintName="event_user"
@@ -153,7 +153,7 @@
                                  referencedColumnNames="id" />
 
         <createTable tableName="password_reset_token">
-            <column name="id" type="bigserial" />
+            <column name="id" type="bigserial" autoIncrement="true"/>
             <column name="token" type="varchar(50)" />
             <column name="user_id" type="integer" />
             <column name="expired_date" type="timestamp" />
@@ -166,14 +166,14 @@
                                  referencedColumnNames="id" />
 
         <createTable tableName="dialog">
-            <column name="id" type="bigserial"/>
+            <column name="id" type="bigserial" autoIncrement="true"/>
             <column name="last_message" type="varchar(2000)" />
             <column name="date_last_message" type="timestamp"/>
         </createTable>
         <addPrimaryKey tableName="dialog" columnNames="id" />
 
         <createTable tableName="private_message">
-            <column name="id" type="bigserial"/>
+            <column name="id" type="bigserial" autoIncrement="true"/>
             <column name="message" type="varchar(2000)" />
             <column name="create_date" type="timestamp"/>
             <column name="sender_id" type="integer"/>
@@ -181,11 +181,11 @@
             <column name="read" type="boolean"/>
         </createTable>
         <addPrimaryKey tableName="private_message" columnNames="id" />
-        <addNotNullConstraint tableName="private_message" columnName="message" />
-        <addNotNullConstraint tableName="private_message" columnName="create_date" />
-        <addNotNullConstraint tableName="private_message" columnName="sender_id" />
-        <addNotNullConstraint tableName="private_message" columnName="dialog_id" />
-        <addNotNullConstraint tableName="private_message" columnName="read" />
+        <addNotNullConstraint tableName="private_message" columnName="message" columnDataType="varchar(2000)"/>
+        <addNotNullConstraint tableName="private_message" columnName="create_date" columnDataType="timestamp"/>
+        <addNotNullConstraint tableName="private_message" columnName="sender_id" columnDataType="integer"/>
+        <addNotNullConstraint tableName="private_message" columnName="dialog_id" columnDataType="integer"/>
+        <addNotNullConstraint tableName="private_message" columnName="read" columnDataType="boolean"/>
         <addForeignKeyConstraint baseTableName="private_message"
                                  baseColumnNames="sender_id"
                                  constraintName="private_message_sender_user"

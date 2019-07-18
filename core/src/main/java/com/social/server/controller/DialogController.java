@@ -34,7 +34,7 @@ public class DialogController {
 
     @GetMapping("/messages/unread/count")
     public Response countUnreadMessages(@PathVariable long rootUserId) {
-        return Response.ok(dialogService.countUnreadMessage(rootUserId));
+        return Response.ok(privateMessageService.countUnreadMessage(rootUserId));
     }
 
     @GetMapping("/{friendId}")

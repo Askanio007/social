@@ -19,6 +19,8 @@ import java.util.Arrays;
 @WebMvcTest(controllers = DialogController.class)
 public class DialogControllerTest extends CommonControllerTest {
 
+    private final static String API = "/api/v1/" + ID + "/dialogs";
+
     @MockBean
     private DialogService dialogService;
     @MockBean
@@ -30,7 +32,7 @@ public class DialogControllerTest extends CommonControllerTest {
         d.setLastMessage("test");
         d.setDateLastMessage("20.10.2013");
         Mockito.when(dialogService.findBy(ID, 1)).thenReturn(new PageImpl<>(Arrays.asList(d)));
-        checkGetRequest("/api/v1/" + ID + "/dialog" + "?page=1", Response.ok(new PageImpl<>(Arrays.asList(d))));
+        checkGetRequest(API + "?page=1", Response.ok(new PageImpl<>(Arrays.asList(d))));
     }
 
     @Test
@@ -39,28 +41,28 @@ public class DialogControllerTest extends CommonControllerTest {
         d.setMessage("test");
         d.setDialogId(ID);
         Mockito.when(privateMessageService.findLastBy(ID)).thenReturn(Arrays.asList(d));
-        checkGetRequest("/api/v1/1/dialog/" + ID + "/message", Response.ok(Arrays.asList(d)));
+        checkGetRequest(API + "/" + ID + "/messages", Response.ok(Arrays.asList(d)));
     }
 
     @Test
     public void successGettingDialog() throws Exception {
         DialogDto dto = new DialogDto();
         Mockito.when(dialogService.getDialogBy(Arrays.asList(ID2, ID))).thenReturn(dto);
-        checkGetRequest("/api/v1/" + ID + "/dialog/" + ID2, Response.ok(dto));
+        checkGetRequest(API + "/" + ID2, Response.ok(dto));
     }
 
     @Test
     public void failedAccessToFindDialogList() throws Exception {
-        failedAccessToEndpoint("/api/v1/1/dialog");
+        failedAccessToEndpoint(API + "/dialog");
     }
 
     @Test
     public void failedAccessToFindDialogMessages() throws Exception {
-        failedAccessToEndpoint("/api/v1/1/dialog/3/message");
+        failedAccessToEndpoint(API + "/3/message");
     }
 
     @Test
     public void failedAccessToFindDialog() throws Exception {
-        failedAccessToEndpoint("/api/v1/1/dialog/3");
+        failedAccessToEndpoint(API + "/3");
     }
 }

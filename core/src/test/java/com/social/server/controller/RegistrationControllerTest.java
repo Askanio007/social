@@ -32,7 +32,7 @@ public class RegistrationControllerTest extends CommonControllerTest {
         UserDto dto = new UserDto();
         when(userService.isEmailExist(model.getEmail())).thenReturn(false);
         when(userService.registerUser(model)).thenReturn(dto);
-        checkPostRequest("/api/v1/registration", model, Response.ok(dto));
+        checkPutRequest("/api/v1/registration", model, Response.ok(dto));
     }
 
     @Test
@@ -113,6 +113,6 @@ public class RegistrationControllerTest extends CommonControllerTest {
     }
 
     private void checkRegistrationModel(RegistrationModel model, String error)  throws Exception {
-        checkPostRequest("/api/v1/registration", model, Response.error(error));
+        checkPutRequest("/api/v1/registration", model, Response.error(error));
     }
 }

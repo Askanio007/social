@@ -44,19 +44,19 @@ public class FriendRequestControllerTest extends CommonControllerTest {
         FriendshipRequestModel model = new FriendshipRequestModel();
         model.setToUserId(ID);
         model.setFromUserId(ID2);
-        checkPostRequest(API + "/add", model, Response.ok());
+        checkPutRequest(API, model, Response.ok());
         verify(friendshipRequestService, times(1)).create(model);
     }
 
     @Test
     public void successAcceptRequest() throws Exception {
-        checkPostRequest(API + "/accept/" + ID2, null, Response.ok());
+        checkPostRequest(API + "/" + ID2 + "/accept", null, Response.ok());
         verify(friendshipRequestService, times(1)).accept(ID2);
     }
 
     @Test
     public void successDeclineRequest() throws Exception {
-        checkPostRequest(API + "/decline/" + ID2, null, Response.ok());
+        checkDeleteRequest(API + "/" + ID2, null, Response.ok());
         verify(friendshipRequestService, times(1)).decline(ID2);
     }
 

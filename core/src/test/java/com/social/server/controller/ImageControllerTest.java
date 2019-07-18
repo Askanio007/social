@@ -15,7 +15,7 @@ import static org.mockito.ArgumentMatchers.isNull;
 @RunWith(SpringRunner.class)
 @WebMvcTest(ImageController.class)
 public class ImageControllerTest extends CommonControllerTest {
-    private final static String API = "/api/v1/image";
+    private final static String API = "/api/v1/images";
 
     @MockBean
     private GroupService groupService;
@@ -23,44 +23,44 @@ public class ImageControllerTest extends CommonControllerTest {
     @Test
     public void successUploadFullUserImage() throws Exception {
         Mockito.when(userService.savePhoto( eq(ID), isNull(), eq(false))).thenReturn("TEST");
-        checkPostRequest(API + "/user/" + ID + "/upload", null, Response.ok("TEST"));
+        checkPutRequest(API + "/users/" + ID, null, Response.ok("TEST"));
     }
 
     @Test
     public void successUploadMiniUserImage() throws Exception {
         Mockito.when(userService.savePhoto( eq(ID), isNull(), eq(true))).thenReturn("TEST");
-        checkPostRequest(API + "/user/" + ID + "/mini/upload", null, Response.ok("TEST"));
+        checkPutRequest(API + "/users/" + ID + "/mini", null, Response.ok("TEST"));
     }
 
     @Test
     public void successUploadFullGroupImage() throws Exception {
         Mockito.when(groupService.savePhoto( eq(ID), isNull(), eq(false))).thenReturn("TEST");
-        checkPostRequest(API + "/group/" + ID + "/upload", null, Response.ok("TEST"));
+        checkPutRequest(API + "/groups/" + ID, null, Response.ok("TEST"));
     }
 
     @Test
     public void successUploadMiniGroupImage() throws Exception {
         Mockito.when(groupService.savePhoto( eq(ID), isNull(), eq(true))).thenReturn("TEST");
-        checkPostRequest(API + "/group/" + ID + "/mini/upload", null, Response.ok("TEST"));
+        checkPutRequest(API + "/groups/" + ID + "/mini", null, Response.ok("TEST"));
     }
 
     @Test
     public void failedAccessToUploadFullUserImage() throws Exception {
-        failedAccessToEndpoint(API + "/user/" + ID + "/upload");
+        failedAccessToEndpoint(API + "/users/" + ID);
     }
 
     @Test
     public void failedAccessToUploadMiniUserImage() throws Exception {
-        failedAccessToEndpoint(API + "/user/" + ID + "/mini/upload");
+        failedAccessToEndpoint(API + "/users/" + ID + "/mini");
     }
 
     @Test
     public void failedAccessToUploadFullGroupImage() throws Exception {
-        failedAccessToEndpoint(API + "/group/" + ID + "/upload");
+        failedAccessToEndpoint(API + "/group/" + ID);
     }
 
     @Test
     public void failedAccessToUploadMiniGroupImage() throws Exception {
-        failedAccessToEndpoint(API + "/group/" + ID + "/mini/upload");
+        failedAccessToEndpoint(API + "/group/" + ID + "/mini");
     }
 }

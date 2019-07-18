@@ -27,10 +27,4 @@ public interface DialogService extends CommonService<Dialog, Long> {
      * Получить диалог пользователей. Если такого нет, то создать
      */
     DialogDto getDialogBy(List<Long> usersId);
-
-    /**
-     * Получить количетсво непрочитанных сообщений во всех диалогах
-     * @param userId - иденртификатор пользователя
-     */
-    long countUnreadMessage(long userId);
 }

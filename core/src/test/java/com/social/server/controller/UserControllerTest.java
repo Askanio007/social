@@ -24,7 +24,7 @@ public class UserControllerTest extends CommonControllerTest {
     public void successGetUser() throws Exception {
         UserDto userDto = new UserDto();
         when(userService.findBy(ID)).thenReturn(userDto);
-        checkGetRequest(API + "user/" + ID, Response.ok(userDto));
+        checkGetRequest(API + "users/" + ID, Response.ok(userDto));
     }
 
     @Test

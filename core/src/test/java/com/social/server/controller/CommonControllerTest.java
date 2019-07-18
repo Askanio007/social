@@ -12,14 +12,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class CommonControllerTest {
-    protected final static String API_TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwidXNlcklkIjowLCJleHAiOjE1NjMxOTczOTR9.K_qbh-Pwz-X__Ur6US-DLNIncJ3xkiqZ0-76L3gyz-j8l5UglEOd7PpJqjHC6tEf3YHtwu27YLGWt5cCOJthaw";
+    protected final static String API_TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VySWQiOjAsImV4cCI6MTU2NDMwNDkyMH0.WEKEFOnPkkQd3ow7xTYmbIidk4UUgnyj99GvXu3qNnv0tQ3R6xO8wEmCldP664VDrdiPozYWL9bTZOUZq_NNwg";
     protected final static long ID = 1;
     protected final static long ID2 = 2;
 
@@ -30,7 +29,9 @@ public class CommonControllerTest {
 
     @Before
     public void setUp() {
-        Mockito.when(userService.getById(0L)).thenReturn(new User());
+        User user = new User();
+        user.setEnable(true);
+        Mockito.when(userService.getById(0L)).thenReturn(user);
     }
 
     public void failedAccessToEndpoint(String endpoint) throws Exception {
@@ -47,7 +48,11 @@ public class CommonControllerTest {
     }
 
     public void checkPostRequest(String endpoint, Object body, Response expectedResponse) throws Exception {
-        MockHttpServletRequestBuilder builder = post(endpoint)
+        checkRequest(post(endpoint), body, expectedResponse);
+    }
+
+    private void checkRequest(MockHttpServletRequestBuilder builder, Object body, Response expectedResponse) throws Exception {
+        builder = builder
                 .contentType(APPLICATION_JSON_UTF8)
                 .header("Authorization" , API_TOKEN);
         String bodyString = JsonUtil.toJson(body);
@@ -58,5 +63,13 @@ public class CommonControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(JsonUtil.toJson(expectedResponse)));
+    }
+
+    public void checkPutRequest(String endpoint, Object body, Response expectedResponse) throws Exception {
+        checkRequest(put(endpoint), body, expectedResponse);
+    }
+
+    public void checkDeleteRequest(String endpoint, Object body, Response expectedResponse) throws Exception {
+        checkRequest(delete(endpoint), body, expectedResponse);
     }
 }

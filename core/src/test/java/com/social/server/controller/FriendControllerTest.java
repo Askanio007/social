@@ -45,7 +45,7 @@ public class FriendControllerTest extends CommonControllerTest {
 
     @Test
     public void successRemoveFriend() throws Exception {
-        checkPostRequest(api + "/remove/" + ID2, null, Response.ok());
+        checkDeleteRequest(api + "/" + ID2, null, Response.ok());
         verify(friendService, times(1)).remove(eq(ID), eq(ID2));
     }
 

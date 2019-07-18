@@ -34,4 +34,10 @@ public interface PrivateMessageService extends CommonService<PrivateMessage, Lon
      * @param dialogId - идентификатор диалога
      */
     void readMessagesByDialogId(long rootUserId, long dialogId);
+
+    /**
+     * Получить количетсво непрочитанных сообщений во всех диалогах
+     * @param userId - иденртификатор пользователя
+     */
+    long countUnreadMessage(long userId);
 }

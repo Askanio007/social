@@ -5,7 +5,6 @@ import com.social.server.dto.DialogDto;
 import com.social.server.entity.Dialog;
 import com.social.server.entity.User;
 import com.social.server.service.DialogService;
-import com.social.server.service.UserService;
 import com.social.server.service.transactional.ReadTransactional;
 import com.social.server.service.transactional.WriteTransactional;
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +22,9 @@ import java.util.stream.Collectors;
 @Service
 public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRepository> implements DialogService {
 
-    private final UserService userService;
-
     @Autowired
-    public DialogServiceImpl(DialogRepository repository, UserService userService) {
+    public DialogServiceImpl(DialogRepository repository) {
         super(repository);
-        this.userService = userService;
     }
 
     @Override
@@ -46,11 +42,6 @@ public class DialogServiceImpl extends CommonServiceImpl<Dialog, Long, DialogRep
     @ReadTransactional
     public DialogDto getDialogBy(List<Long> usersId) {
         return DialogDto.of(repository.findOneByUsersId(new HashSet<>(usersId)));
-    }
-
-    @Override
-    public long countUnreadMessage(long userId) {
-        return repository.countNotReadMessages(userId);
     }
 
     private DialogDto create(Set<User> users) {

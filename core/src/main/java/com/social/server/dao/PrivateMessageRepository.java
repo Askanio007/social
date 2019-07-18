@@ -25,4 +25,7 @@ public interface PrivateMessageRepository extends JpaRepository<PrivateMessage, 
             value = "UPDATE private_message SET read = true WHERE dialog_id = :dialogId AND sender_id <> :userId",
             nativeQuery = true)
     int readMessageByDialogId(@Param("userId") long userId, @Param("dialogId") long dialogId);
+
+    @Query("select count(m) from PrivateMessage m join m.dialog d join d.users u where m.read = false and m.sender.id <> :userId and u.id = :userId")
+    long countNotReadMessages(@Param(value = "userId") long userId);
 }

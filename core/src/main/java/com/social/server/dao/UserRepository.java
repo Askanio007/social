@@ -15,11 +15,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(String email);
     User findByEmail(String email);
     long countAllByFriendsIdIn(long userId);
+    boolean existsByIdAndFriends(long id, User friend);
 
     @Query("select f from User u join u.friends f where u.id = :rootUserId")
     Page<User> findFriendsBy(@Param("rootUserId") long rootUserId, Pageable pageable);
 
-    boolean existsByIdAndFriends(long id, User friend);
     @Query("select u from User u where u.id <> :rootUserId and ( " +
             "(u.name like concat('%',:name,'%') and u.surname like concat('%',:surname,'%')) " +
             "or " +

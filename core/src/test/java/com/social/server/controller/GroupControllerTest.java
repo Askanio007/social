@@ -62,19 +62,19 @@ public class GroupControllerTest extends CommonControllerTest {
     public void successFindGroupById() throws Exception {
         GroupDto groupDto = getGroupDto();
         when(groupService.find(ID2)).thenReturn(groupDto);
-        checkGetRequest(API + "/group/" + ID2, Response.ok(groupDto));
+        checkGetRequest(API + "/groups/" + ID2, Response.ok(groupDto));
     }
 
     @Test
     public void successFindCountParticipantGroup() throws Exception {
         when(groupService.countParticipant(ID2)).thenReturn(5L);
-        checkGetRequest(API + "/group/" + ID2 + "/count", Response.ok(5L));
+        checkGetRequest(API + "/groups/" + ID2 + "/count", Response.ok(5L));
     }
 
     @Test
     public void successGetGroupRelationToUser() throws Exception {
         when(groupService.getGroupRelationToUser(ID2, ID)).thenReturn(GroupRelation.ADMIN);
-        checkGetRequest(API + "/group/" + ID2 + "/relation/" + ID, Response.ok(GroupRelation.ADMIN));
+        checkGetRequest(API + "/groups/" + ID2 + "/relation/" + ID, Response.ok(GroupRelation.ADMIN));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class GroupControllerTest extends CommonControllerTest {
         model.setDescription("Test");
         GroupDto groupDto = getGroupDto();
         when(groupService.create(ID, model)).thenReturn(groupDto);
-        checkPostRequest(API + "/" + ID + "/groups/create/", model, Response.ok(groupDto));
+        checkPutRequest(API + "/" + ID + "/groups", model, Response.ok(groupDto));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class GroupControllerTest extends CommonControllerTest {
         model.setName("w");
         GroupDto groupDto = getGroupDto();
         when(groupService.create(ID, model)).thenReturn(groupDto);
-        checkPostRequest(API + "/" + ID + "/groups/create/", model, Response.error(ErrorCode.GROUP_NAME_INCORRECT));
+        checkPutRequest(API + "/" + ID + "/groups", model, Response.error(ErrorCode.GROUP_NAME_INCORRECT));
     }
 
     @Test
@@ -104,7 +104,7 @@ public class GroupControllerTest extends CommonControllerTest {
         model.setDescription("Test");
         GroupDto groupDto = getGroupDto();
         when(groupService.edit(model)).thenReturn(groupDto);
-        checkPostRequest(API + "/group/" + ID + "/edit/", model, Response.ok(groupDto));
+        checkPostRequest(API + "/groups/" + ID + "/edit/", model, Response.ok(groupDto));
     }
 
     @Test
@@ -114,7 +114,7 @@ public class GroupControllerTest extends CommonControllerTest {
         model.setName("wsadasd");
         GroupDto groupDto = getGroupDto();
         when(groupService.edit(model)).thenReturn(groupDto);
-        checkPostRequest(API + "/group/" + ID + "/edit/", model, Response.error(ErrorCode.GROUP_DESCRIPTION_INCORRECT));
+        checkPostRequest(API + "/groups/" + ID + "/edit/", model, Response.error(ErrorCode.GROUP_DESCRIPTION_INCORRECT));
     }
 
     @Test
@@ -141,17 +141,17 @@ public class GroupControllerTest extends CommonControllerTest {
 
     @Test
     public void failedAccessToFindGroupById() throws Exception {
-        failedAccessToEndpoint(API + "/group/" + ID2);
+        failedAccessToEndpoint(API + "/groups/" + ID2);
     }
 
     @Test
     public void failedAccessToFindCountParticipantGroup() throws Exception {
-        failedAccessToEndpoint(API + "/group/" + ID2 + "/count");
+        failedAccessToEndpoint(API + "/groups/" + ID2 + "/count");
     }
 
     @Test
     public void failedAccessToGetGroupRelationToUser() throws Exception {
-        failedAccessToEndpoint(API + "/group/" + ID2 + "/relation/" + ID);
+        failedAccessToEndpoint(API + "/groups/" + ID2 + "/relation/" + ID);
     }
 
     @Test
@@ -161,7 +161,7 @@ public class GroupControllerTest extends CommonControllerTest {
 
     @Test
     public void failedAccessToEditGroup() throws Exception {
-        failedAccessToEndpoint(API + "/group/" + ID + "/edit/");
+        failedAccessToEndpoint(API + "/groups/" + ID + "/edit/");
     }
 
     @Test
