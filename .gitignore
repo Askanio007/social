@@ -32,4 +32,5 @@ HELP.md
 ### Node ###
 node_modules/
 */app/lib/*
+*/build/*
 package-lock.json

@@ -32,6 +32,6 @@ public class RegistrationController {
         if (userService.isEmailExist(registrationModel.getEmail())) {
             return Response.error(ErrorCode.EMAIL_IS_USED);
         }
-        return Response.ok(userService.registerUser(registrationModel));
+        return Response.authorized(userService.registerUser(registrationModel));
     }
 }

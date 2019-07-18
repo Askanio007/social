@@ -44,8 +44,8 @@ class ApiClient {
         this.ax.defaults.headers.common['Authorization'] = this.getToken();
     }
 
-    public static setToken(token:string) {
-        localStorage.setItem("token", token);
+    public static setToken(token:string | null) {
+        localStorage.setItem("token", token  ? token : "");
     }
 
     public static getToken():string | null {

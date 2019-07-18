@@ -33,7 +33,7 @@ class UserService {
     }
 
     public async registration(registrationModel:any, callback:any) {
-        ApiClient.put(api + "/registration", registrationModel, callback);
+        ApiClient.put(api + "/registration", registrationModel, {}, callback);
     }
     public async login(email:any, password:any, callback:any) {
         ApiClient.get(api + "/login?email=" + email + "&password=" + password, callback);
