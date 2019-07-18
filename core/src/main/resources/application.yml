@@ -32,16 +32,3 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
-
----
-
-spring:
-  profiles:
-    active: test
-  liquibase:
-    change-log: classpath:/liquibase/master.xml
-  datasource:
-    url: jdbc:h2:mem:test
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    database: POSTGRESQL
