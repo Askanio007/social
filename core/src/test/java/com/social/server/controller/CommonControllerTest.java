@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
@@ -17,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ActiveProfiles("test")
 public class CommonControllerTest {
     protected final static String API_TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VySWQiOjAsImV4cCI6MTU2NDMwNDkyMH0.WEKEFOnPkkQd3ow7xTYmbIidk4UUgnyj99GvXu3qNnv0tQ3R6xO8wEmCldP664VDrdiPozYWL9bTZOUZq_NNwg";
     protected final static long ID = 1;
