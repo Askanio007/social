@@ -179,7 +179,6 @@
             <column name="sender_id" type="integer"/>
             <column name="dialog_id" type="integer"/>
             <column name="read" type="boolean"/>
-            <column name="delivered" type="boolean"/>
         </createTable>
         <addPrimaryKey tableName="private_message" columnNames="id" />
         <addNotNullConstraint tableName="private_message" columnName="message" />
@@ -187,7 +186,6 @@
         <addNotNullConstraint tableName="private_message" columnName="sender_id" />
         <addNotNullConstraint tableName="private_message" columnName="dialog_id" />
         <addNotNullConstraint tableName="private_message" columnName="read" />
-        <addNotNullConstraint tableName="private_message" columnName="delivered" />
         <addForeignKeyConstraint baseTableName="private_message"
                                  baseColumnNames="sender_id"
                                  constraintName="private_message_sender_user"

@@ -49,13 +49,6 @@ public class PrivateMessage {
     private User sender;
 
     /**
-     * Доставлено/Не доставлено
-     */
-    @NotNull
-    @Column(name = "delivered", nullable = false)
-    private boolean delivered = false;
-
-    /**
      * Прочитано/Не прочитано
      */
     @NotNull

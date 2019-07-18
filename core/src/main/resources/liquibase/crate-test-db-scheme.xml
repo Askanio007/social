@@ -331,5 +331,9 @@
                                  referencedColumnNames="id" />
     </changeSet>
 
+    <changeSet author="Artyom Poshvykin" id="removed-private-message-delivered-cloumn">
+        <dropColumn tableName="private_message" columnName="delivered" />
+    </changeSet>
+
 
 </databaseChangeLog>

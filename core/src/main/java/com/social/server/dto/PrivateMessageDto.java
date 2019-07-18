@@ -21,7 +21,6 @@ public class PrivateMessageDto {
     private String senderName;
     private String image64encode;
     private long senderId;
-    private boolean delivered;
     private boolean read;
 
     public static PrivateMessageDto of(PrivateMessage entity) {
@@ -35,7 +34,6 @@ public class PrivateMessageDto {
         privateMessageDto.setMessage(entity.getMessage());
         privateMessageDto.setSenderId(entity.getSender().getId());
         privateMessageDto.setSenderName(entity.getSender().getFullName());
-        privateMessageDto.setDelivered(entity.isDelivered());
         privateMessageDto.setRead(entity.isRead());
         privateMessageDto.setCreateDate(entity.getCreateDate());
         privateMessageDto.setCreateDateView(DateFormatterUtil.withTimeFormat(entity.getCreateDate()));
