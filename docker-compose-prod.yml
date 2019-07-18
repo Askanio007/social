@@ -14,7 +14,7 @@ services:
     container_name: social-web
     image: social-web:latest
     ports:
-      - 3001:3000
+      - 5001:5000
   postgres:
     container_name: postgres
     image: postgres:11.2
