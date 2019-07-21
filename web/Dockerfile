@@ -1,6 +1,7 @@
 FROM node:10
 WORKDIR /app
 COPY web ./
+RUN npm install
 RUN npm install -g serve
-EXPOSE 5000
+RUN npm run-script build
 CMD ["serve", "-s", "build"]

@@ -14,7 +14,7 @@ spring:
     password: @jdbc.password@
     driverClassName: org.postgresql.Driver
   liquibase:
-    change-log: classpath:/liquibase/crate-test-db-scheme.xml
+    change-log: classpath:/liquibase/master.xml
     enabled: true
   mail:
     host: smtp.gmail.com

@@ -32,7 +32,7 @@ public class RegistrationControllerTest extends CommonControllerTest {
         UserDto dto = new UserDto();
         when(userService.isEmailExist(model.getEmail())).thenReturn(false);
         when(userService.registerUser(model)).thenReturn(dto);
-        checkPutRequest("/api/v1/registration", model, Response.ok(dto));
+        checkPutRequest("/api/v1/registration", model, Response.authorized(dto));
     }
 
     @Test
