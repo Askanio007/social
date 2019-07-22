@@ -3,6 +3,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link, withRouter} from 'react-router-dom';
 import UserService, {Gender} from '../service/UserService';
 import ApiClient from '../service/ApiClient';
+import Errors from './templates/errors';
 
 interface RegistrationState {
     name?: string;
@@ -80,40 +81,31 @@ class Registration extends React.Component<any, RegistrationState> {
     };
 
     render() {
-        let errors;
-        let viewErrors;
-        if (this.state.errors && this.state.errors.length !== 0) {
-            errors = this.state.errors.map((code) =>
-                <div><FormattedMessage id={code} /></div>
-            );
-            viewErrors = (
-                <div className="alert alert-danger">
-                    {errors}
-                </div>
-            )
-        }
+
+        const {errors, name, surname, sex, email, password} = this.state;
+
         return (
             <div className="container main-container">
                 <h3 className="center"><FormattedMessage id="common.welcome.message" /></h3>
                 <form>
                     <div className="form-group">
                         <label htmlFor="inputName"><FormattedMessage id="common.name" /></label>
-                        <input name="name" value={this.state.name} type="text" className="form-control" id="inputName" onChange={this.handleChange} />
+                        <input name="name" value={name} type="text" className="form-control" id="inputName" onChange={this.handleChange} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="inputSurname"><FormattedMessage id="common.surname" /></label>
-                        <input name="surname" value={this.state.surname} type="text" className="form-control" id="inputSurname" onChange={this.handleChange} />
+                        <input name="surname" value={surname} type="text" className="form-control" id="inputSurname" onChange={this.handleChange} />
                     </div>
                     <fieldset className="form-group">
                         <div className="row">
                             <legend className="col-form-label col-sm-2 pt-0"><FormattedMessage id="common.sex" /></legend>
                             <div className="col-sm-10">
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="sex"  id="gridRadios1" value="FEMALE" onChange={this.handleChange} checked={this.state.sex == Gender.FEMALE} />
+                                    <input className="form-check-input" type="radio" name="sex"  id="gridRadios1" value="FEMALE" onChange={this.handleChange} checked={sex == Gender.FEMALE} />
                                     <label className="form-check-label" htmlFor="gridRadios1"><FormattedMessage id="common.FEMALE" /></label>
                                 </div>
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="sex" id="gridRadios2" value="MALE" onChange={this.handleChange} checked={this.state.sex == Gender.MALE} />
+                                    <input className="form-check-input" type="radio" name="sex" id="gridRadios2" value="MALE" onChange={this.handleChange} checked={sex == Gender.MALE} />
                                     <label className="form-check-label" htmlFor="gridRadios2"><FormattedMessage id="common.MALE" /></label>
                                 </div>
                             </div>
@@ -121,14 +113,14 @@ class Registration extends React.Component<any, RegistrationState> {
                     </fieldset>
                     <div className="form-group">
                         <label htmlFor="inputEmail"><FormattedMessage id="common.email" /></label>
-                        <input name="email" value={this.state.email}  type="email" className="form-control" id="inputEmail" onChange={this.handleChange} />
+                        <input name="email" value={email}  type="email" className="form-control" id="inputEmail" onChange={this.handleChange} />
                         <small id="emailHelp" className="form-text text-muted"><FormattedMessage id="common.email.notice" /></small>
                     </div>
                     <div className="form-group">
                         <label htmlFor="inputPassword"><FormattedMessage id="common.password" /></label>
-                        <input name="password" value={this.state.password} type="password" className="form-control" id="inputPassword" onChange={this.handleChange}/>
+                        <input name="password" value={password} type="password" className="form-control" id="inputPassword" onChange={this.handleChange}/>
                     </div>
-                    {viewErrors}
+                    <Errors errors={errors}/>
                     <button type="button" onClick={this.registration} className="btn btn-secondary btn-custom btn-margin"><FormattedMessage id="common.registration" /></button>
                     <div className="widthMax center">
                         <Link to={'/login'} className="custom-link center"><FormattedMessage id="common.login" /></Link>

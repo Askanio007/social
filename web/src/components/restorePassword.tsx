@@ -3,6 +3,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import UserService from '../service/UserService';
 import RestorePasswordService from '../service/RestorePasswordService';
+import Errors from './templates/errors';
 
 interface RestorePasswordState {
     userId: number
@@ -75,34 +76,27 @@ class RestorePassword extends React.Component<any, RestorePasswordState> {
     };
 
     render() {
-
-        let errors;
-        if (this.state.errors) {
-            errors = this.state.errors.map((code) =>
-                <div className="alert alert-danger"><FormattedMessage id={code}/></div>
-            );
-        }
-
         let restoreBlock;
+        const { notification, password, confirmPassword, isAccess, errors } = this.state;
 
-        if (this.state.notification) {
-            restoreBlock = <div className="alert alert-success"><FormattedMessage id={this.state.notification} /></div>
-        } else if (this.state.isAccess) {
+        if (notification) {
+            restoreBlock = <div className="alert alert-success"><FormattedMessage id={notification} /></div>
+        } else if (isAccess) {
             restoreBlock =
                 <form>
                     <div className="form-group">
                         <label htmlFor="inputPassword"><FormattedMessage id="common.password" /></label>
-                        <input name="password" value={this.state.password} type="password" className="form-control" id="inputPassword" onChange={this.handleChange}/>
+                        <input name="password" value={password} type="password" className="form-control" id="inputPassword" onChange={this.handleChange}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="inputPassword"><FormattedMessage id="common.password" /></label>
-                        <input name="confirmPassword" value={this.state.confirmPassword} type="password" className="form-control" id="inputPassword" onChange={this.handleChange}/>
+                        <input name="confirmPassword" value={confirmPassword} type="password" className="form-control" id="inputPassword" onChange={this.handleChange}/>
                     </div>
-                    {errors}
+                    <Errors errors={errors}/>
                     <button type="button" onClick={this.restorePassword} className="btn btn-secondary btn-custom btn-margin"><FormattedMessage id="common.restore.password" /></button>
                 </form>
         } else {
-            restoreBlock = errors;
+            restoreBlock = <Errors errors={errors}/>;
         }
 
         return (

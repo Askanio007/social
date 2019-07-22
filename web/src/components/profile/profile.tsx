@@ -33,14 +33,16 @@ export default class Profile extends Component<any, EditProfileState> {
         if (this.state.isLoading) {
             return null
         }
+        const { user } = this.state;
+
         return (
             <div className="container">
                 <div className="row">
                     <MainMenu />
                     <Tabs>
                         <EditDetails><FormattedMessage id="profile.menu.detail" /></EditDetails>
-                        <EditPhoto sizePhoto={this.state.user.details.miniImageId}
-                                   currentPhoto={this.state.user.details.imageId}
+                        <EditPhoto sizePhoto={user.details.miniImageId}
+                                   currentPhoto={user.details.imageId}
                                    id={UserService.getRootUserId()}
                                    savePhotoFunc={UserService.savePhoto}
                                    saveMiniPhotoFunc={UserService.saveMiniPhoto}><FormattedMessage id="profile.menu.photo" /></EditPhoto>

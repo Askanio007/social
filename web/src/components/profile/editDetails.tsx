@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import UserService, {Gender, Profile} from '../../service/UserService';
 import {withRouter} from 'react-router-dom';
+import Errors from '../templates/errors';
 
 interface EditDetailsState {
     name?: string
@@ -118,22 +119,20 @@ class EditDetails extends Component<any, EditDetailsState> {
     };
 
     render() {
-        let errors = this.state.errors.map((code) =>
-            <div className="alert alert-danger">
-                <div><FormattedMessage id={code} /></div>
-            </div>
-        );
+
+        const { errors, name, sex, surname, about, birthday, city, country, phone} = this.state;
+
         return (
             <div>
                 <h3><FormattedMessage id="profile.detail.title" /></h3>
                 <form>
                     <div className="form-group">
                         <label htmlFor="inputName"><FormattedMessage id="profile.name" /></label>
-                        <input name="name" value={this.state.name} className="form-control" id="inputName" onChange={this.handleInputChange}/>
+                        <input name="name" value={name} className="form-control" id="inputName" onChange={this.handleInputChange}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="inputSurname"><FormattedMessage id="profile.surname" /></label>
-                        <input name="surname" value={this.state.surname} className="form-control" id="inputSurname" onChange={this.handleInputChange}/>
+                        <input name="surname" value={surname} className="form-control" id="inputSurname" onChange={this.handleInputChange}/>
                     </div>
                     <fieldset className="form-group">
                         <div className="row">
@@ -143,7 +142,7 @@ class EditDetails extends Component<any, EditDetailsState> {
                                     <input className="form-check-input"
                                            type="radio" name="sex" id="gridRadios1"
                                            value={Gender.FEMALE}
-                                           checked={this.state.sex == Gender.FEMALE}
+                                           checked={sex == Gender.FEMALE}
                                            onChange={this.handleInputChange} />
                                         <label className="form-check-label" htmlFor="gridRadios1">
                                             <FormattedMessage id="common.FEMALE" />
@@ -153,7 +152,7 @@ class EditDetails extends Component<any, EditDetailsState> {
                                     <input className="form-check-input"
                                            type="radio" name="sex" id="gridRadios2"
                                            value={Gender.MALE}
-                                           checked={this.state.sex == Gender.MALE}
+                                           checked={sex == Gender.MALE}
                                            onChange={this.handleInputChange}/>
                                         <label className="form-check-label" htmlFor="gridRadios2">
                                             <FormattedMessage id="common.MALE" />
@@ -164,25 +163,25 @@ class EditDetails extends Component<any, EditDetailsState> {
                     </fieldset>
                     <div className="form-group">
                         <label htmlFor="inputCountry"><FormattedMessage id="profile.country" /></label>
-                        <input name="country" value={this.state.country} className="form-control" id="inputCountry" onChange={this.handleInputChange}/>
+                        <input name="country" value={country} className="form-control" id="inputCountry" onChange={this.handleInputChange}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="inputCity"><FormattedMessage id="profile.city" /></label>
-                        <input name="city" value={this.state.city} className="form-control" id="inputCity" onChange={this.handleInputChange}/>
+                        <input name="city" value={city} className="form-control" id="inputCity" onChange={this.handleInputChange}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="inputAge"><FormattedMessage id="profile.birthday" /></label>
-                        <input type="date" name="birthday" value={this.state.birthday} className="form-control" id="inputAge" onChange={this.handleInputChange}/>
+                        <input type="date" name="birthday" value={birthday} className="form-control" id="inputAge" onChange={this.handleInputChange}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="inputPhone"><FormattedMessage id="profile.phone" /></label>
-                        <input name="phone" value={this.state.phone} className="form-control" id="inputPhone" onChange={this.handleInputChange}/>
+                        <input name="phone" value={phone} className="form-control" id="inputPhone" onChange={this.handleInputChange}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="inputAbout"><FormattedMessage id="profile.about" /></label>
-                        <textarea name="about" value={this.state.about} className="form-control rounded-0" id="inputAbout" rows={3} onChange={this.handleTextAreaChange} />
+                        <textarea name="about" value={about} className="form-control rounded-0" id="inputAbout" rows={3} onChange={this.handleTextAreaChange} />
                     </div>
-                    {errors}
+                    <Errors errors={errors} />
                     <button onClick={this.editProfile} type="button" className="btn btn-secondary btn-custom"><FormattedMessage id="common.save" /></button>
                 </form>
             </div>

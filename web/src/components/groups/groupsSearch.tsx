@@ -3,7 +3,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import GroupService from '../../service/GroupService';
 import Photo from '../templates/photo';
-import {EnterGroupBtn} from '../templates/buttons';
+import {EnterGroupBtn} from '../templates/buttons/groupButtons';
 
 interface GroupsSearchState {
     groups: any[]

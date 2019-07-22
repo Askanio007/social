@@ -90,7 +90,7 @@ class Dialog extends Component<any, DialogState> {
 
     sendMessageSock = () => {
         let params = {
-            senderId: UserService.getRootUserId(),
+            sender: {id: UserService.getRootUserId()} ,
             message: this.state.message,
             dialogId: this.state.dialogId
         };
@@ -105,6 +105,7 @@ class Dialog extends Component<any, DialogState> {
 
 
     render() {
+        const { messages, message } = this.state;
         return(
             <div className="container">
                 <div className="row">
@@ -122,12 +123,12 @@ class Dialog extends Component<any, DialogState> {
                             <div className="chat-scroll" ref={(el) => { this.chat = el; }}>
                                 <table className="widthMax">
                                     <tbody>
-                                    {this.state.messages.map((message:any) => <this.ListMessages  key={message.id} message={message} />)}
+                                    {messages.map((message:any) => <this.ListMessages  key={message.id} message={message} />)}
                                     </tbody>
                                 </table>
                             </div>
                             <div className="form-group">
-                                <textarea name="textMessage" value={this.state.message} className="form-control rounded-0" id="formControlTextarea" rows={3} onChange={this.handleMessage} />
+                                <textarea name="textMessage" value={message} className="form-control rounded-0" id="formControlTextarea" rows={3} onChange={this.handleMessage} />
                             </div>
                             <button onClick={this.sendMessageSock} type="button" className="btn btn-secondary btn-custom"><FormattedMessage id='wall.message.send' /></button>
                         </div>

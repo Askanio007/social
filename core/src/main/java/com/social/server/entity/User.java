@@ -83,13 +83,13 @@ public class User implements ShortModel {
     /**
      * Список групп, в которые вступил пользователь {@link Group}
      */
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private Set<Group> groups = new HashSet<>();
 
     /**
      * Список диалогов, в которых участвует пользователь {@link Dialog}
      */
-    @ManyToMany(mappedBy = "users")
+    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     private Set<Dialog> dialogs = new HashSet<>();
 
     /**

@@ -4,6 +4,7 @@ import GroupService, {Group} from '../../service/GroupService';
 import MainMenu from '../templates/menu';
 import UserService from '../../service/UserService';
 import {withRouter} from 'react-router-dom';
+import Errors from '../templates/errors';
 
 interface CreateGroupState {
     group: Group
@@ -48,11 +49,9 @@ class CreateGroup extends Component<any, CreateGroupState> {
 
 
     render() {
-        const errors = this.state.errors.map((error:string) =>
-            <div className="alert alert-danger">
-                <div><FormattedMessage id={error} /></div>
-            </div>
-        );
+
+        const {group, errors} = this.state;
+
         return (
             <div className="container">
                 <div className="row">
@@ -63,13 +62,13 @@ class CreateGroup extends Component<any, CreateGroupState> {
                         <form>
                             <div className="form-group">
                                 <label htmlFor="inputName"><FormattedMessage id="groups.name" /></label>
-                                <input name="name" value={this.state.group.name} className="form-control" id="inputName" onChange={this.handleChangeName}/>
+                                <input name="name" value={group.name} className="form-control" id="inputName" onChange={this.handleChangeName}/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputDescription"><FormattedMessage id="groups.description" /></label>
-                                <input name="description" value={this.state.group.description} className="form-control" id="inputDescription" onChange={this.handleChangeDescription}/>
+                                <input name="description" value={group.description} className="form-control" id="inputDescription" onChange={this.handleChangeDescription}/>
                             </div>
-                            {errors}
+                            <Errors errors={errors} />
                             <button type="button" onClick={this.create} className="btn btn-secondary btn-custom"><FormattedMessage id='common.create'/></button>
                         </form>
                     </div>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {withRouter} from 'react-router-dom';
-import {AddFriendBtn, SendMessageBtn} from '../templates/buttons';
+import {AddFriendBtn, SendMessageBtn} from '../templates/buttons/userButtons';
 import FriendService, {FriendshipRequest} from '../../service/FriendService';
 import UserService from '../../service/UserService';
 import FriendBlockList from './components/friendListBlock';

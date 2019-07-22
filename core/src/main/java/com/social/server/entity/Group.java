@@ -52,7 +52,7 @@ public class Group implements ShortModel {
     /**
      * Участники группы
      */
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_group",
             joinColumns = { @JoinColumn(name = "group_id") },

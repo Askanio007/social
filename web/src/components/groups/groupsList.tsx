@@ -4,7 +4,7 @@ import {Link, withRouter} from 'react-router-dom';
 import GroupService from '../../service/GroupService';
 import UserService from '../../service/UserService';
 import Photo from '../templates/photo';
-import {ExitGroupBtn} from '../templates/buttons';
+import {ExitGroupBtn} from '../templates/buttons/groupButtons';
 import {Pagination} from '../templates/pagination';
 
 interface GroupsListState {

@@ -3,7 +3,7 @@ import FriendService from '../../service/FriendService';
 import '../../css/friends.css';
 import '../../css/wall.css';
 import {withRouter} from 'react-router-dom';
-import {RemoveFriendBtn, SendMessageBtn} from '../templates/buttons';
+import {RemoveFriendBtn, SendMessageBtn} from '../templates/buttons/userButtons';
 import UserService from '../../service/UserService';
 import {Pagination} from '../templates/pagination';
 import FriendBlockList from './components/friendListBlock';

@@ -3,6 +3,7 @@ import {Link, Redirect} from 'react-router-dom';
 import {FormattedMessage} from 'react-intl';
 import UserService from '../service/UserService';
 import ApiClient from '../service/ApiClient';
+import Errors from './templates/errors';
 
 interface LoginModel {
     email?: string;
@@ -45,14 +46,9 @@ class Login extends React.Component<any, LoginModel> {
         if (this.state.isLogged === true) {
             return <Redirect to={'/me'} />
         }
-        let errors;
-        if (this.state.errors) {
-            errors = this.state.errors.map((code) =>
-                <div className="alert alert-danger">
-                    <div><FormattedMessage id={code} /></div>
-                </div>
-            );
-        }
+
+        const {errors, email, password} = this.state;
+
         return (
             <div className="container main-container">
                 <div className="row">
@@ -61,13 +57,13 @@ class Login extends React.Component<any, LoginModel> {
                         <form>
                             <div className="form-group">
                                 <label htmlFor="inputEmail"><FormattedMessage id="common.email" /></label>
-                                <input name="email" value={this.state.email} type="email" className="form-control" id="inputEmail" aria-describedby="emailHelp" onChange={this.handleChange}/>
+                                <input name="email" value={email} type="email" className="form-control" id="inputEmail" aria-describedby="emailHelp" onChange={this.handleChange}/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="inputPassword"><FormattedMessage id="common.password" /></label>
-                                <input name="password" value={this.state.password} type="password" className="form-control" id="inputPassword" onChange={this.handleChange}/>
+                                <input name="password" value={password} type="password" className="form-control" id="inputPassword" onChange={this.handleChange}/>
                             </div>
-                            {errors}
+                            <Errors errors={errors}/>
                             <button type="button" onClick={this.login} className="btn btn-secondary btn-custom btn-margin"><FormattedMessage id="common.login" /></button>
                             <div className="widthMax center">
                                 <Link to={'/registration'} className="custom-link"><FormattedMessage id="common.registration" /></Link>

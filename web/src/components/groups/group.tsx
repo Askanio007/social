@@ -4,10 +4,10 @@ import MainMenu from '../templates/menu';
 import Wall from '../templates/wall';
 import UserBlock from '../templates/userBlock';
 import GroupService, {GroupRelation} from '../../service/GroupService';
-import {EnterGroupBtn, ExitGroupBtn} from '../templates/buttons';
 import {RecipientType} from '../../service/WallService';
 import {withRouter} from 'react-router';
 import {apiImages} from '../../index';
+import {EnterGroupBtn, ExitGroupBtn} from '../templates/buttons/groupButtons';
 
 interface GroupState {
     group:any
@@ -76,22 +76,24 @@ class Group extends Component<any, GroupState> {
         if (this.state.isLoading) {
             return ("");
         }
+
+        let { group, participantCount } = this.state;
         return (
             <div className="container">
                 <div className="row">
                     <MainMenu />
 
                     <div className="col-sm-6">
-                        <h3>{this.state.group.name}</h3>
-                        <p>{this.state.group.description}</p>
-                        <Wall receiptId={this.state.group.id} recipientType={RecipientType.GROUP}/>
+                        <h3>{group.name}</h3>
+                        <p>{group.description}</p>
+                        <Wall receiptId={group.id} recipientType={RecipientType.GROUP}/>
                     </div>
                     <div className="col-sm-3">
                         <div className="blocks">
-                            <img className="userPhoto" src={apiImages + this.state.group.imageId} />
+                            <img className="userPhoto" src={apiImages + group.imageId} />
                         </div>
                         <this.Buttons />
-                        <UserBlock friends={this.state.group.participant} count={this.state.participantCount} title="groups.participant"/>
+                        <UserBlock friends={group.participant} count={participantCount} title="groups.participant"/>
                     </div>
                 </div>
             </div>

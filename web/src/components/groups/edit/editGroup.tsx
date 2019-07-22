@@ -37,15 +37,18 @@ class EditGroup extends Component<any, EditGroupState> {
         if (this.state.isLoading) {
             return null
         }
+
+        const {group} = this.state;
+
         return(
             <div className="container">
                 <div className="row">
                     <MainMenu />
                     <Tabs>
-                        <EditData group={this.state.group} history={this.props.history}><FormattedMessage id="groups.edit.menu.detail" /></EditData>
-                        <EditPhoto id={this.state.group.id}
-                                   currentPhoto={this.state.group.imageId}
-                                   sizePhoto={this.state.group.miniImageId}
+                        <EditData group={group} history={this.props.history}><FormattedMessage id="groups.edit.menu.detail" /></EditData>
+                        <EditPhoto id={group.id}
+                                   currentPhoto={group.imageId}
+                                   sizePhoto={group.miniImageId}
                                    saveMiniPhotoFunc={GroupService.saveMiniPhoto}
                                    savePhotoFunc={GroupService.savePhoto}>
                             <FormattedMessage id="groups.edit.menu.photo" /></EditPhoto>

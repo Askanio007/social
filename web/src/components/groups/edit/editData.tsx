@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {FormattedMessage} from 'react-intl';
 import GroupService, {Group} from '../../../service/GroupService';
+import Errors from '../../templates/errors';
 
 interface EditGroupDataState {
     id:number
@@ -53,20 +54,20 @@ export default class EditData extends Component<EditGroupDataProps, EditGroupDat
     };
 
     render() {
-        let errors = this.state.errors.map( (code) => <div className="alert alert-danger"><FormattedMessage id={code} /></div>)
+        const {name, description, errors} = this.state;
         return(
             <div>
                 <h3><FormattedMessage id="groups.edit.title" /></h3>
                 <form>
                     <div className="form-group">
                         <label htmlFor="inputName"><FormattedMessage id="groups.name" /></label>
-                        <input name="name" value={this.state.name} className="form-control" id="inputName" onChange={this.handleInputChangeName} />
+                        <input name="name" value={name} className="form-control" id="inputName" onChange={this.handleInputChangeName} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="inputDescription"><FormattedMessage id="groups.description" /></label>
-                        <input name="description" value={this.state.description} className="form-control" id="inputDescription" onChange={this.handleInputChangeDescription} />
+                        <input name="description" value={description} className="form-control" id="inputDescription" onChange={this.handleInputChangeDescription} />
                     </div>
-                    {errors}
+                    <Errors errors={errors} />
                     <button type="button" onClick={this.saveChanges} className="btn btn-secondary btn-custom"><FormattedMessage id="common.edit" /></button>
                 </form>
             </div>

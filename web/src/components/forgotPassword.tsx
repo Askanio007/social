@@ -2,6 +2,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 import RestorePasswordService from '../service/RestorePasswordService';
+import Errors from './templates/errors';
 
 interface ForgotPasswordState {
     email: string
@@ -34,15 +35,10 @@ class ForgotPassword extends React.Component<{}, ForgotPasswordState> {
 
     render() {
 
-        let errors;
-        if (this.state.errors) {
-            errors = this.state.errors.map((code) =>
-                <div className="alert alert-danger"><FormattedMessage id={code}/></div>
-            );
-        }
+        const {errors, email, isSuccess} = this.state
 
         let success;
-        if (this.state.isSuccess) {
+        if (isSuccess) {
             success = <div className="alert alert-success">
                 <FormattedMessage id="common.restore.info" />
             </div>
@@ -53,9 +49,9 @@ class ForgotPassword extends React.Component<{}, ForgotPasswordState> {
                 <form>
                     <div className="form-group">
                         <label htmlFor="inputEmail"><FormattedMessage id="common.email" /></label>
-                        <input name="email" value={this.state.email} type="text" className="form-control" id="inputEmail" onChange={this.handleChange}/>
+                        <input name="email" value={email} type="text" className="form-control" id="inputEmail" onChange={this.handleChange}/>
                     </div>
-                    {errors}
+                    <Errors errors={errors} />
                     {success}
                     <button type="button" onClick={this.restorePassword} className="btn btn-secondary btn-custom btn-margin"><FormattedMessage id="common.restore.password" /></button>
                     <div className="widthMax center">

@@ -5,12 +5,11 @@ import Wall from './templates/wall';
 import UserBlock from './templates/userBlock';
 import GroupBlock from './templates/groupBlock';
 import UserService from '../service/UserService';
-import {AddFriendBtn, RemoveFriendBtn, RequestFriendBtn, SendMessageBtn} from './templates/buttons';
+import {AddFriendBtn, RemoveFriendBtn, RequestFriendBtn, SendMessageBtn} from './templates/buttons/userButtons';
 import '../css/user.css';
 import {FriendshipRequest} from '../service/FriendService';
 import {withRouter} from 'react-router';
 import {RecipientType} from '../service/WallService';
-import DialogService from '../service/DialogService';
 import {apiImages} from '../index';
 
 export enum UserRelation {
@@ -114,19 +113,11 @@ class User extends Component<any, UserState> {
         return (<div><button type="button" className="btn btn-secondary btn-custom btn-margin" onClick={this.redirectToEditProfile} ><FormattedMessage id='common.edit' /></button></div>);
     };
 
-    sendMessage = (friendId:number) => {
-        DialogService.findDialogIdBy(friendId, (res:any) => {
-            if (res.data.success === true) {
-                this.props.history.push('/dialog/' + res.data.data);
-            }
-        })
-    };
-
     FriendPageButton = () => {
         return (
             <div>
                 <SendMessageBtn friendId={this.state.userId} history={this.props.history} />
-                <RemoveFriendBtn id={this.state.user.id} callback={this.updateRelation} />
+                <RemoveFriendBtn id={this.state.userId} callback={this.updateRelation} />
             </div>
         )
     };
@@ -166,55 +157,60 @@ class User extends Component<any, UserState> {
         if (this.state.loading === true) {
             return ("")
         }
+
+        const { user, friendCount, groupCount, userId} = this.state;
+
+        console.log(friendCount);
+        console.log(user);
         return (
             <div className="container">
                 <div className="row">
                     <MainMenu />
                     <div className="col-sm-3 middle-block">
                         <div className="blocks">
-                            <img className="userPhoto" src={apiImages + this.state.user.details.imageId} />
+                            <img className="userPhoto" src={apiImages + user.details.imageId} />
                         </div>
                         <this.ButtonSet />
-                        <UserBlock friends={this.state.user.friends} count={this.state.friendCount} title="common.friends"/>
-                        <GroupBlock groups={this.state.user.groups} count={this.state.groupCount} />
+                        <UserBlock friends={user.friends} count={friendCount} title="common.friends"/>
+                        <GroupBlock groups={user.groups} count={groupCount} />
                     </div>
 
                     <div className="col-sm-6">
-                        <h3>{this.state.user.fullName}</h3>
+                        <h3>{user.fullName}</h3>
                         <table className="widthMax">
                             <tbody>
                                 <tr>
                                     <td className="width40"><FormattedMessage id='common.city' />:</td>
-                                    <td className="width60">{this.state.user.details.city}</td>
+                                    <td className="width60">{user.details.city}</td>
                                 </tr>
                                 <tr>
                                     <td><FormattedMessage id='common.sex' />:</td>
-                                    <td><FormattedMessage id={'common.' + this.state.user.details.sex} /></td>
+                                    <td><FormattedMessage id={'common.' + user.details.sex} /></td>
                                 </tr>
                                 <tr>
                                     <td><FormattedMessage id='common.birthday' />:</td>
-                                    <td>{this.state.user.details.birthdayView}</td>
+                                    <td>{user.details.birthdayView}</td>
                                 </tr>
                                 <tr>
                                     <td><FormattedMessage id='profile.country' />:</td>
-                                    <td>{this.state.user.details.country}</td>
+                                    <td>{user.details.country}</td>
                                 </tr>
                                 <tr>
                                     <td><FormattedMessage id='profile.city' />:</td>
-                                    <td>{this.state.user.details.city}</td>
+                                    <td>{user.details.city}</td>
                                 </tr>
                                 <tr>
                                     <td><FormattedMessage id='profile.phone' />:</td>
-                                    <td>{this.state.user.details.phone}</td>
+                                    <td>{user.details.phone}</td>
                                 </tr>
                                 <tr>
                                     <td><FormattedMessage id='profile.about' />:</td>
-                                    <td>{this.state.user.details.about}</td>
+                                    <td>{user.details.about}</td>
                                 </tr>
                             </tbody>
                         </table>
 
-                        <Wall receiptId={this.state.userId} recipientType={RecipientType.USER} />
+                        <Wall receiptId={userId} recipientType={RecipientType.USER} />
                     </div>
                 </div>
             </div>
