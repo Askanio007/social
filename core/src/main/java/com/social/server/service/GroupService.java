@@ -62,8 +62,9 @@ public interface GroupService extends CommonService<Group, Long> {
      * @param groupId - идентификатор группы
      * @param file - файл фотографии
      * @param isMini - большая или маленькая фотография
+     * @return Идентификатор фотографии
      */
-    String savePhoto(long groupId, MultipartFile file, boolean isMini);
+    long savePhoto(long groupId, MultipartFile file, boolean isMini);
 
     /**
      * Удалить пользователя из участников группы

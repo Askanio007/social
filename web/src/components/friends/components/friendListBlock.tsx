@@ -4,7 +4,7 @@ import React from 'react';
 
 interface FriendBlockListProps {
     buttons:any
-    avatar:any
+    avatarId:any
     id:any
     fullName:any
 
@@ -13,7 +13,7 @@ const FriendBlockList = (props: FriendBlockListProps) => {
     return (
         <tr>
             <td className="vertical-top photo-friend">
-                <Photo link={"/user/" + props.id} photoHashCode={props.avatar} stylePhoto="photo-friend"/>
+                <Photo link={"/user/" + props.id} photoId={props.avatarId} stylePhoto="photo-friend"/>
             </td>
             <td className="vertical-top">
                 <div className="wall-record-name">

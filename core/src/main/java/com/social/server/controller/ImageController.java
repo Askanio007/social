@@ -1,40 +1,28 @@
 package com.social.server.controller;
 
-import com.social.server.http.Response;
-import com.social.server.service.GroupService;
-import com.social.server.service.UserService;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import com.social.server.service.ImageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/images")
 public class ImageController {
 
-    private final UserService userService;
-    private final GroupService groupService;
+    private final ImageService imageService;
 
-    public ImageController(UserService userService, GroupService groupService) {
-        this.userService = userService;
-        this.groupService = groupService;
+    @Autowired
+    public ImageController(ImageService imageService) {
+        this.imageService = imageService;
     }
 
-    @PutMapping("/users/{rootUserId}")
-    public Response uploadUserImage(@PathVariable long rootUserId, @RequestBody MultipartFile file) {
-        return Response.ok(userService.savePhoto(rootUserId, file, false));
+    @GetMapping("/images/{imageId}")
+    public byte[] getImageByteArray(@PathVariable long imageId) {
+        return imageService.getImageAsByteArray(imageId);
     }
 
-    @PutMapping("/users/{rootUserId}/mini")
-    public Response uploadUserMiniImage(@PathVariable long rootUserId, @RequestBody MultipartFile file) {
-        return Response.ok(userService.savePhoto(rootUserId, file, true));
-    }
-
-    @PutMapping("/groups/{groupId}")
-    public Response uploadGroupImage(@PathVariable long groupId, @RequestBody MultipartFile file) {
-        return Response.ok(groupService.savePhoto(groupId, file, false));
-    }
-
-    @PutMapping("/groups/{groupId}/mini")
-    public Response uploadGroupMiniImage(@PathVariable long groupId, @RequestBody MultipartFile file) {
-        return Response.ok(groupService.savePhoto(groupId, file, true));
+    @GetMapping("/api/v1/images/{imageId}/base64")
+    public String getImageBase64Encode(@PathVariable long imageId) {
+        return imageService.getImageAsBase64Encode(imageId);
     }
 }

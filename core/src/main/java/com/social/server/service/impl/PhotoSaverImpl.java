@@ -22,16 +22,16 @@ public class PhotoSaverImpl<T extends ShortModel> implements PhotoSaver<T> {
     }
 
     @Override
-    public String savePhoto(T shortModel, MultipartFile file, boolean isMini) {
+    public long savePhoto(T shortModel, MultipartFile file, boolean isMini) {
         if (!isMini) {
             imageService.deleteImage(shortModel.getMiniImage(), shortModel.getImage());
         }
 
-        Image image = ImageUtil.saveImage(file, shortModel.getId(), isMini);
+        Image image = imageService.save(ImageUtil.saveImage(file, shortModel.getId(), isMini));
 
         if (image == null) {
             log.warn("Save image return null; modelId={} file={}", shortModel.getId(), file);
-            return null;
+            return 0;
         }
 
         if (isMini) {
@@ -40,6 +40,6 @@ public class PhotoSaverImpl<T extends ShortModel> implements PhotoSaver<T> {
             shortModel.setImage(image);
         }
 
-        return ImageUtil.convertImageTo64encode(isMini ? shortModel.getMiniImage() : shortModel.getImage());
+        return isMini ? shortModel.getMiniImage().getId() : shortModel.getImage().getId();
     }
 }

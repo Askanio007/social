@@ -111,7 +111,7 @@ public class UserServiceImpl extends CommonServiceImpl<User, Long, UserRepositor
 
     @Override
     @WriteTransactional
-    public String savePhoto(long userId, MultipartFile file, boolean isMini) {
+    public long savePhoto(long userId, MultipartFile file, boolean isMini) {
         validateEmptyEntityId(userId);
         return photoSaver.savePhoto(getById(userId), file, isMini);
     }

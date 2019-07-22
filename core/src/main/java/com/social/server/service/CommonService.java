@@ -12,4 +12,9 @@ public interface CommonService<Class, ID> {
      * @param id - идентификатор Entity
      */
     Class getById(ID id);
+
+    /**
+     * Сохранить объект
+     */
+    Class save(Class entity);
 }

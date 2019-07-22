@@ -22,11 +22,11 @@ import Logout from './components/logout';
 import UserService from './service/UserService';
 import ApiClient from './service/ApiClient';
 
-export const api = process.env.REACT_APP_API_URL;
+const apiHost = process.env.REACT_APP_API_URL;
 export const websocket = process.env.REACT_APP_WEB_SOCKET_URL ? process.env.REACT_APP_WEB_SOCKET_URL : "";
+export const api = apiHost + 'api/v1';
+export const apiImages = apiHost + 'images/';
 
-console.log(process.env.REACT_APP_API_URL);
-console.log(process.env.NODE_ENV);
 let elLocaleData = require('react-intl/locale-data/ru');
 addLocaleData(elLocaleData);
 

@@ -42,12 +42,12 @@ class Events extends Component<{}, EventsState> {
         return (
             <tr className="event">
                 <td className="vertical-top">
-                    <Photo link={'/user/' + event.userId} photoHashCode={event.userAvatar64code} stylePhoto="wall-photo-block"/>
+                    <Photo link={'/user/' + event.user.id} photoId={event.user.imageId} stylePhoto="wall-photo-block"/>
                 </td>
                 <td className="vertical-top">
                     <div><p>{event.dateView}</p></div>
                     <div className="event-message">
-                        <p>{event.userName} <FormattedMessage id={event.description} /> <Link to={'/user/' + event.targetActionId} className="custom-link">{event.targetActionName}</Link></p>
+                        <p>{event.user.fullName} <FormattedMessage id={event.description} /> <Link to={'/user/' + event.targetActionId} className="custom-link">{event.targetActionName}</Link></p>
                     </div>
                 </td>
             </tr>

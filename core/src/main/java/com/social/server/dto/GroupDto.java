@@ -1,7 +1,6 @@
 package com.social.server.dto;
 
 import com.social.server.entity.Group;
-import com.social.server.util.ImageUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,8 +14,8 @@ public class GroupDto {
     private String name;
     private String description;
     private String adminName;
-    private String avatar64code;
-    private String miniAvatar64code;
+    private long imageId;
+    private long miniImageId;
     private long adminId;
     private List<PhotoAndNameDto> participant;
 
@@ -32,8 +31,13 @@ public class GroupDto {
         dto.setAdminName(entity.getAdmin().getName());
         dto.setName(entity.getName());
         dto.setDescription(entity.getDescription());
-        dto.setAvatar64code(ImageUtil.convertImageTo64encode(entity.getImage()));
-        dto.setMiniAvatar64code(ImageUtil.convertImageTo64encode(entity.getMiniImage()));
+        if (entity.getImage() != null) {
+            dto.setImageId(entity.getImage().getId());
+        }
+        if (entity.getMiniImage() != null) {
+            dto.setMiniImageId(entity.getMiniImage().getId());
+
+        }
         dto.setParticipant(entity.getUsers().stream()
                 .limit(6)
                 .map(PhotoAndNameDto::of)

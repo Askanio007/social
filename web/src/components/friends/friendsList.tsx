@@ -50,7 +50,7 @@ class FriendsList extends Component<any, FriendsListState> {
         return (
             <FriendBlockList
                 fullName={friend.fullName}
-                avatar={friend.details.miniImage64code}
+                avatarId={friend.details.miniImageId}
                 id={friend.id}
                 buttons={(
                     <div>

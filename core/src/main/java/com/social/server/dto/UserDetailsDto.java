@@ -2,7 +2,6 @@ package com.social.server.dto;
 
 import com.social.server.entity.Sex;
 import com.social.server.entity.UserDetails;
-import com.social.server.util.ImageUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,8 +21,8 @@ public class UserDetailsDto {
     private String phone;
     private String about;
     private Sex sex;
-    private String image64code;
-    private String miniImage64code;
+    private long imageId;
+    private long miniImageId;
 
     public static UserDetailsDto of(UserDetails userDetails) {
         if (userDetails == null) {
@@ -40,8 +39,12 @@ public class UserDetailsDto {
         dto.setCountry(userDetails.getCountry());
         dto.setPhone(userDetails.getPhone());
         dto.setSex(userDetails.getSex());
-        dto.setImage64code(ImageUtil.convertImageTo64encode(userDetails.getImage()));
-        dto.setMiniImage64code(ImageUtil.convertImageTo64encode(userDetails.getMiniImage()));
+        if (userDetails.getImage() != null) {
+            dto.setImageId(userDetails.getImage().getId());
+        }
+        if (userDetails.getMiniImage() != null) {
+            dto.setMiniImageId(userDetails.getMiniImage().getId());
+        }
         return dto;
     }
 }

@@ -13,7 +13,7 @@ public interface PhotoSaver<T extends ShortModel> {
      * @param shortModel - модель для которой сохраняется фото
      * @param file - фото
      * @param isMini - мини или обычная фото
-     * @return фотография в кодировке 64base
+     * @return идентификатор фотографии
      */
-    String savePhoto(T shortModel, MultipartFile file, boolean isMini);
+    long savePhoto(T shortModel, MultipartFile file, boolean isMini);
 }

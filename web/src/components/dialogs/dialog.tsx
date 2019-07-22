@@ -69,11 +69,11 @@ class Dialog extends Component<any, DialogState> {
         return (
             <tr>
                 <td className="vertical-top">
-                    <Photo link={"/user/" + message.senderId} photoHashCode={message.image64encode} stylePhoto="mini-image-circle"/>
+                    <Photo link={"/user/" + message.sender.id} photoId={message.sender.imageId} stylePhoto="mini-image-circle"/>
                 </td>
                 <td className="vertical-top widthMax">
                     <div className="wall-record-name">
-                        <div>{message.senderName}</div>
+                        <div>{message.sender.fullName}</div>
                         <div>{message.createDateView}</div>
                     </div>
                     <div>{message.message}</div>

@@ -1,6 +1,7 @@
 package com.social.server.controller;
 
 import com.social.server.dto.FriendshipRequestDto;
+import com.social.server.dto.PhotoAndNameDto;
 import com.social.server.http.Response;
 import com.social.server.http.model.FriendshipRequestModel;
 import com.social.server.service.FriendshipRequestService;
@@ -27,8 +28,13 @@ public class FriendRequestControllerTest extends CommonControllerTest {
     public void successFindRequests() throws Exception {
         FriendshipRequestDto dto = new FriendshipRequestDto();
         dto.setAccept(true);
-        dto.setFromUserName("test");
-        dto.setToUserName("Test");
+        PhotoAndNameDto photoAndNameDto1 = new PhotoAndNameDto();
+        photoAndNameDto1.setFullName("test");
+        dto.setFromUser(photoAndNameDto1);
+
+        PhotoAndNameDto photoAndNameDto2 = new PhotoAndNameDto();
+        photoAndNameDto2.setFullName("Test");
+        dto.setToUser(photoAndNameDto2);
         when(friendshipRequestService.find(ID, 1)).thenReturn(new PageImpl<>(Arrays.asList(dto)));
         checkGetRequest(API + "?page=1", Response.ok(new PageImpl<>(Arrays.asList(dto))));
     }

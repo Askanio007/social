@@ -29,7 +29,9 @@ class Wall extends Component<WallProps, WallInterface> {
             message: "",
             recipientId: this.props.receiptId,
             recipientType: this.props.recipientType,
-            senderId: UserService.getRootUserId()
+            sender: {
+                id: UserService.getRootUserId()
+            }
         }
     };
 
@@ -76,11 +78,11 @@ class Wall extends Component<WallProps, WallInterface> {
         return (
             <tr className="wall-record">
                 <td>
-                    <Photo stylePhoto="wall-photo-block" link={"/user/" + record.senderId} photoHashCode={record.avatarSender} />
+                    <Photo stylePhoto="wall-photo-block" link={"/user/" + record.sender.id} photoId={record.sender.imageId} />
                 </td>
                 <td className="wall-user-info">
                     <div className="wall-record-name">
-                        <div><Link to={'/user/' + record.senderId} className="custom-link">{record.sender}</Link></div>
+                        <div><Link to={'/user/' + record.sender.id} className="custom-link">{record.sender.fullName}</Link></div>
                         <div>{record.createDate}</div>
                     </div>
                     <div className="wall-record-message">{record.message}</div>

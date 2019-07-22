@@ -13,8 +13,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(ImageController.class)
-public class ImageControllerTest extends CommonControllerTest {
+@WebMvcTest(ImageUploadController.class)
+public class ImageUploadControllerTest extends CommonControllerTest {
     private final static String API = "/api/v1/images";
 
     @MockBean
@@ -22,26 +22,26 @@ public class ImageControllerTest extends CommonControllerTest {
 
     @Test
     public void successUploadFullUserImage() throws Exception {
-        Mockito.when(userService.savePhoto( eq(ID), isNull(), eq(false))).thenReturn("TEST");
-        checkPutRequest(API + "/users/" + ID, null, Response.ok("TEST"));
+        Mockito.when(userService.savePhoto( eq(ID), isNull(), eq(false))).thenReturn(ID);
+        checkPutRequest(API + "/users/" + ID, null, Response.ok(ID));
     }
 
     @Test
     public void successUploadMiniUserImage() throws Exception {
-        Mockito.when(userService.savePhoto( eq(ID), isNull(), eq(true))).thenReturn("TEST");
-        checkPutRequest(API + "/users/" + ID + "/mini", null, Response.ok("TEST"));
+        Mockito.when(userService.savePhoto( eq(ID), isNull(), eq(true))).thenReturn(ID);
+        checkPutRequest(API + "/users/" + ID + "/mini", null, Response.ok(ID));
     }
 
     @Test
     public void successUploadFullGroupImage() throws Exception {
-        Mockito.when(groupService.savePhoto( eq(ID), isNull(), eq(false))).thenReturn("TEST");
-        checkPutRequest(API + "/groups/" + ID, null, Response.ok("TEST"));
+        Mockito.when(groupService.savePhoto( eq(ID), isNull(), eq(false))).thenReturn(ID);
+        checkPutRequest(API + "/groups/" + ID, null, Response.ok(ID));
     }
 
     @Test
     public void successUploadMiniGroupImage() throws Exception {
-        Mockito.when(groupService.savePhoto( eq(ID), isNull(), eq(true))).thenReturn("TEST");
-        checkPutRequest(API + "/groups/" + ID + "/mini", null, Response.ok("TEST"));
+        Mockito.when(groupService.savePhoto( eq(ID), isNull(), eq(true))).thenReturn(ID);
+        checkPutRequest(API + "/groups/" + ID + "/mini", null, Response.ok(ID));
     }
 
     @Test
@@ -56,11 +56,11 @@ public class ImageControllerTest extends CommonControllerTest {
 
     @Test
     public void failedAccessToUploadFullGroupImage() throws Exception {
-        failedAccessToEndpoint(API + "/group/" + ID);
+        failedAccessToEndpoint(API + "/groups/" + ID);
     }
 
     @Test
     public void failedAccessToUploadMiniGroupImage() throws Exception {
-        failedAccessToEndpoint(API + "/group/" + ID + "/mini");
+        failedAccessToEndpoint(API + "/groups/" + ID + "/mini");
     }
 }

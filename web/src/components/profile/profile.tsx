@@ -39,8 +39,8 @@ export default class Profile extends Component<any, EditProfileState> {
                     <MainMenu />
                     <Tabs>
                         <EditDetails><FormattedMessage id="profile.menu.detail" /></EditDetails>
-                        <EditPhoto sizePhoto={this.state.user.details.miniImage64code}
-                                   currentPhoto={this.state.user.details.image64code}
+                        <EditPhoto sizePhoto={this.state.user.details.miniImageId}
+                                   currentPhoto={this.state.user.details.imageId}
                                    id={UserService.getRootUserId()}
                                    savePhotoFunc={UserService.savePhoto}
                                    saveMiniPhotoFunc={UserService.saveMiniPhoto}><FormattedMessage id="profile.menu.photo" /></EditPhoto>

@@ -5,6 +5,7 @@ import DialogService from '../../service/DialogService';
 import {Link} from 'react-router-dom';
 import UserService from '../../service/UserService';
 import {Pagination} from '../templates/pagination';
+import {apiImages} from '../../index';
 
 interface DialogListState {
     dialogs: any[]
@@ -41,7 +42,7 @@ export default class Dialogs extends Component<any, DialogListState> {
         return (
             <td className="blocks">
                 <Link to={'/dialog/' + dialog.id}>
-                    <img width="70" height="70" src={'data:image/JPEG;base64,' + user.image64code} />
+                    <img width="70" height="70" src={apiImages + user.imageId} />
                 </Link>
             </td>
         );

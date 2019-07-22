@@ -106,7 +106,7 @@ public class GroupServiceImpl extends CommonServiceImpl<Group, Long, GroupReposi
 
     @Override
     @WriteTransactional
-    public String savePhoto(long groupId, MultipartFile file, boolean isMini) {
+    public long savePhoto(long groupId, MultipartFile file, boolean isMini) {
         validateEmptyEntityId(groupId);
         return photoSaver.savePhoto(getById(groupId), file, isMini);
     }

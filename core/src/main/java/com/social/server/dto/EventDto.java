@@ -2,7 +2,6 @@ package com.social.server.dto;
 
 import com.social.server.entity.Event;
 import com.social.server.util.DateFormatterUtil;
-import com.social.server.util.ImageUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,9 +12,7 @@ import java.util.stream.Collectors;
 @Data
 public class EventDto {
     private long id;
-    private long userId;
-    private String userName;
-    private String userAvatar64code;
+    private PhotoAndNameDto user;
     private String description;
     private String targetActionName;
     private String dateView;
@@ -32,9 +29,7 @@ public class EventDto {
         eventDto.setDescription(event.getType().getDescriptionCode());
         eventDto.setTargetActionId(event.getTargetActionId());
         eventDto.setTargetActionName(event.getTargetActionName());
-        eventDto.setUserName(event.getUser().getFullName());
-        eventDto.setUserId(event.getUser().getId());
-        eventDto.setUserAvatar64code(ImageUtil.convertImageTo64encode(event.getUser().getMiniImage()));
+        eventDto.setUser(PhotoAndNameDto.of(event.getUser()));
         eventDto.setDateView(DateFormatterUtil.withoutTimeFormat(event.getDate()));
         return eventDto;
     }

@@ -11,6 +11,7 @@ import {FriendshipRequest} from '../service/FriendService';
 import {withRouter} from 'react-router';
 import {RecipientType} from '../service/WallService';
 import DialogService from '../service/DialogService';
+import {apiImages} from '../index';
 
 export enum UserRelation {
     ME = "ME",
@@ -171,7 +172,7 @@ class User extends Component<any, UserState> {
                     <MainMenu />
                     <div className="col-sm-3 middle-block">
                         <div className="blocks">
-                            <img className="userPhoto" src={"data:image/JPEG;base64," + this.state.user.details.image64code} />
+                            <img className="userPhoto" src={apiImages + this.state.user.details.imageId} />
                         </div>
                         <this.ButtonSet />
                         <UserBlock friends={this.state.user.friends} count={this.state.friendCount} title="common.friends"/>

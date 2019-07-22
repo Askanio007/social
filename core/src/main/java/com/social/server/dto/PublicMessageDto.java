@@ -3,7 +3,6 @@ package com.social.server.dto;
 import com.social.server.entity.PublicMessage;
 import com.social.server.entity.PublicMessageRecipientType;
 import com.social.server.util.DateFormatterUtil;
-import com.social.server.util.ImageUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,9 +14,7 @@ import java.util.stream.Collectors;
 public class PublicMessageDto {
     private long id;
     private String message;
-    private Long senderId;
-    private String avatarSender;
-    private String sender;
+    private PhotoAndNameDto sender;
     private String recipient;
     private PublicMessageRecipientType recipientType;
     private Long recipientId;
@@ -33,11 +30,9 @@ public class PublicMessageDto {
         dto.setCreateDate(DateFormatterUtil.withoutTimeFormat(message.getCreateDate()));
         dto.setId(message.getId());
         dto.setMessage(message.getMessage());
-        dto.setSender(message.getSender().getFullName());
-        dto.setSenderId(message.getSender().getId());
+        dto.setSender(PhotoAndNameDto.of(message.getSender()));
         dto.setRecipientId(message.getRecipientId());
         dto.setRecipientType(message.getRecipientType());
-        dto.setAvatarSender(ImageUtil.convertImageTo64encode(message.getSender().getMiniImage()));
 
         return dto;
     }

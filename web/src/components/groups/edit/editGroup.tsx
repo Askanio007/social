@@ -44,8 +44,8 @@ class EditGroup extends Component<any, EditGroupState> {
                     <Tabs>
                         <EditData group={this.state.group} history={this.props.history}><FormattedMessage id="groups.edit.menu.detail" /></EditData>
                         <EditPhoto id={this.state.group.id}
-                                   currentPhoto={this.state.group.avatar64code}
-                                   sizePhoto={this.state.group.miniAvatar64code}
+                                   currentPhoto={this.state.group.imageId}
+                                   sizePhoto={this.state.group.miniImageId}
                                    saveMiniPhotoFunc={GroupService.saveMiniPhoto}
                                    savePhotoFunc={GroupService.savePhoto}>
                             <FormattedMessage id="groups.edit.menu.photo" /></EditPhoto>

@@ -7,6 +7,7 @@ import GroupService, {GroupRelation} from '../../service/GroupService';
 import {EnterGroupBtn, ExitGroupBtn} from '../templates/buttons';
 import {RecipientType} from '../../service/WallService';
 import {withRouter} from 'react-router';
+import {apiImages} from '../../index';
 
 interface GroupState {
     group:any
@@ -87,7 +88,7 @@ class Group extends Component<any, GroupState> {
                     </div>
                     <div className="col-sm-3">
                         <div className="blocks">
-                            <img className="userPhoto" src={"data:image/JPEG;base64," + this.state.group.avatar64code} />
+                            <img className="userPhoto" src={apiImages + this.state.group.imageId} />
                         </div>
                         <this.Buttons />
                         <UserBlock friends={this.state.group.participant} count={this.state.participantCount} title="groups.participant"/>

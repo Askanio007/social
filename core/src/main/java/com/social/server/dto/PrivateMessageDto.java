@@ -2,7 +2,6 @@ package com.social.server.dto;
 
 import com.social.server.entity.PrivateMessage;
 import com.social.server.util.DateFormatterUtil;
-import com.social.server.util.ImageUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,9 +17,7 @@ public class PrivateMessageDto {
     private String createDateView;
     private LocalDateTime createDate;
     private String message;
-    private String senderName;
-    private String image64encode;
-    private long senderId;
+    private PhotoAndNameDto sender;
     private boolean read;
 
     public static PrivateMessageDto of(PrivateMessage entity) {
@@ -32,13 +29,11 @@ public class PrivateMessageDto {
         PrivateMessageDto privateMessageDto = new PrivateMessageDto();
         privateMessageDto.setId(entity.getId());
         privateMessageDto.setMessage(entity.getMessage());
-        privateMessageDto.setSenderId(entity.getSender().getId());
-        privateMessageDto.setSenderName(entity.getSender().getFullName());
+        privateMessageDto.setSender(PhotoAndNameDto.of(entity.getSender()));
         privateMessageDto.setRead(entity.isRead());
         privateMessageDto.setCreateDate(entity.getCreateDate());
         privateMessageDto.setCreateDateView(DateFormatterUtil.withTimeFormat(entity.getCreateDate()));
         privateMessageDto.setDialogId(entity.getDialog().getId());
-        privateMessageDto.setImage64encode(ImageUtil.convertImageTo64encode(entity.getSender().getMiniImage()));
         return privateMessageDto;
     }
 

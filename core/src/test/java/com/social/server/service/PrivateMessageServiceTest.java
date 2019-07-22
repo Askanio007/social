@@ -1,6 +1,7 @@
 package com.social.server.service;
 
 import com.social.server.dao.PrivateMessageRepository;
+import com.social.server.dto.PhotoAndNameDto;
 import com.social.server.dto.PrivateMessageDto;
 import com.social.server.entity.Dialog;
 import com.social.server.entity.PrivateMessage;
@@ -41,7 +42,9 @@ public class PrivateMessageServiceTest {
     @Test
     public void successSave() {
         PrivateMessageDto message = new PrivateMessageDto();
-        message.setSenderId(SENDER_ID);
+        PhotoAndNameDto photoAndNameDto = new PhotoAndNameDto();
+        photoAndNameDto.setId(SENDER_ID);
+        message.setSender(photoAndNameDto);
         message.setDialogId(DIALOG_ID);
         message.setMessage(MESSAGE);
 
@@ -51,7 +54,7 @@ public class PrivateMessageServiceTest {
         verify(repository).save(privateMessageCaptor.capture());
         Assert.assertEquals(privateMessageCaptor.getValue().getDialog().getLastMessage(), MESSAGE);
         Assert.assertEquals(dto.getMessage(), MESSAGE);
-        Assert.assertEquals(dto.getSenderName(), USER_NAME);
+        Assert.assertEquals(dto.getSender().getFullName(), USER_NAME);
 
     }
 }

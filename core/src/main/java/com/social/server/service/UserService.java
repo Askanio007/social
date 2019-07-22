@@ -57,9 +57,9 @@ public interface UserService extends CommonService<User, Long> {
      * @param rootUserId - идентификатор пользователя, для которого сохраняется фото
      * @param file - файл с фото
      * @param isMini - миниатюра фото или нет
-     * @return фото в формате base64
+     * @return идентификатор фотографии
      */
-    String savePhoto(long rootUserId, MultipartFile file, boolean isMini);
+    long savePhoto(long rootUserId, MultipartFile file, boolean isMini);
 
     /**
      * Изменить пароль пользователю

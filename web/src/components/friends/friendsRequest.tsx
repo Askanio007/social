@@ -48,9 +48,9 @@ class FriendsRequest extends Component<any, FriendsRequestState> {
         const request = value.request;
         return (
             <FriendBlockList
-                fullName={request.fromUserName}
-                avatar={request.fromUserAvatar64code}
-                id={request.fromUserId}
+                fullName={request.fromUser.fullName}
+                avatarId={request.fromUser.imageId}
+                id={request.fromUser.id}
                 buttons={(
                     <div>
                         <AcceptRequestBtn id={request.id} callback={this.updateState} />

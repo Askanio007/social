@@ -24,7 +24,7 @@ class GroupBlock extends Component<GroupBlockProps, any> {
         let group = value.group;
         return (
             <tr>
-                <td><Photo stylePhoto="mini-image-circle" link={"/group/" + group.id} photoHashCode={group.image64code} /></td>
+                <td><Photo stylePhoto="mini-image-circle" link={"/group/" + group.id} photoId={group.imageId} /></td>
                 <td className="widthMax center">
                     <Link to={"/group/" + group.id} className="custom-link"><p>{group.fullName}</p></Link>
                 </td>

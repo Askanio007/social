@@ -52,7 +52,7 @@ class FriendsSearch extends Component<any, FriendsSearchState> {
         return (
             <FriendBlockList
                 fullName={user.fullName}
-                avatar={user.details.miniImage64code}
+                avatarId={user.details.miniImageId}
                 id={user.id}
                 buttons={(
                     <div>

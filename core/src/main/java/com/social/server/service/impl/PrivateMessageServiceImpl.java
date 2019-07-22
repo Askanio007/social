@@ -32,7 +32,7 @@ public class PrivateMessageServiceImpl extends CommonServiceImpl<PrivateMessage,
     @WriteTransactional
     public PrivateMessageDto save(PrivateMessageDto message) {
         PrivateMessage privateMessage = new PrivateMessage();
-        privateMessage.setSender(userService.getById(message.getSenderId()));
+        privateMessage.setSender(userService.getById(message.getSender().getId()));
         privateMessage.setMessage(message.getMessage());
 
         Dialog dialog = dialogService.getById(message.getDialogId());

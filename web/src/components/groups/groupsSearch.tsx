@@ -46,7 +46,7 @@ class GroupsSearch extends Component<{}, GroupsSearchState> {
         return (
             <tr>
                 <td className="vertical-top">
-                    <Photo link={'/group/' + group.id} photoHashCode={group.miniAvatar64code} stylePhoto={"photo-friend"} />
+                    <Photo link={'/group/' + group.id} photoId={group.miniImageId} stylePhoto={"photo-friend"} />
                 </td>
                 <td className="vertical-top">
                     <div className="wall-record-name">

@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import '../../css/wall.css';
+import {apiImages} from '../../index';
 
 interface PhotoProps {
     link: string,
-    photoHashCode: string,
+    photoId: number,
     stylePhoto: string
 }
 
@@ -17,13 +18,13 @@ class Photo extends Component<PhotoProps, any> {
 
     props: PhotoProps = {
         link: "",
-        photoHashCode: "",
+        photoId: 0,
         stylePhoto: ""
     };
 
     render() {
         return (
-            <Link to={this.props.link}><img className={this.props.stylePhoto} src={'data:image/gif;base64,' + this.props.photoHashCode} /></Link>
+            <Link to={this.props.link}><img className={this.props.stylePhoto} src={apiImages + this.props.photoId} /></Link>
         );
     }
 }

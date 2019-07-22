@@ -30,4 +30,9 @@ public abstract class CommonServiceImpl<EntityClass, ID, Repository extends JpaR
             throw new EntityNotFoundException("Entity ID is 0");
         }
     }
+
+    @Override
+    public EntityClass save(EntityClass entity) {
+        return repository.save(entity);
+    }
 }

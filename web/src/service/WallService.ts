@@ -17,7 +17,9 @@ export interface PublicMessage {
     message: string,
     recipientId: number,
     recipientType: RecipientType,
-    senderId: number
+    sender: {
+        id:number
+    }
 }
 export enum RecipientType {
     USER = "USER",

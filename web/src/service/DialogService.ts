@@ -22,7 +22,9 @@ class DialogService {
 
     public saveMessage(message:string, dialogId:number, callback:any): void {
         let params = {
-            senderId: UserService.getRootUserId(),
+            sender: {
+                id: UserService.getRootUserId()
+            },
             message: message,
             dialogId: dialogId
         };
