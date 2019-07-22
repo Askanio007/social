@@ -1,4 +1,5 @@
 echo "============> Build server"
+mvn --batch-mode package -P prod
 docker build -f ./core/Dockerfile -t social-server .
 echo "============> Build frontend"
 docker build -f ./web/Dockerfile -t social-web .
