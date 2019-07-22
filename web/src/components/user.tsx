@@ -160,8 +160,6 @@ class User extends Component<any, UserState> {
 
         const { user, friendCount, groupCount, userId} = this.state;
 
-        console.log(friendCount);
-        console.log(user);
         return (
             <div className="container">
                 <div className="row">

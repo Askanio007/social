@@ -40,6 +40,6 @@ public class ImageServiceImpl extends CommonServiceImpl<Image, Long, ImageReposi
 
     @Override
     public String getImageAsBase64Encode(long imageId) {
-        return ImageUtil.convertImageTo64encode(getById(imageId));
+        return ImageUtil.convertImageTo64encode(imageId == 0 ? null : getById(imageId));
     }
 }

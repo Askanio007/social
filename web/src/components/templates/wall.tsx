@@ -51,14 +51,12 @@ class Wall extends Component<WallProps, WallInterface> {
     };
 
     sendMessage = () => {
-        console.log(this.state.publicMessage.message);
         if (this.state.publicMessage.message !== "") {
             WallService.sendMessage(this.state.publicMessage, this.handleResponseAfterMessage);
         }
     };
 
     handleResponseAfterMessage = (res:any) => {
-        console.log(res);
         if (res.data.success === true) {
             let state = this.state;
             state.wall.unshift(res.data.data);
