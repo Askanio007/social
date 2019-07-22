@@ -1,7 +1,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link, withRouter} from 'react-router-dom';
-import UserService from '../service/UserService';
+import UserService, {Gender} from '../service/UserService';
 import ApiClient from '../service/ApiClient';
 
 interface RegistrationState {
@@ -109,11 +109,11 @@ class Registration extends React.Component<any, RegistrationState> {
                             <legend className="col-form-label col-sm-2 pt-0"><FormattedMessage id="common.sex" /></legend>
                             <div className="col-sm-10">
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="sex"  id="gridRadios1" value="FEMALE" onChange={this.handleChange} />
+                                    <input className="form-check-input" type="radio" name="sex"  id="gridRadios1" value="FEMALE" onChange={this.handleChange} checked={this.state.sex == Gender.FEMALE} />
                                     <label className="form-check-label" htmlFor="gridRadios1"><FormattedMessage id="common.FEMALE" /></label>
                                 </div>
                                 <div className="form-check">
-                                    <input className="form-check-input" type="radio" name="sex" id="gridRadios2" value="MALE" onChange={this.handleChange} checked />
+                                    <input className="form-check-input" type="radio" name="sex" id="gridRadios2" value="MALE" onChange={this.handleChange} checked={this.state.sex == Gender.MALE} />
                                     <label className="form-check-label" htmlFor="gridRadios2"><FormattedMessage id="common.MALE" /></label>
                                 </div>
                             </div>
