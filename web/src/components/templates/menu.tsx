@@ -38,18 +38,10 @@ class MainMenu extends Component<any, MenuState> {
         })
     }
 
-    Notification = (count:number) => {
-        if (count === 0) {
-            return null;
-        }
-        return (
-            <strong>[{count}]</strong>
-        );
-    };
-
     render() {
-        let requestNotification = this.Notification(this.state.friendRequestNotificationCount);
-        let messageNotification = this.Notification(this.state.messageNotificationCount);
+        const { friendRequestNotificationCount,  messageNotificationCount } = this.state;
+        const requestNotification = friendRequestNotificationCount === 0 ? null : (<strong>[{friendRequestNotificationCount}]</strong>);
+        const messageNotification = messageNotificationCount === 0 ? null : (<strong>[{messageNotificationCount}]</strong>);
         return (
             <div className="col-sm-2 none-padding-lef-right">
                 <div className="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">

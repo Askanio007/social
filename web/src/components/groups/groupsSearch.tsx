@@ -4,12 +4,14 @@ import {Link} from 'react-router-dom';
 import GroupService from '../../service/GroupService';
 import Photo from '../templates/photo';
 import {EnterGroupBtn} from '../templates/buttons/groupButtons';
+import {connect} from 'react-redux';
+import {joinGroup} from '../../reducers/groups';
 
 interface GroupsSearchState {
     groups: any[]
     searchText: string
 }
-class GroupsSearch extends Component<{}, GroupsSearchState> {
+class GroupsSearch extends Component<any, GroupsSearchState> {
 
     state: GroupsSearchState = {
         groups: [],
@@ -33,15 +35,8 @@ class GroupsSearch extends Component<{}, GroupsSearchState> {
 
     };
 
-    enterGroup = (promise:Promise<any>) => {
-        promise.then((res:any) => {
-            if (res.data.success === true) {
-                this.forceUpdate();
-            }
-        });
-    };
-
     ListGroups = (value:any) => {
+        const { dispatch } = this.props;
         let group = value.group;
         return (
             <tr>
@@ -54,7 +49,7 @@ class GroupsSearch extends Component<{}, GroupsSearchState> {
                             <Link className="custom-link" to={'/group/' + group.id}>{group.name}</Link>
                         </h4>
                     </div>
-                    <EnterGroupBtn id={group.id} callback={this.enterGroup}/>
+                    <EnterGroupBtn action={() => {dispatch(joinGroup(group.id))}}/>
                 </td>
             </tr>
         );
@@ -83,4 +78,4 @@ class GroupsSearch extends Component<{}, GroupsSearchState> {
     }
 }
 
-export default GroupsSearch;
+export default connect()(GroupsSearch);

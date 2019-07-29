@@ -21,6 +21,8 @@ import RestorePassword from './components/restorePassword';
 import Logout from './components/logout';
 import UserService from './service/UserService';
 import ApiClient from './service/ApiClient';
+import {Provider} from 'react-redux';
+import store from './store';
 
 const apiHost = process.env.REACT_APP_API_URL;
 export const websocket = process.env.REACT_APP_WEB_SOCKET_URL ? process.env.REACT_APP_WEB_SOCKET_URL : "";
@@ -46,27 +48,29 @@ function authCheck(element:React.ReactNode) {
 TextResourcesService.getAllTextResources((res:any) => {
     i18nConfig.messages = res.data;
     ReactDOM.render(
-        <IntlProvider locale={i18nConfig.locale} messages={i18nConfig.messages}>
-            <BrowserRouter>
-                <Switch>
-                    <Route exact path='/' render={() => {return isLogged() ? <User/> : <Login />}}/>
-                    <Route path='/login' render={() => {return isLogged() ? <User/> : <Login />}}/>
-                    <Route path='/registration' render={() => {return isLogged() ? <User/> : <Registration />}}/>
-                    <Route path='/me' render={() => {return authCheck(<User/>)}}/>
-                    <Route path='/user/:userId' render={() => {return authCheck(<User/>)}}/>
-                    <Route path='/events' render={() => {return authCheck(<Events/>)}}/>
-                    <Route path='/friends' render={() => {return authCheck(<Friends/>)}}/>
-                    <Route path='/groups' render={() => {return authCheck(<Groups/>)}}/>
-                    <Route path='/createGroup' render={() => {return authCheck(<CreateGroup/>)}}/>
-                    <Route path='/group/:groupId' render={() => {return authCheck(<Group/>)}}/>
-                    <Route path='/profile' render={() => {return authCheck(<Profile/>)}}/>
-                    <Route path='/dialogs' render={() => {return authCheck(<Dialogs/>)}}/>
-                    <Route path='/dialog/:dialogId' render={() => {return authCheck(<Dialog/>)}}/>
-                    <Route path='/editGroup/:groupId' render={() => {return authCheck(<EditGroup/>)}}/>
-                    <Route path='/restore-password/:token' render={() => {return isLogged() ? <User/> : <RestorePassword />}}/>
-                    <Route path='/forgot-password' render={() => {return isLogged() ? <User/> : <ForgotPassword />}}/>
-                    <Route path='/logout' component={Logout} />
-                </Switch>
-            </BrowserRouter>
-        </IntlProvider>, document.getElementById('root'));
+        <Provider store={store}>
+            <IntlProvider locale={i18nConfig.locale} messages={i18nConfig.messages}>
+                <BrowserRouter>
+                    <Switch>
+                        <Route exact path='/' render={() => {return isLogged() ? <User/> : <Login />}}/>
+                        <Route path='/login' render={() => {return isLogged() ? <User/> : <Login />}}/>
+                        <Route path='/registration' render={() => {return isLogged() ? <User/> : <Registration />}}/>
+                        <Route path='/me' render={() => {return authCheck(<User/>)}}/>
+                        <Route path='/user/:userId' render={() => {return authCheck(<User/>)}}/>
+                        <Route path='/events' render={() => {return authCheck(<Events/>)}}/>
+                        <Route path='/friends' render={() => {return authCheck(<Friends/>)}}/>
+                        <Route path='/groups' render={() => {return authCheck(<Groups/>)}}/>
+                        <Route path='/createGroup' render={() => {return authCheck(<CreateGroup/>)}}/>
+                        <Route path='/group/:groupId' render={() => {return authCheck(<Group/>)}}/>
+                        <Route path='/profile' render={() => {return authCheck(<Profile/>)}}/>
+                        <Route path='/dialogs' render={() => {return authCheck(<Dialogs/>)}}/>
+                        <Route path='/dialog/:dialogId' render={() => {return authCheck(<Dialog/>)}}/>
+                        <Route path='/editGroup/:groupId' render={() => {return authCheck(<EditGroup/>)}}/>
+                        <Route path='/restore-password/:token' render={() => {return isLogged() ? <User/> : <RestorePassword />}}/>
+                        <Route path='/forgot-password' render={() => {return isLogged() ? <User/> : <ForgotPassword />}}/>
+                        <Route path='/logout' component={Logout} />
+                    </Switch>
+                </BrowserRouter>
+            </IntlProvider>
+        </Provider>, document.getElementById('root'));
 });

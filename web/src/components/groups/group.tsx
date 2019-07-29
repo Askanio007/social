@@ -3,81 +3,51 @@ import {FormattedMessage} from 'react-intl';
 import MainMenu from '../templates/menu';
 import Wall from '../templates/wall';
 import UserBlock from '../templates/userBlock';
-import GroupService, {GroupRelation} from '../../service/GroupService';
+import {GroupRelation} from '../../service/GroupService';
 import {RecipientType} from '../../service/WallService';
 import {withRouter} from 'react-router';
 import {apiImages} from '../../index';
 import {EnterGroupBtn, ExitGroupBtn} from '../templates/buttons/groupButtons';
+import {connect} from 'react-redux';
+import {exitGroup, getGroup, joinGroup} from '../../reducers/groups';
+import {IStore} from '../../store';
 
-interface GroupState {
-    group:any
-    participantCount: number
-    relation:GroupRelation
-    isLoading: boolean
-}
-class Group extends Component<any, GroupState> {
-
-    state: GroupState = {
-        group: null,
-        participantCount: 0,
-        isLoading: true,
-        relation:GroupRelation.NOT_PARTICIPANT
-    };
+class Group extends Component<any, any> {
 
     componentDidMount(): void {
-        let group:any;
-        let participantCount = 0;
-        let relation:GroupRelation;
         let groupId:number = this.props.match.params.groupId;
-        GroupService.find(groupId, (res:any) => {
-            if (res.data.success === true) {
-                group = res.data.data;
-            }
-        }).then(() => {
-            return GroupService.countParticipant(groupId,(res:any) => {
-                if (res.data.success === true) {
-                    participantCount = res.data.data;
-                }
-            })
-        }).then(() => {
-            return GroupService.groupRelation(groupId,(res:any) => {
-                if (res.data.success === true) {
-                    relation = res.data.data;
-                }
-            })
-        }).then(() => {
-            this.setState({
-                group: group,
-                participantCount: participantCount,
-                isLoading: false,
-                relation: relation
-            })
-        })
+        const { dispatch } = this.props;
+        dispatch(getGroup(groupId));
     }
 
-    updateState = (promise:Promise<any>) => {
-        promise.then((res:any) => {
-            if (res.data.success) {
-                this.componentDidMount();
-            }
-        });
+    leave = async () => {
+        const { dispatch, group } = this.props;
+        await dispatch(exitGroup(group.id));
+        await dispatch(getGroup(group.id));
+    };
+
+     join = async () => {
+        const { dispatch, group } = this.props;
+        await dispatch(joinGroup(group.id));
+        await dispatch(getGroup(group.id));
     };
 
     Buttons = () => {
-        switch (this.state.relation) {
-            case GroupRelation.NOT_PARTICIPANT: return (<EnterGroupBtn id={this.state.group.id} callback={this.updateState} />);
-            case GroupRelation.PARTICIPANT: return (<ExitGroupBtn id={this.state.group.id} callback={this.updateState} />);
-            case GroupRelation.ADMIN: return (<button type="button" onClick={() => this.props.history.push('/editGroup/' + this.state.group.id)}
+        const { relation, group } = this.props;
+        switch (relation) {
+            case GroupRelation.NOT_PARTICIPANT: return (<EnterGroupBtn action={this.join} />);
+            case GroupRelation.PARTICIPANT: return (<ExitGroupBtn action={this.leave} />);
+            case GroupRelation.ADMIN: return (<button type="button" onClick={() => this.props.history.push('/editGroup/' + group.id)}
                                                       className="btn btn-secondary btn-custom"><FormattedMessage id={"common.edit"} /></button>);
+            default: return null;
         }
     };
 
     render() {
-        if (this.state.isLoading) {
-            return ("");
+        let { group, participantCount } = this.props;
+        if (!group) {
+            return null
         }
-
-        let { group, participantCount } = this.state;
         return (
             <div className="container">
                 <div className="row">
@@ -103,4 +73,10 @@ class Group extends Component<any, GroupState> {
 
 }
 
-export default withRouter(Group);
+const mapStateToProps = (state: IStore) => ({
+    group: state.groups.get.group,
+    participantCount: state.groups.get.countParticipant,
+    relation:state.groups.get.groupRelation
+});
+
+export default connect(mapStateToProps)(withRouter(Group));

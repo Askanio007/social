@@ -4,8 +4,9 @@ import UserService from './UserService';
 import ApiClient from './ApiClient';
 
 class GroupService {
-    public findListByUserId(rootUserId:number, page:number, callback:any): void {
-        ApiClient.get(api + '/' + rootUserId + '/groups?page=' + page, callback);
+
+    public async findListByRootUser(page:number) {
+        return ApiClient.getAwait(api + '/' + UserService.getRootUserId() + '/groups?page=' + page);
     }
 
     public create(rootUserId:number, newGroup:Group, callback:any): void {
@@ -16,12 +17,16 @@ class GroupService {
         return ApiClient.get(api + '/groups/' + groupId, callback);
     }
 
-    public async countParticipant(groupId:number, callback:any): Promise<any> {
-        return ApiClient.get( api + '/groups/' + groupId + '/count', callback);
+    public async findAwait(groupId:number): Promise<any> {
+        return ApiClient.getAwait(api + '/groups/' + groupId);
     }
 
-    public async groupRelation(groupId:number, callback:any): Promise<any> {
-        return ApiClient.get( api + '/groups/' + groupId + '/relation/' + UserService.getRootUserId(), callback);
+    public async countParticipant(groupId:number): Promise<any> {
+        return ApiClient.getAwait( api + '/groups/' + groupId + '/count');
+    }
+
+    public async groupRelation(groupId:number): Promise<any> {
+        return ApiClient.getAwait( api + '/groups/' + groupId + '/relation/' + UserService.getRootUserId());
     }
 
     async isUserInGroup(userId:number, groupId:number): Promise<AxiosResponse<any>> {

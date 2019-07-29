@@ -13,6 +13,11 @@ class ApiClient {
         })
     }
 
+    public static async getAwait(url:string) {
+        this.addHeaders();
+        return this.ax.get(url);
+    }
+
     public static async post(url:string, data?:any, config?:AxiosRequestConfig, callback?:any): Promise<any> {
         this.addHeaders();
         return this.ax.post(url, data, config)
