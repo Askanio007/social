@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ActiveProfiles("test")
 public class CommonControllerTest {
-    protected final static String API_TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VySWQiOjAsImV4cCI6MTU2NDMwNDkyMH0.WEKEFOnPkkQd3ow7xTYmbIidk4UUgnyj99GvXu3qNnv0tQ3R6xO8wEmCldP664VDrdiPozYWL9bTZOUZq_NNwg";
+    protected final static String API_TOKEN = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VySWQiOjB9.CwQD06FnA7HQkxrKozxEw87_yLzvJRfrsYCuo2vkuPYNeA6BduBQFh8m1UR7kaRyT9BxwlHrvFsNmyRXUE7cuQ";
     protected final static long ID = 1;
     protected final static long ID2 = 2;
 

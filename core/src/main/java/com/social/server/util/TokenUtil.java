@@ -7,14 +7,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-
 @Slf4j
 public class TokenUtil {
 
     private final static String SECRET_KEY = "SOCIAL_SECRET_KEY";
-    private final static int LIVE_TIME_TOKEN = 10; // 10 days
     private final static String TOKEN_PREFIX = "Bearer";
 
     public static UserDto parseToken(String token) {
@@ -41,7 +37,6 @@ public class TokenUtil {
         return TOKEN_PREFIX + " " + Jwts.builder()
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
-                .setExpiration(Timestamp.valueOf(LocalDateTime.now().plusDays(LIVE_TIME_TOKEN)))
                 .compact();
     }
 }
